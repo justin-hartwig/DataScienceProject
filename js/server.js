@@ -3,18 +3,30 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const router = express.Router();
-const db = require('./db');
 
 //Static file serving
 app.use(express.static(path.join(__dirname, '..')));
 
-// Setup essential routes 
+// Page Routes 
 router.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '..', 'html', 'index.html'));
 });
 
-//Initalize DB
-db.initializeDb();
+async function authenticate() {
+    try {
+        await db.authenticate();
+        console.log('Connection has been established successfully.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    }
+}
+
+// Database
+const db = require('./config/database');
+authenticate();
+
+// Database Routes
+app.use('/counties', require('./routes/counties'))
 
 //add the router 
 app.use('/', router);
