@@ -1,12 +1,16 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 module.exports = {
-  entry: './js/main.js',  // Only JavaScript file as entry
+  entry: './js/main.js',
   output: {
-    filename: 'bundle.js',  // Outputs as bundle.js
+    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    library: "my-library",
+    libraryTarget: "umd"
   },
   module: {
     rules: [
@@ -23,9 +27,9 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          MiniCssExtractPlugin.loader,  // Extracts CSS into separate files
-          'css-loader',  // Translates CSS into CommonJS
-          'sass-loader'  // Compiles Sass to CSS
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
         ]
       },
       {
@@ -35,8 +39,8 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: 'images/',  // Images will be output to dist/images
-              publicPath: 'images/'   // Public URL path, adjust as necessary based on your server setup
+              outputPath: 'images/',
+              publicPath: 'images/'
             },
           },
         ],
@@ -45,13 +49,27 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '../css/main.css',  // Outputs compiled CSS to the css directory
+      filename: '../css/main.css',
     }),
     new CopyPlugin({
       patterns: [
-        { from: 'node_modules/leaflet/dist/images', to: 'images' } // Adjust 'to' according to where you want to keep your images
+        { from: 'node_modules/leaflet/dist/images', to: 'images' }
       ],
     }),
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(process.env),
+    }),
+    new NodePolyfillPlugin(),
   ],
-  mode: 'development'  // Set the mode to 'development' or 'production'
+  resolve: {
+    fallback: {
+      "fs": false,
+      "os": false,
+      "path": false,
+      "dns": false,
+      "net": false,
+      "tls": false
+    }
+  },
+  mode: 'development'
 };
