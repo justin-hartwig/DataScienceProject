@@ -2,5 +2,5 @@
 import '../scss/main.scss';
 
 // Imports JS
-import { drawMap } from './openStreetMapLeaflet';
-drawMap();
+import { drawMainMap } from './openStreetMapLeaflet';
+drawMainMap();
