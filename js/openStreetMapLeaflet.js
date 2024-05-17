@@ -1,20 +1,20 @@
 import L from 'leaflet';
 
-var mainMap = L.map('main-map', {
-    zoomSnap: 0.5,
-    zoomDelta: 0.5
-}).setView([50.9787, 11.0328], 5.5);
+let mainMap;
 
 export function drawMainMap() {
+    mainMap = L.map('main-map', {
+        zoomSnap: 0.5,
+        zoomDelta: 0.5
+    }).setView([50.9787, 11.0328], 5.5);
+
     L.Icon.Default.imagePath = "/dist/images/";
 
-    document.addEventListener('DOMContentLoaded', function () {
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(mainMap);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(mainMap);
 
-        drawCounties();
-    });
+    drawCounties();
 }
 
 function drawCounties() {

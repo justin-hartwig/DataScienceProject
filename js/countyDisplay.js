@@ -8,7 +8,7 @@ export async function requestCountyData() {
         // Fetch county data
         const countyResponse = await fetch('/counties');
         const countyData = await countyResponse.json();
-        
+
         // Fetch rental prices data
         const rentalResponse = await fetch('/rentalprices');
         const rentalData = await rentalResponse.json();
@@ -31,8 +31,26 @@ export async function requestCountyData() {
             item.numberOfOffersAnalysed,
             item.pricePerSquareMeter
         ));
-
+        console.log(allCountys)
     } catch (error) {
         console.error('Error fetching county data:', error);
     }
+}
+
+export function getMaxPricePerSquareMeter() {
+    if (!allCountys || allCountys.length === 0) {
+        return null;
+    }
+
+    const maxPrice = Math.max(...allCountys.map(county => parseFloat(county.pricePerSquareMeter)));
+    return Math.ceil(maxPrice);
+}
+
+export function getMinPricePerSquareMeter() {
+    if (!allCountys || allCountys.length === 0) {
+        return null;
+    }
+
+    const minPrice = Math.min(...allCountys.map(county => parseFloat(county.pricePerSquareMeter)));
+    return Math.floor(minPrice);
 }

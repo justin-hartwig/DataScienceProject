@@ -6,9 +6,15 @@ import { requestCountyData } from './countyDisplay';
 import { drawMainMap } from './openStreetMapLeaflet';
 import { initializeRentalPriceSlider } from './noUiSlider';
 
-// Data
-requestCountyData();
+async function initializeApp() {
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Data
+        await requestCountyData();
 
-// UI
-initializeRentalPriceSlider();
-drawMainMap();
+        // UI
+        drawMainMap();
+        initializeRentalPriceSlider();
+    });
+}
+
+initializeApp();
