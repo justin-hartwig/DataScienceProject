@@ -3,7 +3,7 @@ import wNumb from 'wnumb';
 
 // Assuming you've already imported noUiSlider and wNumb
 
-export function initializeSliders() {
+export function initializeRentalPriceSlider() {
     document.addEventListener('DOMContentLoaded', () => {
         var slider = document.getElementById('rentalPriceSlider');
         noUiSlider.create(slider, {
@@ -13,13 +13,12 @@ export function initializeSliders() {
                 'min': 0,
                 'max': 100
             },
-            tooltips: [wNumb({ decimals: 0 }), wNumb({ decimals: 0 })] // Tooltips to show current values
         });
     
         var rangeValue = document.getElementById('rentalPriceSliderRangeValue');
     
         slider.noUiSlider.on('update', function (values, handle) {
-            rangeValue.innerHTML = `Range: ${values[0]} - ${values[1]}`;
+            rangeValue.innerHTML = `Von ${values[0]}€ bis ${values[1]}€`;
         });
     });
 }

@@ -3,7 +3,7 @@ import '../scss/main.scss';
 
 // Imports JS
 import { drawMainMap } from './openStreetMapLeaflet';
-import { initializeSliders } from './noUiSlider';
+import { initializeRentalPriceSlider } from './noUiSlider';
 
-initializeSliders();
+initializeRentalPriceSlider();
 drawMainMap();
