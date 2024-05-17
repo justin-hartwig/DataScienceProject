@@ -12,6 +12,10 @@ router.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '..', 'html', 'index.html'));
 });
 
+router.get('/explore', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'html', 'explore.html'));
+});
+
 async function authenticate() {
     try {
         await db.authenticate();
