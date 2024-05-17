@@ -1,4 +1,4 @@
-class County {
+export default class County {
     constructor(id, name, federalState, numberOfOffersAnalysed, pricePerSquareMeter) {
       this._id = id;
       this._name = name;
