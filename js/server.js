@@ -30,7 +30,8 @@ const db = require('./config/database');
 authenticate();
 
 // Database Routes
-app.use('/counties', require('./routes/counties'))
+app.use('/counties', require('./routes/counties'));
+app.use('/rentalprices', require('./routes/rentalprices'));
 
 //add the router 
 app.use('/', router);
