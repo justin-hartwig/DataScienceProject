@@ -1,6 +1,8 @@
 import L from 'leaflet';
+import { displayedCounties } from './countyDisplay';
 
 let mainMap;
+let countyLayerGroup;
 
 export function drawMainMap() {
     mainMap = L.map('main-map', {
@@ -14,15 +16,25 @@ export function drawMainMap() {
         attribution: '© OpenStreetMap contributors'
     }).addTo(mainMap);
 
+    // Initialize the layer group here
+    countyLayerGroup = L.layerGroup().addTo(mainMap);
+
     drawCounties();
 }
 
-function drawCounties() {
-    // Adding GeoJSON
+export function drawCounties() {
+    // Clear existing layers in the layer group
+    countyLayerGroup.clearLayers();
+
     fetch('/data/geodata/K-2023-AIG-24--AI2401--2024-05-09-EPSG-4326.geojson')
         .then(response => response.json())
         .then(data => {
-            L.geoJSON(data, {
+            const geoJsonLayer = L.geoJSON(data, {
+                filter: function (feature) {
+                    const countyName = feature.properties.gen;
+                    const isDisplayed = displayedCounties.some(county => county._name === countyName);
+                    return isDisplayed;
+                },
                 style: function (feature) {
                     return {
                         color: '#1B76FF',
@@ -30,10 +42,16 @@ function drawCounties() {
                     };
                 },
                 onEachFeature: function (feature, layer) {
-                    if (feature.properties && feature.properties.NAME) {
-                        layer.bindPopup(feature.properties.NAME);
+                    if (feature.properties && feature.properties.gen) {
+                        layer.bindPopup(feature.properties.gen);
                     }
                 }
-            }).addTo(mainMap);
+            });
+
+            // Add the filtered GeoJSON layer to the layer group
+            countyLayerGroup.addLayer(geoJsonLayer);
+        })
+        .catch(error => {
+            console.error('Error loading GeoJSON data:', error);
         });
 }

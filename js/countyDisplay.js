@@ -1,7 +1,7 @@
 import County from './classes/county';
 
-export let allCountys;
-export let displayedCountys;
+export let allCounties;
+export let displayedCounties;
 
 export async function requestCountyData() {
     try {
@@ -24,33 +24,45 @@ export async function requestCountyData() {
         });
 
         // Create County objects and store them in allCountys
-        allCountys = combinedData.map(item => new County(
+        allCounties = combinedData.map(item => new County(
             item.id,
             item.name,
             item.federalstate,
             item.numberOfOffersAnalysed,
             item.pricePerSquareMeter
         ));
-        console.log(allCountys)
+
+        resetDisplayedCounties();
     } catch (error) {
         console.error('Error fetching county data:', error);
     }
 }
 
 export function getMaxPricePerSquareMeter() {
-    if (!allCountys || allCountys.length === 0) {
+    if (!allCounties || allCounties.length === 0) {
         return null;
     }
 
-    const maxPrice = Math.max(...allCountys.map(county => parseFloat(county.pricePerSquareMeter)));
+    const maxPrice = Math.max(...allCounties.map(county => parseFloat(county.pricePerSquareMeter)));
     return Math.ceil(maxPrice);
 }
 
 export function getMinPricePerSquareMeter() {
-    if (!allCountys || allCountys.length === 0) {
+    if (!allCounties || allCounties.length === 0) {
         return null;
     }
 
-    const minPrice = Math.min(...allCountys.map(county => parseFloat(county.pricePerSquareMeter)));
+    const minPrice = Math.min(...allCounties.map(county => parseFloat(county.pricePerSquareMeter)));
     return Math.floor(minPrice);
+}
+
+export function resetDisplayedCounties() {
+    displayedCounties = allCounties;
+}
+
+export function updateDisplayedCounties(maxRentalPrice, minRentalPrice) {
+    displayedCounties = allCounties.filter(county => {
+        const price = parseFloat(county.pricePerSquareMeter);
+        return price >= minRentalPrice && price <= maxRentalPrice;
+    });
 }

@@ -1,23 +1,23 @@
 import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
-import {getMaxPricePerSquareMeter, getMinPricePerSquareMeter} from './countyDisplay';
+import {getMaxPricePerSquareMeter, getMinPricePerSquareMeter, updateDisplayedCounties} from './countyDisplay';
+import {drawCounties} from './openStreetMapLeaflet';
+
+let rentalPriceSlider;
 
 export function initializeRentalPriceSlider() {
     
-        var slider = document.getElementById('rentalPriceSlider');
+        rentalPriceSlider = document.getElementById('rentalPriceSlider');
 
         const minPrice = parseFloat(getMinPricePerSquareMeter());
         const maxPrice = parseFloat(getMaxPricePerSquareMeter());
-
-        console.log(getMinPricePerSquareMeter(), getMaxPricePerSquareMeter())
-        console.log(minPrice, maxPrice)
 
         if (isNaN(minPrice) || isNaN(maxPrice)) {
             console.error('Error: minPrice or maxPrice is not a number.');
             return;
         }
 
-        noUiSlider.create(slider, {
+        noUiSlider.create(rentalPriceSlider, {
             start: [minPrice, maxPrice], // Initial values for the handles
             connect: true,  // Connect the handles with a colored bar
             range: {
@@ -33,8 +33,26 @@ export function initializeRentalPriceSlider() {
 
         var rangeValue = document.getElementById('rentalPriceSliderRangeValue');
 
-        slider.noUiSlider.on('update', function (values, handle) {
+        rentalPriceSlider.noUiSlider.on('change', function (values, handle) {
             rangeValue.innerHTML = `Von ${values[0]} bis ${values[1]}`;
+    
+            // Get current slider values and update displayed counties
+            const sliderValues = getCurrentSliderValues();
+            if (sliderValues) {
+                updateDisplayedCounties(sliderValues.max, sliderValues.min);
+                drawCounties();
+            }
         });
+}
 
+export function getCurrentSliderValues() {
+    if (rentalPriceSlider && rentalPriceSlider.noUiSlider) {
+        const values = rentalPriceSlider.noUiSlider.get();
+        return {
+            min: parseFloat(values[0].replace(' €', '').replace('.', '').replace(',', '.')),
+            max: parseFloat(values[1].replace(' €', '').replace('.', '').replace(',', '.'))
+        };
+    } else {
+        return null;
+    }
 }
