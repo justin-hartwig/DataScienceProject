@@ -27,14 +27,14 @@ export function initializeRentalPriceSlider() {
             format: wNumb({
                 decimals: 2,  // Show 2 decimal places
                 thousand: '.',  // Use '.' as the thousand separator
-                postfix: ' €',   // Append '€' to the values
             })
         });
 
         var rangeValue = document.getElementById('rentalPriceSliderRangeValue');
+        rangeValue.innerHTML = `Von ${minPrice} bis ${maxPrice} € pro m²`;
 
         rentalPriceSlider.noUiSlider.on('change', function (values, handle) {
-            rangeValue.innerHTML = `Von ${values[0]} bis ${values[1]}`;
+            rangeValue.innerHTML = `Von ${values[0]} bis ${values[1]} € pro m²`;
     
             // Get current slider values and update displayed counties
             const sliderValues = getCurrentSliderValues();
@@ -49,8 +49,8 @@ export function getCurrentSliderValues() {
     if (rentalPriceSlider && rentalPriceSlider.noUiSlider) {
         const values = rentalPriceSlider.noUiSlider.get();
         return {
-            min: parseFloat(values[0].replace(' €', '').replace('.', '').replace(',', '.')),
-            max: parseFloat(values[1].replace(' €', '').replace('.', '').replace(',', '.'))
+            min: parseFloat(values[0].replace('.', '').replace(',', '.')),
+            max: parseFloat(values[1].replace('.', '').replace(',', '.'))
         };
     } else {
         return null;
