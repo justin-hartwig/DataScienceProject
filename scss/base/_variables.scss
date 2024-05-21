@@ -1,12 +1,26 @@
 // colors
 $primary: #1b76ff;
 $primary-ligth: #1b76ff3d;
+$primary-text: #212B36;
 $bg-color: #f4f6f8;
 
 $white: #fff;
 
 // font-familys
 $default-font-fmaily: "Inter", sans-serif;
+
+// font-sizes
+$default-font-size: 1rem;
+$h1-font-size: clamp(3rem, 2.0396rem + 4.0976vw, 5.625rem);
+$h2-font-size: clamp(2.5rem, 1.7226rem + 3.3171vw, 4.625rem);
+$h3-font-size: clamp(2.25rem, 1.6098rem + 2.7317vw, 4rem);
+$h4-font-size: clamp(2rem, 1.4512rem + 2.3415vw, 3.5rem);
+$h5-font-size: clamp(1.5rem, 1.1341rem + 1.561vw, 2.5rem);
+$h6-font-size: clamp(1rem, 0.9634rem + 0.1561vw, 1.1rem);
+
+// font-weights
+$semi-bold: 600;
+$bold: 700;
 
 // border-radius
 $default-border-radius: 20px;

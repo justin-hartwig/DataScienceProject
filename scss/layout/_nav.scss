@@ -2,4 +2,20 @@
     margin: calc(var(--bs-gutter-x)* .5) 0;
     background-color: $white;
     border-radius: $default-border-radius;
+
+    .navbar-brand img {
+        max-width: 11rem;
+    }
+
+    .nav-link {
+        color: $primary-text;
+        
+        &.active {
+            color: $primary-text;
+        }
+    }
+
+    &.navbar-expand-lg .navbar-nav .nav-link {
+        padding: 0.5rem 1.25rem;
+    }
 }

@@ -1,0 +1,28 @@
+#accordionFilter.accordion {
+    --bs-accordion-inner-border-radius: $default-border-radius;
+    --bs-accordion-color: $primary-text;
+
+    .accordion-item {
+        border: none;
+        border-top-left-radius: $default-border-radius;
+        border-top-right-radius: $default-border-radius;
+        border-bottom-right-radius: $default-border-radius;
+        border-bottom-left-radius: $default-border-radius;
+        margin-bottom: 1rem;
+
+        .accordion-header .accordion-button {
+            font-size: $h6-font-size;
+            font-weight: $semi-bold;
+            background-color: $white;
+            border-top-left-radius: $default-border-radius;
+            border-top-right-radius: $default-border-radius;
+            border-bottom-right-radius: $default-border-radius;
+            border-bottom-left-radius: $default-border-radius;
+            box-shadow: none;
+
+            &:not(.collapsed) {
+                color: $primary-text;
+            }
+        }
+    }
+}
