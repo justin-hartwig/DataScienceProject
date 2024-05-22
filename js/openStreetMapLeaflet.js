@@ -1,5 +1,5 @@
 import L from 'leaflet';
-import { displayedCounties } from './countyDisplay';
+import { getDisplayedCounties } from './countyDisplay';
 
 let mainMap;
 let countyLayerGroup;
@@ -8,12 +8,14 @@ export function drawMainMap() {
     mainMap = L.map('main-map', {
         zoomSnap: 0.5,
         zoomDelta: 0.5
-    }).setView([50.9787, 11.0328], 5.5);
+    }).setView([50.9787, 11.0328], 6.5);
 
     L.Icon.Default.imagePath = "/dist/images/";
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
     }).addTo(mainMap);
 
     // Initialize the layer group here
@@ -32,24 +34,24 @@ export function drawCounties() {
             const geoJsonLayer = L.geoJSON(data, {
                 filter: function (feature) {
                     const countyName = feature.properties.gen;
-                    const isDisplayed = displayedCounties.some(county => county._name === countyName);
+                    const isDisplayed = getDisplayedCounties().some(county => county._name === countyName);
                     return isDisplayed;
                 },
                 style: function (feature) {
                     const countyName = feature.properties.gen;
-                    const county = displayedCounties.find(county => county._name === countyName);
+                    const county = getDisplayedCounties().find(county => county._name === countyName);
 
                     let fillColor = '#1B76FF'; // Default fill color
                     if (county) {
-                        fillColor = county.color; // Use the pre-set color for fill
+                        fillColor = county.color;
                     }
 
                     return {
-                        color: '#1B76FF',
-                        weight: 2,
-                        opacity: 1.0, // Border opacity remains constant
-                        fillColor: fillColor, // Set the calculated fill color
-                        fillOpacity: 0.5 // Full opacity for fill color
+                        color: '#FFF',
+                        weight: 0.5, // Border weight
+                        opacity: 1.0, // Border opacity
+                        fillColor: fillColor,
+                        fillOpacity: 0.6
                     };
                 },
                 onEachFeature: function (feature, layer) {

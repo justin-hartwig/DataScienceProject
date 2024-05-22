@@ -5,6 +5,7 @@ import '../scss/main.scss';
 import { requestCountyData } from './countyDisplay';
 import { drawMainMap } from './openStreetMapLeaflet';
 import { initializeRentalPriceSlider } from './noUiSlider';
+import { initializeButtons } from './buttons';
 
 async function initializeApp() {
     document.addEventListener('DOMContentLoaded', async () => {
@@ -14,6 +15,7 @@ async function initializeApp() {
         // UI
         drawMainMap();
         initializeRentalPriceSlider();
+        initializeButtons();
     });
 }
 

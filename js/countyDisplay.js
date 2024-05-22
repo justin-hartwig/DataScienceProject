@@ -1,8 +1,8 @@
 import County from './classes/county';
 import Filter from './classes/filter';
 
-export let allCounties;
-export let displayedCounties;
+let allCounties;
+let displayedCounties;
 
 export async function requestCountyData() {
     try {
@@ -33,7 +33,7 @@ export async function requestCountyData() {
             item.pricePerSquareMeter
         ));
         setAllColors(allCounties);
-        resetDisplayedCounties();
+        displayedCounties = allCounties;
     } catch (error) {
         console.error('Error fetching county data:', error);
     }
@@ -57,10 +57,6 @@ export function getMinPricePerSquareMeter() {
     return Math.floor(minPrice);
 }
 
-export function resetDisplayedCounties() {
-    displayedCounties = allCounties;
-}
-
 export function updateDisplayedCounties(filter) {
     displayedCounties = allCounties.filter(county => {
         const price = parseFloat(county.pricePerSquareMeter);
@@ -75,13 +71,28 @@ function colorByPrice(county, counties) {
     const maxPrice = Math.max(...counties.map(county => parseFloat(county.pricePerSquareMeter)));
 
     const normalizedPrice = (county.pricePerSquareMeter - minPrice) / (maxPrice - minPrice);
-    const startColor = [255, 255, 255]; // RGB for #FFFFFF
-    const endColor = [27, 118, 255]; // RGB for #1B76FF
 
-    const color = startColor.map((start, index) => {
-        const end = endColor[index];
-        return Math.round(start + (end - start) * normalizedPrice);
-    });
+    // RGB values for the color scale
+    const lowColor = [55, 196, 116]; // RGB for #37C474
+    const mediumColor = [244, 210, 39]; // RGB for #F4D227
+    const highColor = [227, 82, 82]; // RGB for #E35252
+
+    let color;
+    if (normalizedPrice < 0.5) {
+        // Interpolate between lowColor and mediumColor
+        const ratio = normalizedPrice * 2; // normalized to range [0, 1]
+        color = lowColor.map((low, index) => {
+            const medium = mediumColor[index];
+            return Math.round(low + (medium - low) * ratio);
+        });
+    } else {
+        // Interpolate between mediumColor and highColor
+        const ratio = (normalizedPrice - 0.5) * 2; // normalized to range [0, 1]
+        color = mediumColor.map((medium, index) => {
+            const high = highColor[index];
+            return Math.round(medium + (high - medium) * ratio);
+        });
+    }
 
     return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
 }
@@ -91,4 +102,8 @@ function setAllColors(counties) {
         const color = colorByPrice(county, counties);
         county.color = color;
     });
+}
+
+export function getDisplayedCounties() {
+    return displayedCounties;
 }
