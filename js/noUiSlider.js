@@ -2,8 +2,10 @@ import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
 import {getMaxPricePerSquareMeter, getMinPricePerSquareMeter, updateDisplayedCounties} from './countyDisplay';
 import {drawCounties} from './openStreetMapLeaflet';
+import Filter from './classes/filter';
 
 let rentalPriceSlider;
+let filter = new Filter;
 
 export function initializeRentalPriceSlider() {
     
@@ -38,8 +40,11 @@ export function initializeRentalPriceSlider() {
     
             // Get current slider values and update displayed counties
             const sliderValues = getCurrentSliderValues();
+            
             if (sliderValues) {
-                updateDisplayedCounties(sliderValues.max, sliderValues.min);
+                filter._maxRentalPrice = sliderValues.max;
+                filter._minRentalPrice = sliderValues.min;
+                updateDisplayedCounties(filter);
                 drawCounties();
             }
         });

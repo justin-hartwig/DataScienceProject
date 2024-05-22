@@ -1,4 +1,5 @@
 import County from './classes/county';
+import Filter from './classes/filter';
 
 export let allCounties;
 export let displayedCounties;
@@ -31,7 +32,7 @@ export async function requestCountyData() {
             item.numberOfOffersAnalysed,
             item.pricePerSquareMeter
         ));
-
+        setAllColors(allCounties);
         resetDisplayedCounties();
     } catch (error) {
         console.error('Error fetching county data:', error);
@@ -60,9 +61,34 @@ export function resetDisplayedCounties() {
     displayedCounties = allCounties;
 }
 
-export function updateDisplayedCounties(maxRentalPrice, minRentalPrice) {
+export function updateDisplayedCounties(filter) {
     displayedCounties = allCounties.filter(county => {
         const price = parseFloat(county.pricePerSquareMeter);
-        return price >= minRentalPrice && price <= maxRentalPrice;
+        return price >= filter.minRentalPrice && price <= filter.maxRentalPrice;
+    });
+
+    setAllColors(displayedCounties);
+}
+
+function colorByPrice(county, counties) {
+    const minPrice = Math.min(...counties.map(county => parseFloat(county.pricePerSquareMeter)));
+    const maxPrice = Math.max(...counties.map(county => parseFloat(county.pricePerSquareMeter)));
+
+    const normalizedPrice = (county.pricePerSquareMeter - minPrice) / (maxPrice - minPrice);
+    const startColor = [255, 255, 255]; // RGB for #FFFFFF
+    const endColor = [27, 118, 255]; // RGB for #1B76FF
+
+    const color = startColor.map((start, index) => {
+        const end = endColor[index];
+        return Math.round(start + (end - start) * normalizedPrice);
+    });
+
+    return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+}
+
+function setAllColors(counties) {
+    counties.forEach(county => {
+        const color = colorByPrice(county, counties);
+        county.color = color;
     });
 }

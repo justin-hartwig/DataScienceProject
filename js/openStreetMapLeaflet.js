@@ -36,9 +36,20 @@ export function drawCounties() {
                     return isDisplayed;
                 },
                 style: function (feature) {
+                    const countyName = feature.properties.gen;
+                    const county = displayedCounties.find(county => county._name === countyName);
+
+                    let fillColor = '#1B76FF'; // Default fill color
+                    if (county) {
+                        fillColor = county.color; // Use the pre-set color for fill
+                    }
+
                     return {
                         color: '#1B76FF',
-                        weight: 2
+                        weight: 2,
+                        opacity: 1.0, // Border opacity remains constant
+                        fillColor: fillColor, // Set the calculated fill color
+                        fillOpacity: 0.5 // Full opacity for fill color
                     };
                 },
                 onEachFeature: function (feature, layer) {
