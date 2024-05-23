@@ -1,6 +1,4 @@
-import {resetRentalPriceSlider} from './noUiSlider';
-import {drawCounties} from './openStreetMapLeaflet';
-
+import {resetAllSlider} from './noUiSlider';
 
 export function initializeButtons() {
     initializeResetAllFiltersButton();
@@ -11,6 +9,6 @@ function initializeResetAllFiltersButton() {
 
     resetButton.addEventListener("click", function(event) {
         event.preventDefault(); 
-        resetRentalPriceSlider();
+        resetAllSlider();
     });
 }
