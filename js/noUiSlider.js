@@ -9,8 +9,12 @@ let rentalPriceRangeValue;
 let rentalPriceRangeDefault;
 let filter = new Filter;
 
-export function initializeRentalPriceSlider() {
+export function initializeSliders() {
+    initializeRentalPriceSlider();
+}
 
+function initializeRentalPriceSlider() {
+    filter._rentalPriceDisplayed = true;
     rentalPriceSlider = document.getElementById('rentalPriceSlider');
 
     const minPrice = parseFloat(getMinPricePerSquareMeter());
@@ -38,12 +42,12 @@ export function initializeRentalPriceSlider() {
     rentalPriceRangeDefault = `Von ${minPrice} bis ${maxPrice} € pro m²`
     rentalPriceRangeValue.innerHTML = rentalPriceRangeDefault;
 
-    rentalPriceSlider.noUiSlider.on('change', function (values, handle) {
+    rentalPriceSlider.noUiSlider.on('change', function () {
         onRentalPriceSliderSliderChange();
     });
 }
 
-export function getCurrentSliderValues() {
+function getCurrentRentalPriceSliderValues() {
     if (rentalPriceSlider && rentalPriceSlider.noUiSlider) {
         const values = rentalPriceSlider.noUiSlider.get();
         return {
@@ -56,7 +60,7 @@ export function getCurrentSliderValues() {
 }
 
 function onRentalPriceSliderSliderChange() {
-    const sliderValues = getCurrentSliderValues();
+    const sliderValues = getCurrentRentalPriceSliderValues();
  
     if (sliderValues) {
         rentalPriceRangeValue.innerHTML = `Von ${sliderValues.min} bis ${sliderValues.max} € pro m²`;

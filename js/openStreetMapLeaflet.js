@@ -8,7 +8,7 @@ export function drawMainMap() {
     mainMap = L.map('main-map', {
         zoomSnap: 0.5,
         zoomDelta: 0.5
-    }).setView([50.9787, 11.0328], 6.5);
+    }).setView([50.9787, 11.0328], 5.5);
 
     L.Icon.Default.imagePath = "/dist/images/";
 

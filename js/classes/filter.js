@@ -1,7 +1,12 @@
 export default class Filter {
-    constructor(minRentalPrice, maxRentalPrice) {
+    constructor(rentalPriceDisplayed, minRentalPrice, maxRentalPrice) {
+        this._rentalPriceDisplayed = rentalPriceDisplayed;
         this._minRentalPrice = minRentalPrice;
         this._maxRentalPrice = maxRentalPrice;
+    }
+
+    get rentalPriceDisplayed() {
+        return this._rentalPriceDisplayed;
     }
 
     get minRentalPrice() {
