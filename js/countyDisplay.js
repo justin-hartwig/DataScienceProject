@@ -1,5 +1,4 @@
 import County from './classes/county';
-import Filter from './classes/filter';
 
 let allCounties;
 let displayedCounties;
@@ -39,7 +38,19 @@ export async function requestCountyData() {
     }
 }
 
-export function getMaxPricePerSquareMeter() {
+export function getMaxValue(tableName) {
+    if (tableName == "rentalprices") {
+        return getMaxPricePerSquareMeter();
+    }
+}
+
+export function getMinValue(tableName) {
+    if (tableName == "rentalprices") {
+        return getMinPricePerSquareMeter();
+    }
+}
+
+function getMaxPricePerSquareMeter() {
     if (!allCounties || allCounties.length === 0) {
         return null;
     }
@@ -48,7 +59,7 @@ export function getMaxPricePerSquareMeter() {
     return Math.ceil(maxPrice);
 }
 
-export function getMinPricePerSquareMeter() {
+function getMinPricePerSquareMeter() {
     if (!allCounties || allCounties.length === 0) {
         return null;
     }

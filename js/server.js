@@ -32,6 +32,7 @@ authenticate();
 // Database Routes
 app.use('/counties', require('./routes/counties'));
 app.use('/rentalprices', require('./routes/rentalprices'));
+app.use('/landprices', require('./routes/landprices'));
 
 //add the router 
 app.use('/', router);

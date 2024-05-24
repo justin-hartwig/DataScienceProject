@@ -1,19 +1,22 @@
 import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
 import Filter from './filter';
-import { getMaxPricePerSquareMeter, getMinPricePerSquareMeter, updateDisplayedCounties } from '../countyDisplay';
+import { getMaxValue, getMinValue, updateDisplayedCounties } from '../countyDisplay';
 import { drawCounties } from '../openStreetMapLeaflet';
 
 let filter = new Filter;
 
 export default class Slider {
-    constructor(sliderId, rangeId, tableName) {
+    constructor(sliderId, rangeId, tableName, fromText, toText, unitText) {
         this._sliderId = sliderId;
         this._sliderElement;
         this._rangeId = rangeId;
         this._rangeElement;
         this._defaultRange;
         this._tableName = tableName;
+        this._fromText = fromText;
+        this._toText = toText;
+        this._unitText = unitText;
     }
 
     get sliderId() {
@@ -28,8 +31,8 @@ export default class Slider {
         filter._rentalPriceDisplayed = true;
         this._sliderElement = document.getElementById(this._sliderId);
     
-        const minPrice = parseFloat(getMinPricePerSquareMeter());
-        const maxPrice = parseFloat(getMaxPricePerSquareMeter());
+        const minPrice = parseFloat(getMinValue(this._tableName));
+        const maxPrice = parseFloat(getMaxValue(this._tableName));
     
         if (isNaN(minPrice) || isNaN(maxPrice)) {
             console.error('Error: minPrice or maxPrice is not a number.');
@@ -50,7 +53,7 @@ export default class Slider {
         });
     
         this._rangeElement = document.getElementById(this._rangeId);
-        this._defaultRange = `Von ${minPrice} bis ${maxPrice} € pro m²`
+        this._defaultRange = `${this._fromText} ${minPrice} ${this._toText} ${maxPrice} ${this._unitText}`;
         this._rangeElement.innerHTML = this._defaultRange;
     
         this._sliderElement.noUiSlider.on('change', () => {
@@ -74,7 +77,7 @@ export default class Slider {
         const sliderValues = this.getCurrentSliderValues();
      
         if (sliderValues) {
-            this._rangeElement.innerHTML = `Von ${sliderValues.min} bis ${sliderValues.max} € pro m²`;
+            this._rangeElement.innerHTML = `${this._fromText} ${sliderValues.min} ${this._toText} ${sliderValues.max} ${this._unitText}`;
             filter._maxRentalPrice = sliderValues.max;
             filter._minRentalPrice = sliderValues.min;
             updateDisplayedCounties(filter);
@@ -84,7 +87,7 @@ export default class Slider {
     
     resetSlider() {
         this._sliderElement.noUiSlider.reset();
-        onSliderValueChange();
+        this.onSliderValueChange();
     }
 }
 
