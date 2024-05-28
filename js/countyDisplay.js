@@ -1,7 +1,9 @@
 import County from './classes/county';
+import Filter from './classes/filter';
 
 let allCounties;
 let displayedCounties;
+export let filter = new Filter(true, false);
 
 export async function requestCountyData() {
     try {
@@ -13,13 +15,19 @@ export async function requestCountyData() {
         const rentalResponse = await fetch('/rentalprices');
         const rentalData = await rentalResponse.json();
 
+        // Fetch land prices data
+        const landResponse = await fetch('/landprices');
+        const landData = await landResponse.json();
+
         // Combine data based on id
         const combinedData = countyData.map(county => {
             const rentalInfo = rentalData.find(rental => rental.id === county.id) || {};
+            const landInfo = landData.find(land => land.id === county.id) || {};
             return {
                 ...county,
-                numberOfOffersAnalysed: rentalInfo.numberofoffersanalysed || 0,
-                pricePerSquareMeter: rentalInfo.pricepersquaremeters || 0
+                rentalPriceNumberOfOffersAnalysed: rentalInfo.numberofoffersanalysed || 0,
+                rentalPricePerSquareMeter: rentalInfo.pricepersquaremeters || 0,
+                landPricePerSquareMeter: landInfo.pricepersquaremeters || 0
             };
         });
 
@@ -28,8 +36,9 @@ export async function requestCountyData() {
             item.id,
             item.name,
             item.federalstate,
-            item.numberOfOffersAnalysed,
-            item.pricePerSquareMeter
+            item.rentalPriceNumberOfOffersAnalysed,
+            item.rentalPricePerSquareMeter,
+            item.landPricePerSquareMeter
         ));
         setAllColors(allCounties);
         displayedCounties = allCounties;
@@ -40,48 +49,81 @@ export async function requestCountyData() {
 
 export function getMaxValue(tableName) {
     if (tableName == "rentalprices") {
-        return getMaxPricePerSquareMeter();
+        return getMaxRentalPricePerSquareMeter();
     }
 }
 
 export function getMinValue(tableName) {
     if (tableName == "rentalprices") {
-        return getMinPricePerSquareMeter();
+        return getMinRentalPricePerSquareMeter();
     }
 }
 
-function getMaxPricePerSquareMeter() {
+function getMaxRentalPricePerSquareMeter() {
     if (!allCounties || allCounties.length === 0) {
         return null;
     }
 
-    const maxPrice = Math.max(...allCounties.map(county => parseFloat(county.pricePerSquareMeter)));
+    const maxPrice = Math.max(...allCounties.map(county => parseFloat(county.rentalPricePerSquareMeter)));
     return Math.ceil(maxPrice);
 }
 
-function getMinPricePerSquareMeter() {
+function getMinRentalPricePerSquareMeter() {
     if (!allCounties || allCounties.length === 0) {
         return null;
     }
 
-    const minPrice = Math.min(...allCounties.map(county => parseFloat(county.pricePerSquareMeter)));
+    const minPrice = Math.min(...allCounties.map(county => parseFloat(county.rentalPricePerSquareMeter)));
     return Math.floor(minPrice);
 }
 
-export function updateDisplayedCounties(filter) {
+export function updateDisplayedCounties() {
     displayedCounties = allCounties.filter(county => {
-        const price = parseFloat(county.pricePerSquareMeter);
-        return price >= filter.minRentalPrice && price <= filter.maxRentalPrice;
+        const rentalPrice = parseFloat(county.rentalPricePerSquareMeter);
+        const landPrice = county.landPricePerSquareMeter;
+        return rentalPrice >= filter.minRentalPrice &&
+               rentalPrice <= filter.maxRentalPrice &&
+               filter.landPriceActiveRange.includes(landPrice);
     });
 
     setAllColors(displayedCounties);
 }
 
-function colorByPrice(county, counties) {
-    const minPrice = Math.min(...counties.map(county => parseFloat(county.pricePerSquareMeter)));
-    const maxPrice = Math.max(...counties.map(county => parseFloat(county.pricePerSquareMeter)));
+function convertLandPriceToNumber(priceString) {
+    const landPriceRanges = {
+        "bis unter 50": 0,
+        "50 bis unter 100": 0.2,
+        "100 bis unter 200": 0.4,
+        "200 bis unter 300": 0.6,
+        "300 bis unter 500": 0.8,
+        "500 und mehr": 1
+    };
+    return landPriceRanges[priceString] || 0;
+}
 
-    const normalizedPrice = (county.pricePerSquareMeter - minPrice) / (maxPrice - minPrice);
+function colorByCounty(county, counties) {
+    let filterNumber = 0;
+    let rentalMinPrice, rentalMaxPrice, rentalNormalizedPrice;
+    let landNormalizedPrice;
+
+    if (filter.rentalPriceFiltered) {
+        filterNumber++;
+        rentalMinPrice = Math.min(...counties.map(county => parseFloat(county.rentalPricePerSquareMeter)));
+        rentalMaxPrice = Math.max(...counties.map(county => parseFloat(county.rentalPricePerSquareMeter)));
+        rentalNormalizedPrice = (county.rentalPricePerSquareMeter - rentalMinPrice) / (rentalMaxPrice - rentalMinPrice);
+    } else {
+        rentalNormalizedPrice = 0;
+    }
+
+    if (filter.landPriceFiltered) {
+        filterNumber++;
+        landNormalizedPrice = convertLandPriceToNumber(county.landPricePerSquareMeter);
+    } else {
+        landNormalizedPrice = 0;
+    }
+
+    // Combine the normalized values with equal weight
+    const combinedNormalizedPrice = (rentalNormalizedPrice + landNormalizedPrice) / filterNumber;
 
     // RGB values for the color scale
     const lowColor = [55, 196, 116]; // RGB for #37C474
@@ -89,28 +131,33 @@ function colorByPrice(county, counties) {
     const highColor = [227, 82, 82]; // RGB for #E35252
 
     let color;
-    if (normalizedPrice < 0.5) {
+    if (combinedNormalizedPrice < 0.5) {
         // Interpolate between lowColor and mediumColor
-        const ratio = normalizedPrice * 2; // normalized to range [0, 1]
+        const ratio = combinedNormalizedPrice * 2; // normalized to range [0, 1]
         color = lowColor.map((low, index) => {
             const medium = mediumColor[index];
             return Math.round(low + (medium - low) * ratio);
         });
     } else {
         // Interpolate between mediumColor and highColor
-        const ratio = (normalizedPrice - 0.5) * 2; // normalized to range [0, 1]
+        const ratio = (combinedNormalizedPrice - 0.5) * 2; // normalized to range [0, 1]
         color = mediumColor.map((medium, index) => {
             const high = highColor[index];
             return Math.round(medium + (high - medium) * ratio);
         });
     }
 
-    return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+    if(color[0] && color[1] && color[2]) {
+        return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+    }
+    else {
+        return `rgba(255, 255, 255, 0)`;
+    }
 }
 
 function setAllColors(counties) {
     counties.forEach(county => {
-        const color = colorByPrice(county, counties);
+        const color = colorByCounty(county, counties);
         county.color = color;
     });
 }

@@ -1,0 +1,9 @@
+.filter {
+    &.disabled {
+        opacity: 0.3;
+    
+        :not(.checkbox) {
+            pointer-events: none;
+        }
+    }
+}

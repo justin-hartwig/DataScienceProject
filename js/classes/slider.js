@@ -1,10 +1,8 @@
 import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
-import Filter from './filter';
-import { getMaxValue, getMinValue, updateDisplayedCounties } from '../countyDisplay';
+import { filter, getMaxValue, getMinValue, updateDisplayedCounties } from '../countyDisplay';
 import { drawCounties } from '../openStreetMapLeaflet';
 
-let filter = new Filter;
 
 export default class Slider {
     constructor(sliderId, rangeId, tableName, fromText, toText, unitText) {
@@ -28,11 +26,12 @@ export default class Slider {
     }
 
     initializeSlider() {
-        filter._rentalPriceDisplayed = true;
         this._sliderElement = document.getElementById(this._sliderId);
     
         const minPrice = parseFloat(getMinValue(this._tableName));
         const maxPrice = parseFloat(getMaxValue(this._tableName));
+        filter._maxRentalPrice = maxPrice;
+        filter._minRentalPrice = minPrice;
     
         if (isNaN(minPrice) || isNaN(maxPrice)) {
             console.error('Error: minPrice or maxPrice is not a number.');
@@ -80,7 +79,7 @@ export default class Slider {
             this._rangeElement.innerHTML = `${this._fromText} ${sliderValues.min} ${this._toText} ${sliderValues.max} ${this._unitText}`;
             filter._maxRentalPrice = sliderValues.max;
             filter._minRentalPrice = sliderValues.min;
-            updateDisplayedCounties(filter);
+            updateDisplayedCounties();
             drawCounties();
         }
     }

@@ -42,12 +42,18 @@ export function drawCounties() {
                     const county = getDisplayedCounties().find(county => county._name === countyName);
 
                     let fillColor = '#1B76FF'; // Default fill color
+                    const defaultBorderColor = 'rgba(255, 255, 255, 0)';
+                    let borderColor = defaultBorderColor;
+
                     if (county) {
                         fillColor = county.color;
+                        if(county.color != 'rgba(255, 255, 255, 0)') {
+                            borderColor = '#FFF';
+                        }
                     }
 
                     return {
-                        color: '#FFF',
+                        color: borderColor,
                         weight: 0.5, // Border weight
                         opacity: 1.0, // Border opacity
                         fillColor: fillColor,
