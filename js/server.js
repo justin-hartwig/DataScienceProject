@@ -33,6 +33,10 @@ authenticate();
 app.use('/counties', require('./routes/counties'));
 app.use('/rentalprices', require('./routes/rentalprices'));
 app.use('/landprices', require('./routes/landprices'));
+app.use('/disposableincomes', require('./routes/disposableincomes'));
+app.use('/unemploymentrates', require('./routes/unemploymentrates'));
+app.use('/populationdensities', require('./routes/populationdensities'));
+app.use('/leasureperareas', require('./routes/leasureperareas'));
 
 //add the router 
 app.use('/', router);
