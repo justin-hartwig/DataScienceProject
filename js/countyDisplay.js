@@ -19,15 +19,21 @@ export async function requestCountyData() {
         const landResponse = await fetch('/landprices');
         const landData = await landResponse.json();
 
+        // Fetch disposable income data
+        const incomeResponse = await fetch('/disposableincomes');
+        const incomeData = await incomeResponse.json();
+
         // Combine data based on id
         const combinedData = countyData.map(county => {
             const rentalInfo = rentalData.find(rental => rental.id === county.id) || {};
             const landInfo = landData.find(land => land.id === county.id) || {};
+            const incomeInfo = incomeData.find(income => income.id === county.id) || {};
             return {
                 ...county,
                 rentalPriceNumberOfOffersAnalysed: rentalInfo.numberofoffersanalysed || 0,
                 rentalPricePerSquareMeter: rentalInfo.pricepersquaremeters || 0,
-                landPricePerSquareMeter: landInfo.pricepersquaremeters || 0
+                landPricePerSquareMeter: landInfo.pricepersquaremeters || 0,
+                disposableIncome: incomeInfo.disposableincome || 0
             };
         });
 
@@ -38,52 +44,59 @@ export async function requestCountyData() {
             item.federalstate,
             item.rentalPriceNumberOfOffersAnalysed,
             item.rentalPricePerSquareMeter,
-            item.landPricePerSquareMeter
+            item.landPricePerSquareMeter,
+            item.disposableIncome
         ));
         setAllColors(allCounties);
         displayedCounties = allCounties;
+        filter.initalizeFilter();
     } catch (error) {
         console.error('Error fetching county data:', error);
     }
 }
 
-export function getMaxValue(tableName) {
-    if (tableName == "rentalprices") {
-        return getMaxRentalPricePerSquareMeter();
-    }
-}
 
-export function getMinValue(tableName) {
-    if (tableName == "rentalprices") {
-        return getMinRentalPricePerSquareMeter();
-    }
-}
-
-function getMaxRentalPricePerSquareMeter() {
+export function getMaxValue(value) {
     if (!allCounties || allCounties.length === 0) {
         return null;
     }
 
-    const maxPrice = Math.max(...allCounties.map(county => parseFloat(county.rentalPricePerSquareMeter)));
+    const maxPrice = Math.max(...allCounties.map(county => parseFloat(county[value])));
     return Math.ceil(maxPrice);
 }
 
-function getMinRentalPricePerSquareMeter() {
+export function getMinValue(value) {
     if (!allCounties || allCounties.length === 0) {
         return null;
     }
 
-    const minPrice = Math.min(...allCounties.map(county => parseFloat(county.rentalPricePerSquareMeter)));
+    const minPrice = Math.min(...allCounties.map(county => parseFloat(county[value])));
     return Math.floor(minPrice);
 }
 
 export function updateDisplayedCounties() {
     displayedCounties = allCounties.filter(county => {
         const rentalPrice = parseFloat(county.rentalPricePerSquareMeter);
+        const disposableIncome = county.disposableIncome;
         const landPrice = county.landPricePerSquareMeter;
-        return rentalPrice >= filter.minRentalPrice &&
-               rentalPrice <= filter.maxRentalPrice &&
-               filter.landPriceActiveRange.includes(landPrice);
+        
+        let rentalPriceMatch = true;
+        let landPriceMatch = true;
+        let disposableIncomeMatch = true;
+
+        if (filter.rentalPriceFiltered) {
+            rentalPriceMatch = rentalPrice >= filter.minRentalPrice && rentalPrice <= filter.maxRentalPrice;
+        }
+        
+        if (filter.landPriceFiltered) {
+            landPriceMatch = filter.landPriceActiveRange.includes(landPrice);
+        }
+        
+        if (filter.disposableIncomeFiltered) {
+            disposableIncomeMatch = disposableIncome >= filter.minDisposableIncome && disposableIncome <= filter.maxDisposableIncome;
+        }
+
+        return rentalPriceMatch && landPriceMatch && disposableIncomeMatch;
     });
 
     setAllColors(displayedCounties);
@@ -105,6 +118,7 @@ function colorByCounty(county, counties) {
     let filterNumber = 0;
     let rentalMinPrice, rentalMaxPrice, rentalNormalizedPrice;
     let landNormalizedPrice;
+    let disposableIncomeMinPrice, disposableIncomeMaxPrice, disposableIncomeNormalizedPrice;
 
     if (filter.rentalPriceFiltered) {
         filterNumber++;
@@ -122,8 +136,17 @@ function colorByCounty(county, counties) {
         landNormalizedPrice = 0;
     }
 
+    if (filter.disposableIncomeFiltered) {
+        filterNumber++;
+        disposableIncomeMinPrice = Math.min(...counties.map(county => county.disposableIncome));
+        disposableIncomeMaxPrice = Math.max(...counties.map(county => county.disposableIncome));
+        disposableIncomeNormalizedPrice = (county.disposableIncome - disposableIncomeMinPrice) / (disposableIncomeMaxPrice - disposableIncomeMinPrice);
+    } else {
+        disposableIncomeNormalizedPrice = 0;
+    }
+
     // Combine the normalized values with equal weight
-    const combinedNormalizedPrice = (rentalNormalizedPrice + landNormalizedPrice) / filterNumber;
+    const combinedNormalizedPrice = (rentalNormalizedPrice + landNormalizedPrice + disposableIncomeNormalizedPrice) / filterNumber;
 
     // RGB values for the color scale
     const lowColor = [55, 196, 116]; // RGB for #37C474

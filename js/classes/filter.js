@@ -1,9 +1,14 @@
+import { getMaxValue, getMinValue } from '../countyDisplay';
+
 export default class Filter {
-    constructor(rentalPriceFiltered, landPriceFiltered, minRentalPrice, maxRentalPrice, landPriceActiveRange) {
+    constructor(rentalPriceFiltered, landPriceFiltered, disposableIncomeFiltered) {
         this._rentalPriceFiltered = rentalPriceFiltered;
         this._landPriceFiltered = landPriceFiltered;
-        this._minRentalPrice = minRentalPrice;
-        this._maxRentalPrice = maxRentalPrice;
+        this._disposableIncomeFiltered = disposableIncomeFiltered;
+        this._minRentalPrice;
+        this._maxRentalPrice;
+        this._minDisposableIncome;
+        this._maxDisposableIncome;
         this._landPriceDefaultRange = ["bis unter 50", 
         "50 bis unter 100", 
         "100 bis unter 200", 
@@ -29,6 +34,14 @@ export default class Filter {
         this._landPriceFiltered = landPriceFiltered;
     }
 
+    get disposableIncomeFiltered() {
+        return this._disposableIncomeFiltered;
+    }
+
+    set disposableIncomeFiltered(disposableIncomeFiltered) {
+        this._disposableIncomeFiltered = disposableIncomeFiltered;
+    }
+
     get minRentalPrice() {
         return this._minRentalPrice;
     }
@@ -37,8 +50,23 @@ export default class Filter {
         return this._maxRentalPrice;
     }
 
+    get minDisposableIncome() {
+        return this._minDisposableIncome;
+    }
+
+    get maxDisposableIncome() {
+        return this._maxDisposableIncome;
+    }
+
     get landPriceActiveRange() {
         return this._landPriceActiveRange;
+    }
+
+    initalizeFilter() {
+        this._maxRentalPrice = parseFloat(getMaxValue("rentalPricePerSquareMeter"));
+        this._minRentalPrice = parseFloat(getMinValue("rentalPricePerSquareMeter"));
+        this._maxDisposableIncome = getMaxValue("disposableIncome");
+        this._minDisposableIncome = getMinValue("disposableIncome");
     }
 
     addRange(range, item) {

@@ -1,11 +1,12 @@
 export default class County {
-  constructor(id, name, federalState, rentalPriceNumberOfOffersAnalysed, rentalPricePerSquareMeter, landPricePerSquareMeter) {
+  constructor(id, name, federalState, rentalPriceNumberOfOffersAnalysed, rentalPricePerSquareMeter, landPricePerSquareMeter, disposableIncome) {
     this._id = id;
     this._name = name;
     this._federalState = federalState;
     this._rentalPriceNumberOfOffersAnalysed = rentalPriceNumberOfOffersAnalysed;
     this._rentalPricePerSquareMeter = rentalPricePerSquareMeter;
     this._landPricePerSquareMeter = landPricePerSquareMeter;
+    this._disposableIncome = disposableIncome;
     this._color = "#1B76FF"; // default color
   }
 
@@ -31,6 +32,10 @@ export default class County {
 
   get landPricePerSquareMeter() {
     return this._landPricePerSquareMeter;
+  }
+
+  get disposableIncome() {
+    return this._disposableIncome;
   }
 
   get color() {
