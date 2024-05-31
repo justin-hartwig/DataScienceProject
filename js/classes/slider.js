@@ -50,7 +50,7 @@ export default class Slider {
         });
     
         this._rangeElement = document.getElementById(this._rangeId);
-        this._defaultRange = `${this._fromText} ${minPrice} ${this._toText} ${maxPrice} ${this._unitText}`;
+        this._defaultRange = `${this._fromText} ${this.addThousandSeparators(minPrice)} ${this._toText} ${this.addThousandSeparators(maxPrice)} ${this._unitText}`;
         this._rangeElement.innerHTML = this._defaultRange;
     
         this._sliderElement.noUiSlider.on('change', () => {
@@ -74,7 +74,7 @@ export default class Slider {
         const sliderValues = this.getCurrentSliderValues();
      
         if (sliderValues) {
-            this._rangeElement.innerHTML = `${this._fromText} ${sliderValues.min} ${this._toText} ${sliderValues.max} ${this._unitText}`;
+            this._rangeElement.innerHTML = `${this._fromText} ${this.addThousandSeparators(sliderValues.min)} ${this._toText} ${this.addThousandSeparators(sliderValues.max)} ${this._unitText}`;
             filter["_max" + this._filterValue] = sliderValues.max;
             filter["_min" + this._filterValue] = sliderValues.min;
             updateDisplayedCounties();
@@ -86,5 +86,12 @@ export default class Slider {
         this._sliderElement.noUiSlider.reset();
         this.onSliderValueChange();
     }
+
+    addThousandSeparators(number) {
+        if (typeof number !== 'number') {
+            throw new Error('Input must be a number');
+        }
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    } 
 }
 
