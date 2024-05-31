@@ -1,21 +1,35 @@
 import { getMaxValue, getMinValue } from '../countyDisplay';
 
 export default class Filter {
-    constructor(rentalPriceFiltered, landPriceFiltered, disposableIncomeFiltered) {
+    constructor(rentalPriceFiltered, landPriceFiltered, disposableIncomeFiltered, populationDensityFiltered, unemploymentRateFiltered) {
         this._rentalPriceFiltered = rentalPriceFiltered;
         this._landPriceFiltered = landPriceFiltered;
         this._disposableIncomeFiltered = disposableIncomeFiltered;
+        this._populationDensityFiltered = populationDensityFiltered;
+        this._unemploymentRateFiltered = unemploymentRateFiltered;
         this._minRentalPrice;
         this._maxRentalPrice;
         this._minDisposableIncome;
         this._maxDisposableIncome;
-        this._landPriceDefaultRange = ["bis unter 50", 
-        "50 bis unter 100", 
-        "100 bis unter 200", 
-        "200 bis unter 300", 
-        "300 bis unter 500", 
-        "500 und mehr"]
+        this._landPriceDefaultRange = ["bis unter 50",
+            "50 bis unter 100",
+            "100 bis unter 200",
+            "200 bis unter 300",
+            "300 bis unter 500",
+            "500 und mehr"]
+        this._populationDensityDefaultRange = [66,
+            10584.75,
+            21103.5,
+            31622.25,
+            42141]
+        this._unemploymentRateDefaultRange = [1.7,
+            4.8,
+            7.9,
+            11.0,
+            14.1]
         this._landPriceActiveRange = this._landPriceDefaultRange;
+        this._populationDensityActiveRange = this._populationDensityDefaultRange;
+        this._unemploymentRateActiveRange = this._unemploymentRateDefaultRange;
     }
 
     get rentalPriceFiltered() {
@@ -42,6 +56,22 @@ export default class Filter {
         this._disposableIncomeFiltered = disposableIncomeFiltered;
     }
 
+    get populationDensityFiltered() {
+        return this._populationDensityFiltered;
+    }
+
+    set populationDensityFiltered(populationDensityFiltered) {
+        this._populationDensityFiltered = populationDensityFiltered;
+    }
+
+    get unemploymentRateFiltered() {
+        return this._unemploymentRateFiltered;
+    }
+
+    set unemploymentRateFiltered(unemploymentRateFiltered) {
+        this._unemploymentRateFiltered = unemploymentRateFiltered;
+    }
+
     get minRentalPrice() {
         return this._minRentalPrice;
     }
@@ -62,7 +92,16 @@ export default class Filter {
         return this._landPriceActiveRange;
     }
 
+    get populationDensityActiveRange() {
+        return this._populationDensityActiveRange;
+    }
+
+    get unemploymentRateActiveRange() {
+        return this._unemploymentRateActiveRange;
+    }
+
     initalizeFilter() {
+        // Slider
         this._maxRentalPrice = parseFloat(getMaxValue("rentalPricePerSquareMeter"));
         this._minRentalPrice = parseFloat(getMinValue("rentalPricePerSquareMeter"));
         this._maxDisposableIncome = getMaxValue("disposableIncome");

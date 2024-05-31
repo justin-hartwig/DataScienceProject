@@ -3,7 +3,7 @@ import Filter from './classes/filter';
 
 let allCounties;
 let displayedCounties;
-export let filter = new Filter(true, false);
+export let filter = new Filter(true, false, false, false, false);
 
 export async function requestCountyData() {
     try {
@@ -23,17 +23,29 @@ export async function requestCountyData() {
         const incomeResponse = await fetch('/disposableincomes');
         const incomeData = await incomeResponse.json();
 
+        // Fetch disposable population denstity
+        const populationDensityResponse = await fetch('/populationdensities');
+        const populationDensityData = await populationDensityResponse.json();
+
+        // Fetch disposable unemployment rate
+        const unemploymentRateResponse = await fetch('/unemploymentrates');
+        const unemploymentRateData = await unemploymentRateResponse.json();
+
         // Combine data based on id
         const combinedData = countyData.map(county => {
             const rentalInfo = rentalData.find(rental => rental.id === county.id) || {};
             const landInfo = landData.find(land => land.id === county.id) || {};
             const incomeInfo = incomeData.find(income => income.id === county.id) || {};
+            const populationDensityInfo = populationDensityData.find(income => income.id === county.id) || {};
+            const unemploymentRateInfo = unemploymentRateData.find(income => income.id === county.id) || {};
             return {
                 ...county,
                 rentalPriceNumberOfOffersAnalysed: rentalInfo.numberofoffersanalysed || 0,
                 rentalPricePerSquareMeter: rentalInfo.pricepersquaremeters || 0,
                 landPricePerSquareMeter: landInfo.pricepersquaremeters || 0,
-                disposableIncome: incomeInfo.disposableincome || 0
+                disposableIncome: incomeInfo.disposableincome || 0,
+                populationDensity: populationDensityInfo.populationdensitypersquarekilometer || 0,
+                unemploymentRate: unemploymentRateInfo.unemploymentrate || 0
             };
         });
 
@@ -45,7 +57,9 @@ export async function requestCountyData() {
             item.rentalPriceNumberOfOffersAnalysed,
             item.rentalPricePerSquareMeter,
             item.landPricePerSquareMeter,
-            item.disposableIncome
+            item.disposableIncome,
+            item.populationDensity,
+            item.unemploymentRate
         ));
         setAllColors(allCounties);
         displayedCounties = allCounties;
@@ -54,7 +68,6 @@ export async function requestCountyData() {
         console.error('Error fetching county data:', error);
     }
 }
-
 
 export function getMaxValue(value) {
     if (!allCounties || allCounties.length === 0) {
@@ -77,12 +90,16 @@ export function getMinValue(value) {
 export function updateDisplayedCounties() {
     displayedCounties = allCounties.filter(county => {
         const rentalPrice = parseFloat(county.rentalPricePerSquareMeter);
-        const disposableIncome = county.disposableIncome;
+        const disposableIncome = parseFloat(county.disposableIncome);
         const landPrice = county.landPricePerSquareMeter;
+        const populationDensity = parseFloat(county.populationDensity);
+        const unemploymentRate = parseFloat(county.unemploymentRate);
         
         let rentalPriceMatch = true;
         let landPriceMatch = true;
         let disposableIncomeMatch = true;
+        let populationDensityMatch = true;
+        let unemploymentRateMatch = true;
 
         if (filter.rentalPriceFiltered) {
             rentalPriceMatch = rentalPrice >= filter.minRentalPrice && rentalPrice <= filter.maxRentalPrice;
@@ -96,7 +113,19 @@ export function updateDisplayedCounties() {
             disposableIncomeMatch = disposableIncome >= filter.minDisposableIncome && disposableIncome <= filter.maxDisposableIncome;
         }
 
-        return rentalPriceMatch && landPriceMatch && disposableIncomeMatch;
+        if (filter.populationDensityFiltered) {
+            populationDensityMatch = filter.populationDensityActiveRange.some(range => {
+                return populationDensity >= range && populationDensity < (range + 10518.75);
+            });
+        }
+
+        if (filter.unemploymentRateFiltered) {
+            unemploymentRateMatch = filter.unemploymentRateActiveRange.some(range => {
+                return unemploymentRate >= range && unemploymentRate < (range + 3.1);
+            });
+        }
+
+        return rentalPriceMatch && landPriceMatch && disposableIncomeMatch && populationDensityMatch && unemploymentRateMatch;
     });
 
     setAllColors(displayedCounties);
@@ -119,6 +148,8 @@ function colorByCounty(county, counties) {
     let rentalMinPrice, rentalMaxPrice, rentalNormalizedPrice;
     let landNormalizedPrice;
     let disposableIncomeMinPrice, disposableIncomeMaxPrice, disposableIncomeNormalizedPrice;
+    let populationDensityMin, populationDensityMax, populationDensityNormalized;
+    let unemploymentRateMin, unemploymentRateMax, unemploymentRateNormalized;
 
     if (filter.rentalPriceFiltered) {
         filterNumber++;
@@ -145,8 +176,26 @@ function colorByCounty(county, counties) {
         disposableIncomeNormalizedPrice = 0;
     }
 
+    if (filter.populationDensityFiltered) {
+        filterNumber++;
+        populationDensityMin = Math.min(...counties.map(county => county.populationDensity));
+        populationDensityMax = Math.max(...counties.map(county => county.populationDensity));
+        populationDensityNormalized = (county.populationDensity - populationDensityMin) / (populationDensityMax - populationDensityMin);
+    } else {
+        populationDensityNormalized = 0;
+    }
+
+    if (filter.unemploymentRateFiltered) {
+        filterNumber++;
+        unemploymentRateMin = Math.min(...counties.map(county => county.unemploymentRate));
+        unemploymentRateMax = Math.max(...counties.map(county => county.unemploymentRate));
+        unemploymentRateNormalized = (county.unemploymentRate - unemploymentRateMin) / (unemploymentRateMax - unemploymentRateMin);
+    } else {
+        unemploymentRateNormalized = 0;
+    }
+
     // Combine the normalized values with equal weight
-    const combinedNormalizedPrice = (rentalNormalizedPrice + landNormalizedPrice + disposableIncomeNormalizedPrice) / filterNumber;
+    const combinedNormalizedPrice = (rentalNormalizedPrice + landNormalizedPrice + disposableIncomeNormalizedPrice + populationDensityNormalized + unemploymentRateNormalized) / filterNumber;
 
     // RGB values for the color scale
     const lowColor = [55, 196, 116]; // RGB for #37C474
@@ -170,10 +219,9 @@ function colorByCounty(county, counties) {
         });
     }
 
-    if(color[0] && color[1] && color[2]) {
+    if (color[0] !== undefined && color[1] !== undefined && color[2] !== undefined) {
         return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
-    }
-    else {
+    } else {
         return `rgba(255, 255, 255, 0)`;
     }
 }

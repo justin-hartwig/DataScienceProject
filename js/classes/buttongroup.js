@@ -2,8 +2,9 @@ import { filter, updateDisplayedCounties } from '../countyDisplay';
 import { drawCounties } from '../openStreetMapLeaflet';
 
 export default class ButtonGroup {
-    constructor(buttonGroupId, rangesSite, rangesDb) {
+    constructor(buttonGroupId, filterValue, rangesSite, rangesDb) {
         this._buttonGroupId = buttonGroupId;
+        this._filterValue = filterValue;
         this._rangesSite = rangesSite;
         this._rangesDb = rangesDb;
         this._buttonGroupElement;
@@ -13,6 +14,10 @@ export default class ButtonGroup {
 
     get buttonGroupId() {
         return this._buttonGroupId;
+    }
+
+    get filterValue() {
+        return this._filterValue;
     }
 
     get rangesSite() {
@@ -48,9 +53,9 @@ export default class ButtonGroup {
         const button = event.target;
         const buttonText = button.textContent || button.innerText;
         if (button.classList.contains("active")) {
-            filter.removeRange(filter._landPriceActiveRange, this.mapRangeValue(buttonText));
+            filter.removeRange(filter["_" + this.filterValue + "ActiveRange"], this.mapRangeValue(buttonText));
         } else {
-            filter.addRange(filter._landPriceActiveRange, this.mapRangeValue(buttonText));
+            filter.addRange(filter["_" + this.filterValue + "ActiveRange"], this.mapRangeValue(buttonText));
         }
         button.classList.toggle('active');
         updateDisplayedCounties();
@@ -61,7 +66,7 @@ export default class ButtonGroup {
         Array.from(this._buttons).forEach(button => {
             button.classList.add('active');
         });
-        filter.resetRange(filter._landPriceDefaultRange, filter._landPriceActiveRange);
+        filter.resetRange(filter["_" + this.filterValue + "DefaultRange"], filter["_" + this.filterValue + "ActiveRange"]);
     }
 
     mapRangeValue(siteValue) {
