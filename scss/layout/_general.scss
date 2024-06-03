@@ -7,3 +7,11 @@ body {
 .main-content .row {
     margin-left: 0;
 }
+
+img {
+    max-width: 100%;
+}
+
+img.rounded {
+    border-radius: $default-border-radius !important;
+}

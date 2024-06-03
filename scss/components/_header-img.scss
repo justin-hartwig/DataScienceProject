@@ -1,0 +1,11 @@
+.header-img {
+    //background-image: url("../../assets/images/map-bg-img.jpg");
+    background-color: $white;
+    background-size: cover;
+    border-radius: $default-border-radius;
+    min-height: 18rem;
+
+    p {
+        margin-bottom: 2rem;
+    }
+}
