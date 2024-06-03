@@ -3,7 +3,7 @@ import Filter from './classes/filter';
 
 let allCounties;
 let displayedCounties;
-export let filter = new Filter(true, false, false, false, false);
+export let filter = new Filter(true, false, false, false, false, false);
 
 export async function requestCountyData() {
     try {
@@ -27,9 +27,13 @@ export async function requestCountyData() {
         const populationDensityResponse = await fetch('/populationdensities');
         const populationDensityData = await populationDensityResponse.json();
 
-        // Fetch disposable unemployment rate
+        // Fetch unemployment rate
         const unemploymentRateResponse = await fetch('/unemploymentrates');
         const unemploymentRateData = await unemploymentRateResponse.json();
+
+        // Fetch unemployment rate
+        const leasurePerAreaResponse = await fetch('/leasureperareas');
+        const leasurePerAreaData = await leasurePerAreaResponse.json();
 
         // Combine data based on id
         const combinedData = countyData.map(county => {
@@ -38,6 +42,7 @@ export async function requestCountyData() {
             const incomeInfo = incomeData.find(income => income.id === county.id) || {};
             const populationDensityInfo = populationDensityData.find(income => income.id === county.id) || {};
             const unemploymentRateInfo = unemploymentRateData.find(income => income.id === county.id) || {};
+            const leasurePerAreaInfo = leasurePerAreaData.find(income => income.id === county.id) || {};
             return {
                 ...county,
                 rentalPriceNumberOfOffersAnalysed: rentalInfo.numberofoffersanalysed || 0,
@@ -45,7 +50,8 @@ export async function requestCountyData() {
                 landPricePerSquareMeter: landInfo.pricepersquaremeters || 0,
                 disposableIncome: incomeInfo.disposableincome || 0,
                 populationDensity: populationDensityInfo.populationdensitypersquarekilometer || 0,
-                unemploymentRate: unemploymentRateInfo.unemploymentrate || 0
+                unemploymentRate: unemploymentRateInfo.unemploymentrate || 0,
+                leasurePerArea: leasurePerAreaInfo.percentageleasureperarea || 0
             };
         });
 
@@ -59,7 +65,8 @@ export async function requestCountyData() {
             item.landPricePerSquareMeter,
             item.disposableIncome,
             item.populationDensity,
-            item.unemploymentRate
+            item.unemploymentRate,
+            item.leasurePerArea
         ));
         setAllColors(allCounties);
         displayedCounties = allCounties;
@@ -94,12 +101,14 @@ export function updateDisplayedCounties() {
         const landPrice = county.landPricePerSquareMeter;
         const populationDensity = parseFloat(county.populationDensity);
         const unemploymentRate = parseFloat(county.unemploymentRate);
+        const leasurePerArea = parseFloat(county.leasurePerArea);
         
         let rentalPriceMatch = true;
         let landPriceMatch = true;
         let disposableIncomeMatch = true;
         let populationDensityMatch = true;
         let unemploymentRateMatch = true;
+        let leasurePerAreaMatch = true;
 
         if (filter.rentalPriceFiltered) {
             rentalPriceMatch = rentalPrice >= filter.minRentalPrice && rentalPrice <= filter.maxRentalPrice;
@@ -125,7 +134,12 @@ export function updateDisplayedCounties() {
             });
         }
 
-        return rentalPriceMatch && landPriceMatch && disposableIncomeMatch && populationDensityMatch && unemploymentRateMatch;
+        if (filter.leasurePerAreaFiltered) {
+            leasurePerAreaMatch = leasurePerArea !== undefined;
+        }
+
+
+        return rentalPriceMatch && landPriceMatch && disposableIncomeMatch && populationDensityMatch && unemploymentRateMatch && leasurePerAreaMatch;
     });
 
     setAllColors(displayedCounties);
@@ -150,6 +164,7 @@ function colorByCounty(county, counties) {
     let disposableIncomeMinPrice, disposableIncomeMaxPrice, disposableIncomeNormalizedPrice;
     let populationDensityMin, populationDensityMax, populationDensityNormalized;
     let unemploymentRateMin, unemploymentRateMax, unemploymentRateNormalized;
+    let leasurePerAreaMin, leasurePerAreaMax, leasurePerAreaNormalized;
 
     if (filter.rentalPriceFiltered) {
         filterNumber++;
@@ -194,8 +209,17 @@ function colorByCounty(county, counties) {
         unemploymentRateNormalized = 0;
     }
 
+    if (filter.leasurePerAreaFiltered) {
+        filterNumber++;
+        leasurePerAreaMin = Math.min(...counties.map(county => parseFloat(county.leasurePerArea)));
+        leasurePerAreaMax = Math.max(...counties.map(county => parseFloat(county.leasurePerArea)));
+        leasurePerAreaNormalized = (county.leasurePerArea - leasurePerAreaMin) / (leasurePerAreaMax - leasurePerAreaMin);
+    } else {
+        leasurePerAreaNormalized = 0;
+    }
+
     // Combine the normalized values with equal weight
-    const combinedNormalizedPrice = (rentalNormalizedPrice + landNormalizedPrice + disposableIncomeNormalizedPrice + populationDensityNormalized + unemploymentRateNormalized) / filterNumber;
+    const combinedNormalizedPrice = (rentalNormalizedPrice + landNormalizedPrice + disposableIncomeNormalizedPrice + populationDensityNormalized + unemploymentRateNormalized + leasurePerAreaNormalized) / filterNumber;
 
     // RGB values for the color scale
     const lowColor = [55, 196, 116]; // RGB for #37C474

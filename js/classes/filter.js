@@ -1,12 +1,13 @@
 import { getMaxValue, getMinValue } from '../countyDisplay';
 
 export default class Filter {
-    constructor(rentalPriceFiltered, landPriceFiltered, disposableIncomeFiltered, populationDensityFiltered, unemploymentRateFiltered) {
+    constructor(rentalPriceFiltered, landPriceFiltered, disposableIncomeFiltered, populationDensityFiltered, unemploymentRateFiltered, leasurePerAreaFiltered) {
         this._rentalPriceFiltered = rentalPriceFiltered;
         this._landPriceFiltered = landPriceFiltered;
         this._disposableIncomeFiltered = disposableIncomeFiltered;
         this._populationDensityFiltered = populationDensityFiltered;
         this._unemploymentRateFiltered = unemploymentRateFiltered;
+        this._leasurePerAreaFiltered = leasurePerAreaFiltered;
         this._minRentalPrice;
         this._maxRentalPrice;
         this._minDisposableIncome;
@@ -70,6 +71,14 @@ export default class Filter {
 
     set unemploymentRateFiltered(unemploymentRateFiltered) {
         this._unemploymentRateFiltered = unemploymentRateFiltered;
+    }
+
+    get leasurePerAreaFiltered() {
+        return this._leasurePerAreaFiltered;
+    }
+
+    set leasurePerAreaFiltered(leasurePerAreaFiltered) {
+        this._leasurePerAreaFiltered = leasurePerAreaFiltered;
     }
 
     get minRentalPrice() {

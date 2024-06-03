@@ -1,5 +1,5 @@
 export default class County {
-  constructor(id, name, federalState, rentalPriceNumberOfOffersAnalysed, rentalPricePerSquareMeter, landPricePerSquareMeter, disposableIncome, populationDensity, unemploymentRate) {
+  constructor(id, name, federalState, rentalPriceNumberOfOffersAnalysed, rentalPricePerSquareMeter, landPricePerSquareMeter, disposableIncome, populationDensity, unemploymentRate, leasurePerArea) {
     this._id = id;
     this._name = name;
     this._federalState = federalState;
@@ -9,6 +9,7 @@ export default class County {
     this._disposableIncome = disposableIncome;
     this._populationDensity = populationDensity;
     this._unemploymentRate = unemploymentRate;
+    this._leasurePerArea = leasurePerArea;
     this._color = "#1B76FF"; // default color
   }
 
@@ -46,6 +47,10 @@ export default class County {
 
   get unemploymentRate() {
     return this._unemploymentRate;
+  }
+
+  get leasurePerArea() {
+    return this._leasurePerArea;
   }
 
   get color() {
