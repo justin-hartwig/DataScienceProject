@@ -12,8 +12,16 @@ router.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '..', 'html', 'index.html'));
 });
 
-router.get('/explore', function (req, res) {
-    res.sendFile(path.join(__dirname, '..', 'html', 'explore.html'));
+router.get('/app', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'html', 'app.html'));
+});
+
+router.get('/impressum', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'html', 'impressum.html'));
+});
+
+router.get('/datenquellen', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'html', 'datenquellen.html'));
 });
 
 async function authenticate() {
@@ -34,8 +42,8 @@ app.use('/counties', require('./routes/counties'));
 app.use('/rentalprices', require('./routes/rentalprices'));
 app.use('/landprices', require('./routes/landprices'));
 app.use('/disposableincomes', require('./routes/disposableincomes'));
-app.use('/unemploymentrates', require('./routes/unemploymentrates'));
 app.use('/populationdensities', require('./routes/populationdensities'));
+app.use('/unemploymentrates', require('./routes/unemploymentrates'));
 app.use('/leasureperareas', require('./routes/leasureperareas'));
 
 //add the router 
