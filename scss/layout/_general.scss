@@ -15,3 +15,30 @@ img {
 img.rounded {
     border-radius: $default-border-radius !important;
 }
+
+//bootstrap overriddes
+.mt-10 {
+    margin-top: 10rem;
+}
+
+.mb-10 {
+    margin-bottom: 10rem;
+}
+
+.my-10 {
+    margin-top: 10rem;
+    margin-bottom: 10rem;
+}
+
+@media (min-width: 1400px) {
+    body {
+        .container-xxl, 
+        .container-xl, 
+        .container-lg, 
+        .container-md, 
+        .container-sm, 
+        .container {
+            max-width: 1672px;
+        }
+    }
+}
