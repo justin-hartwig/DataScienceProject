@@ -9,6 +9,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/dist/', // This will ensure the images are referenced correctly in the CSS
     library: "my-library",
     libraryTarget: "umd"
   },
@@ -33,17 +34,11 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: 'images/',
-              publicPath: 'images/'
-            },
-          },
-        ],
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[name][ext]'
+        }
       }
     ]
   },
@@ -53,7 +48,8 @@ module.exports = {
     }),
     new CopyPlugin({
       patterns: [
-        { from: 'node_modules/leaflet/dist/images', to: 'images' }
+        { from: 'node_modules/leaflet/dist/images', to: 'images' },
+        { from: 'assets/images', to: 'images' }
       ],
     }),
     new webpack.DefinePlugin({
