@@ -39,6 +39,13 @@ module.exports = {
         generator: {
           filename: 'images/[name][ext]'
         }
+      },
+      {
+        test: /\.(woff(2)?|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[name][ext]'
+        }
       }
     ]
   },
@@ -49,7 +56,8 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: 'node_modules/leaflet/dist/images', to: 'images' },
-        { from: 'assets/images', to: 'images' }
+        { from: 'assets/images', to: 'images' },
+        { from: 'assets/fonts', to: 'fonts'}
       ],
     }),
     new webpack.DefinePlugin({
