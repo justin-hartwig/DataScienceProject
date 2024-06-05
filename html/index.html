@@ -5,6 +5,7 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="../css/main.css">
+	<link rel="icon" type="image/png" href="/dist/images/Favicon-Heimsucher.png">
 	<title>Data Science Project</title>
 </head>
 
@@ -12,7 +13,7 @@
 	<div class="container-fluid">
 		<nav class="navbar navbar-expand-lg navbar-light">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="/app" title="Zur App">
+				<a class="navbar-brand" href="/" title="Zur App">
 					<img src="/dist/images/Logo-Heimsucher.svg" alt="Logo Heimsucher">
 				</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -100,17 +101,61 @@
 				<div class="teaser-box">
 					<p>Die Daten auf HeimSucher stammen aus drei vertrauenswürdigen Quellen:</p>
 					<ul>
-						<li><a href="https://www.deutschlandatlas.bund.de/" title="Öffnet einen externen Link in einem neuen Fenster zur Seite Deutschlandatlas">Deutschlandatlas</a>: Detaillierte Karten, Statistiken und Texte zur Bundesrepublik Deutschland aus dem Jahr 2022</li>
-						<li><a href="https://regionalatlas.statistikportal.de/" title="Öffnet einen externen Link in einem neuen Fenster zur Seite Regionalatlas">Regionalatlas des Statistikportals</a>: Umfassender Datenbestand zu allen Themenbereichen der Statistik aus dem Jahr 2022</li>
-						<li><a href="https://www.mietpreise.info/" title="Öffnet einen externen Link in einem neuen Fenster zur Seite mietpreise.info">mietpreise.info</a>: Mietspiegel / Mietpreis pro m² in Deutschland aus dem Jahr 2023</li>
+						<li><a href="https://www.deutschlandatlas.bund.de/"
+								title="Öffnet einen externen Link in einem neuen Fenster zur Seite Deutschlandatlas">Deutschlandatlas</a>:
+							Detaillierte Karten, Statistiken und Texte zur Bundesrepublik Deutschland aus dem Jahr 2022
+						</li>
+						<li><a href="https://regionalatlas.statistikportal.de/"
+								title="Öffnet einen externen Link in einem neuen Fenster zur Seite Regionalatlas">Regionalatlas
+								des Statistikportals</a>: Umfassender Datenbestand zu allen Themenbereichen der
+							Statistik aus dem Jahr 2022</li>
+						<li><a href="https://www.mietpreise.info/"
+								title="Öffnet einen externen Link in einem neuen Fenster zur Seite mietpreise.info">mietpreise.info</a>:
+							Mietspiegel / Mietpreis pro m² in Deutschland aus dem Jahr 2023</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-
-		<script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script src="../node_modules/d3/dist/d3.min.js"></script>
-		<script src="../dist/bundle.js"></script>
+	</div>
+	<div class="footer container py-5">
+		<div class="row">
+			<div class="col-12 col-lg-3 d-flex flex-column justify-content-around align-items-center">
+				<a href="https://www.mosbach.dhbw.de/studium/studienangebot-bachelor/medien-onlinemedien/studieninhalte-profil/"
+					title="Öffnet einen externen Link zur Seite Onlinemedien"><img
+						src="/dist/images/Logo-Onlinemedien.jpg" alt="Logo Onlinemedien"></a>
+				<img class="logo-heimsucher" src="/dist/images/Logo-Heimsucher-white.svg" alt="Logo Heimsucher">
+				<a href="https://www.mosbach.dhbw.de/" title="Öffnet einen externen Link zur Seite DHBW Mosbach"><img
+						src="/dist/images/Logo-DHBW-Mosbach.png" alt="Logo DHBW Mosbach"></a>
+			</div>
+			<div class="col-12 col-lg-3">
+				<a class="nav-link active" aria-current="page" href="/" title="Zur Story">Story</a>
+				<a class="nav-link" href="/app" title="Zur App">App</a>
+				<a class="nav-link" href="/datenquellen" title="Zu den Datenquellen">Datenquellen</a>
+				<a class="nav-link" href="/impressum" title="Zum Impressum">Impressum</a>
+			</div>
+			<div class="col-12 col-lg-3">
+				<p><b>Ein Projekt von</b><br>
+					Jacqueline Teufel<br>
+					Maximilian Dacho<br>
+					Justin Hartwig<br>
+					Antje Schmollinger<br>
+					Olga Merz<br>
+					Robert Reifschneider<br>
+					Anna-Lena Kubat<br>
+				</p>
+			</div>
+			<div class="col-12 col-lg-3">
+				<p>Ein Studienprojekt der DHBW Mosbach des Studienganges Onlinemedien.</p>
+				<p><b>DHBW Mosbach<br>
+						Oberer Mühlenweg 2 - 6<br>
+						74821 Mosbach</b>
+				</p>
+			</div>
+		</div>
+	</div>
+	<script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="../node_modules/d3/dist/d3.min.js"></script>
+	<script src="../dist/bundle.js"></script>
 </body>
 
 </html>
