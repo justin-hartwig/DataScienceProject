@@ -20,10 +20,6 @@ router.get('/impressum', function (req, res) {
     res.sendFile(path.join(__dirname, '..', 'html', 'impressum.html'));
 });
 
-router.get('/datenquellen', function (req, res) {
-    res.sendFile(path.join(__dirname, '..', 'html', 'datenquellen.html'));
-});
-
 async function authenticate() {
     try {
         await db.authenticate();
