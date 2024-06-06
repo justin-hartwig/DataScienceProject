@@ -23,4 +23,18 @@ async function initializeApp() {
     });
 }
 
-initializeApp();
+function initializeStory() {
+    console.log("Story initalized")
+}
+
+function handleRoutesForJS() {
+    const url = window.location.href;
+    if (url.includes("app")) {
+        initializeApp();
+    } else if (url.endsWith('/') || url === window.location.origin) {
+        initializeStory()
+    }
+}
+
+// Execute the function
+handleRoutesForJS();
