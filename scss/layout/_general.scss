@@ -18,16 +18,16 @@ img.rounded {
 
 //bootstrap overriddes
 .mt-10 {
-    margin-top: 10rem;
+    margin-top: $m-10;
 }
 
 .mb-10 {
-    margin-bottom: 10rem;
+    margin-bottom: $m-10;
 }
 
 .my-10 {
-    margin-top: 10rem;
-    margin-bottom: 10rem;
+    margin-top: $m-10;
+    margin-bottom: $m-10;
 }
 
 @media (min-width: 1400px) {

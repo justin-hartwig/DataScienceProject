@@ -45,7 +45,7 @@
 		<div class="row">
 			<div class="col-12">
 				<div class="header-img text-center py-5">
-					<p class="h1">HeimSucher</h1>
+					<h1>HeimSucher</h1>
 					<p>Du kennst uns schon? Dann wechsle direkt zur App.</p>
 					<a class="btn btn-primary" href="/app" role="button">Direkt zur App</a>
 				</div>
@@ -55,14 +55,14 @@
 
 	<div class="container my-10">
 		<div class="row">
-			<div class="col-12 col-lg-7">
+			<div class="col-12 col-lg-7 gap-3">
 				<p class="teaser">Über uns</p>
-				<h1>Deinen perfekten Wohlfühlort entdecken!</h1>
-				<p><b>HeimSucher</b> ist Dein umfassendes Informationsportal rund um die deutschen Landkreise. Mit
+				<h2 class="mb-3">Deinen perfekten Wohlfühlort entdecken!</h2>
+				<p class="mb-5"><b>HeimSucher</b> ist Dein umfassendes Informationsportal rund um die deutschen Landkreise. Mit
 					unserer interaktiven Data-Story und dem praktischen Suchtool findest Du schnell und einfach den
 					<b>perfekten Ort zum Leben, Arbeiten oder Investieren.</b>
 				</p>
-				<h3>Umfassende Informationen auf einen Blick:</h3>
+				<h3 class="mb-3">Umfassende Informationen auf einen Blick:</h3>
 				<ul>
 					<li><b>Einkommen:</b> Informiere dich über das durchschnittliche Einkommen in verschiedenen
 						Landkreisen.</li>
@@ -84,9 +84,9 @@
 
 	<div class="container my-10">
 		<div class="row">
-			<div class="col-12 col-lg-6">
+			<div class="col-12 col-lg-6 mb-5">
 				<p class="teaser">Warum</p>
-				<div class="teaser-box">
+				<div class="teaser-box p-4">
 					<p>Bezahlbarer Wohnraum ist in Deutschland Mangelware. Die hohen Mietpreise und der Wohnungsmangel
 						machen es für viele Menschen schwierig, eine geeignete Wohnung zu finden.</p>
 					<p>
@@ -96,9 +96,9 @@
 						Deutschland verbessern!</p>
 				</div>
 			</div>
-			<div class="col-12 col-lg-6">
-				<p class="teaser">Quellen</p>
-				<div class="teaser-box">
+			<div class="col-12 col-lg-6 mb-5">
+				<p id="sources" class="teaser">Quellen</p>
+				<div class="teaser-box p-4">
 					<p>Die Daten auf HeimSucher stammen aus drei vertrauenswürdigen Quellen:</p>
 					<ul>
 						<li><a href="https://www.deutschlandatlas.bund.de/"
@@ -117,39 +117,41 @@
 			</div>
 		</div>
 	</div>
-	<div class="footer container py-5">
-		<div class="row">
-			<div class="col-12 col-lg-3 d-flex flex-column justify-content-around align-items-center">
-				<a href="https://www.mosbach.dhbw.de/studium/studienangebot-bachelor/medien-onlinemedien/studieninhalte-profil/"
-					title="Öffnet einen externen Link zur Seite Onlinemedien"><img
-						src="/dist/images/Logo-Onlinemedien.jpg" alt="Logo Onlinemedien"></a>
-				<img class="logo-heimsucher" src="/dist/images/Logo-Heimsucher-white.svg" alt="Logo Heimsucher">
-				<a href="https://www.mosbach.dhbw.de/" title="Öffnet einen externen Link zur Seite DHBW Mosbach"><img
-						src="/dist/images/Logo-DHBW-Mosbach.png" alt="Logo DHBW Mosbach"></a>
-			</div>
-			<div class="col-12 col-lg-3">
-				<a class="nav-link active" aria-current="page" href="/" title="Zur Story">Story</a>
-				<a class="nav-link" href="/app" title="Zur App">App</a>
-				<a class="nav-link" href="/datenquellen" title="Zu den Datenquellen">Datenquellen</a>
-				<a class="nav-link" href="/impressum" title="Zum Impressum">Impressum</a>
-			</div>
-			<div class="col-12 col-lg-3">
-				<p><b>Ein Projekt von</b><br>
-					Jacqueline Teufel<br>
-					Maximilian Dacho<br>
-					Justin Hartwig<br>
-					Antje Schmollinger<br>
-					Olga Merz<br>
-					Robert Reifschneider<br>
-					Anna-Lena Kubat<br>
-				</p>
-			</div>
-			<div class="col-12 col-lg-3">
-				<p>Ein Studienprojekt der DHBW Mosbach des Studienganges Onlinemedien.</p>
-				<p><b>DHBW Mosbach<br>
-						Oberer Mühlenweg 2 - 6<br>
-						74821 Mosbach</b>
-				</p>
+	<div class="container py-5">
+		<div class="footer p-4">
+			<div class="row">
+				<div class="col-12 col-lg-3 d-flex flex-column justify-content-around align-items-center">
+					<a href="https://www.mosbach.dhbw.de/studium/studienangebot-bachelor/medien-onlinemedien/studieninhalte-profil/"
+						title="Öffnet einen externen Link zur Seite Onlinemedien"><img
+							src="/dist/images/Logo-Onlinemedien.jpg" alt="Logo Onlinemedien"></a>
+					<img class="logo-heimsucher" src="/dist/images/Logo-Heimsucher-white.svg" alt="Logo Heimsucher">
+					<a href="https://www.mosbach.dhbw.de/" title="Öffnet einen externen Link zur Seite DHBW Mosbach"><img
+							src="/dist/images/Logo-DHBW-Mosbach.png" alt="Logo DHBW Mosbach"></a>
+				</div>
+				<div class="col-12 col-lg-3">
+					<a class="nav-link active" aria-current="page" href="/" title="Zur Story">Story</a>
+					<a class="nav-link" href="/app" title="Zur App">App</a>
+					<a class="nav-link" href="/datenquellen" title="Zu den Datenquellen">Datenquellen</a>
+					<a class="nav-link" href="/impressum" title="Zum Impressum">Impressum</a>
+				</div>
+				<div class="col-12 col-lg-3">
+					<p><b>Ein Projekt von</b><br>
+						Jacqueline Teufel<br>
+						Maximilian Dacho<br>
+						Justin Hartwig<br>
+						Antje Schmollinger<br>
+						Olga Merz<br>
+						Robert Reifschneider<br>
+						Anna-Lena Kubat<br>
+					</p>
+				</div>
+				<div class="col-12 col-lg-3">
+					<p>Ein Studienprojekt der<br> DHBW Mosbach des<br> Studienganges Onlinemedien.</p>
+					<p class="mb-0"><b>DHBW Mosbach<br>
+							Oberer Mühlenweg 2 - 6<br>
+							74821 Mosbach</b>
+					</p>
+				</div>
 			</div>
 		</div>
 	</div>

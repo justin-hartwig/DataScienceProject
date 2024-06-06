@@ -15,6 +15,17 @@ label {
     font-family: $default-font-fmaily;
 }
 
+body,
+a,
+p,
+input,
+select,
+textarea,
+label {
+    font-size: $default-font-size;
+    line-height: $defualt-line-height;
+}
+
 h1,
 h2,
 h3,
@@ -24,10 +35,40 @@ h6 {
     font-weight: 700;
 }
 
+h1,
 .h1 {
     font-size: $h1-font-size;
 }
 
+h2,
+.h2 {
+    font-size: $h2-font-size;
+}
+
+h3,
+.h3 {
+    font-size: $h3-font-size;
+}
+
+h4,
+.h4 {
+    font-size: $h4-font-size;
+}
+
+h5,
+.h5 {
+    font-size: $h5-font-size;
+}
+
+h6,
+.h6 {
+    font-size: $h6-font-size;
+}
+
 .teaser {
     text-transform: uppercase;
+}
+
+ul li {
+    margin-bottom: 0.5rem;
 }

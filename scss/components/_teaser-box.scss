@@ -1,6 +1,9 @@
 .teaser-box {
     background-color: $white;
-    padding: 2rem;
     height: 100%;
     border-radius: $default-border-radius;
+
+    @media screen and (max-width: 992px) {
+        height: unset;
+    }
 }
