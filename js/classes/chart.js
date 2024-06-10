@@ -95,7 +95,7 @@ export default class Chart {
         svg.append('path')
             .datum(pastData)
             .attr('fill', 'none')
-            .attr('stroke', 'steelblue')
+            .attr('stroke', '#1B76FF')
             .attr('stroke-width', 2)
             .attr('d', line);
     
@@ -140,7 +140,7 @@ export default class Chart {
             .attr("cx", d => x(d.year))
             .attr("cy", d => y(d.value))
             .attr("r", 4)
-            .attr("fill", "steelblue")
+            .attr("fill", "#1B76FF")
             .attr("stroke", "none")
             .on("mouseover", function (event, d) {
                 d3.select(this).attr("r", 6).attr("fill", "#F4D227");
@@ -150,7 +150,7 @@ export default class Chart {
                     .style("top", (event.pageY - 28) + "px");
             })
             .on("mouseout", function (d) {
-                d3.select(this).attr("r", 4).attr("fill", "steelblue");
+                d3.select(this).attr("r", 4).attr("fill", "#1B76FF");
                 tooltip.transition().duration(500).style("opacity", 0);
             });
     
