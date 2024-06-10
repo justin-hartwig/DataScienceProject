@@ -1,0 +1,13 @@
+.chart {
+    width: 100%;
+    height: 300px;
+
+    text {
+        font-family: $default-font-family;
+        fill: $primary-text;
+    }   
+}
+
+#prediction-housingmarket {
+    height: 400px;
+}

@@ -1,0 +1,9 @@
+.tooltip {
+    padding: 1rem;
+    border: none;
+    background: $white;
+    font-family: $default-font-family;
+    border-radius: $border-radius-small;
+    pointer-events: none;
+    box-shadow: $default-box-shadow;
+} 

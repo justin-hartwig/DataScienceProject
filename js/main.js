@@ -3,6 +3,7 @@ import '../scss/main.scss';
 
 // Imports JS
 import { requestCountyData } from './countyDisplay';
+import { initializeCharts } from './chartDisplay';
 import { drawMainMap } from './openStreetMapLeaflet';
 import { initializeSliders } from './noUiSlider';
 import { initializeButtons } from './buttons';
@@ -24,7 +25,7 @@ async function initializeApp() {
 }
 
 function initializeStory() {
-    console.log("Story initalized")
+    initializeCharts();
 }
 
 function handleRoutesForJS() {
@@ -32,7 +33,7 @@ function handleRoutesForJS() {
     if (url.includes("app")) {
         initializeApp();
     } else if (url.endsWith('/') || url === window.location.origin) {
-        initializeStory()
+        initializeStory();
     }
 }
 
