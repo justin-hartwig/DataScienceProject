@@ -123,7 +123,7 @@ export default class Chart {
             .attr('text-anchor', 'middle')
             .style("font-family", "Inter")
             .style('font-weight', 'bold')
-            .text('Neue Wohnungen pro 1000 Einwohner');
+            .text('Neue Wohnungen pro 1.000 Bürger');
     
         // Create a tooltip div that is hidden by default
         const tooltip = d3.select("body").append("div")
