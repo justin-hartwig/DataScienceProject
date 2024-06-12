@@ -24,7 +24,6 @@ export default class Chart {
     async initializeChart() {
         await this.requestData();
         this._chartElement = document.getElementById(this._chartId);
-        console.log(this._data);
         this.displayChart();
     }
 
