@@ -1,10 +1,12 @@
+import { revealChart } from './chart';
 
 export default class QuizQuestion {
-    constructor(questionId, correctAnswer, answerText, chartId) {
+    constructor(questionId, correctAnswer, answerText, chartId, chartObject) {
         this._questionId = questionId;
         this._correctAnswer = correctAnswer;
         this._answerText = answerText;
         this._chartId = chartId;
+        this._chartObject = chartObject;
         this._questionElement;
         this._radioButtons;
         this._chartElement;
@@ -28,6 +30,10 @@ export default class QuizQuestion {
         return this._answerText;
     }
 
+    get chartObject() {
+        return this._chartObject;
+    }
+
     initializeQuestion() {
         this._questionElement = document.getElementById(this._questionId);
         this._radioButtons = this._questionElement.querySelectorAll(".form-check-input");
@@ -35,7 +41,9 @@ export default class QuizQuestion {
         this._answerElement = this._questionElement.querySelector(".quiz-question-result");
 
         this._radioButtons.forEach(radio => {
-            radio.addEventListener('change', () => this.evaluateAnswer(radio));
+            radio.addEventListener('change', () => {
+                this.evaluateAnswer(radio);
+            });
         });
     }
 
@@ -49,6 +57,7 @@ export default class QuizQuestion {
         if (selectedAnswerId === this._correctAnswer) {
             spanElement.className = 'quiz-right-answer';
             spanElement.textContent = this._answerText;
+            this._chartObject.revealChart();
         } else {
             spanElement.className = 'quiz-wrong-answer';
             spanElement.textContent = this._wrongAnswerText;

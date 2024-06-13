@@ -6,6 +6,23 @@
         font-family: $default-font-family;
         fill: $primary-text;
     }   
+
+    &.hidden {
+        .hidden-chart-text {
+            display: flex;
+        }
+    }
+
+    .hidden-chart-text {
+        display: none;
+        background-color: $white-transparency;
+        height: 100%;
+
+        p {
+            width: max-content;
+            margin: auto;
+        }
+    }
 }
 
 #prediction-housingmarket {

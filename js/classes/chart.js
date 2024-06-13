@@ -39,7 +39,13 @@ export default class Chart {
     displayChart() {
         if (this._chartType == "predictionHousingmarket") {
             this.displayPredictionHousingMarketChart();
+        } else if (this._chartType == "disposableIncomeMean") {
+            this.displayDisposableIncomeMean();
         }
+    }
+
+    revealChart() {
+        this._chartElement.classList.remove("hidden");
     }
 
     displayPredictionHousingMarketChart() {
@@ -47,49 +53,49 @@ export default class Chart {
             year: +d.year,
             value: +d.newappartmentsper1000citizens
         }));
-    
+
         // Clear existing chart before redrawing
         d3.select(this._chartElement).selectAll("*").remove();
-    
+
         const margin = { top: 20, right: 30, bottom: 60, left: 60 }; // Increase left margin
         const width = this._chartElement.clientWidth - margin.left - margin.right;
         const height = this._chartElement.clientHeight - margin.top - margin.bottom;
-    
+
         const svg = d3.select(this._chartElement)
             .append('svg')
             .attr('width', width + margin.left + margin.right)
             .attr('height', height + margin.top + margin.bottom)
             .append('g')
             .attr('transform', `translate(${margin.left},${margin.top})`);
-    
+
         const x = d3.scaleLinear()
             .domain(d3.extent(data, d => d.year))
             .range([0, width]);
-    
+
         const y = d3.scaleLinear()
             .domain([0, d3.max(data, d => d.value)])
             .nice()
             .range([height, 0]);
-    
+
         svg.append('g')
             .attr('transform', `translate(0,${height})`)
             .call(d3.axisBottom(x).tickFormat(d3.format("d")))
             .selectAll("text")
             .style("font-family", "Inter")
             .attr('dy', '1em'); // Move text down
-    
+
         svg.append('g')
             .call(d3.axisLeft(y))
             .selectAll("text")
             .style("font-family", "Inter");
-    
+
         const line = d3.line()
             .x(d => x(d.year))
             .y(d => y(d.value));
-    
+
         const pastData = data.filter(d => d.year <= 2023);
         const futureData = data.filter(d => d.year >= 2023);
-    
+
         // Draw the past line
         svg.append('path')
             .datum(pastData)
@@ -97,7 +103,7 @@ export default class Chart {
             .attr('stroke', '#1B76FF')
             .attr('stroke-width', 2)
             .attr('d', line);
-    
+
         // Draw the future line
         svg.append('path')
             .datum(futureData)
@@ -106,7 +112,7 @@ export default class Chart {
             .attr('stroke-width', 2)
             .attr('stroke-dasharray', '4,4')
             .attr('d', line);
-    
+
         svg.append('text')
             .attr('x', width / 2)
             .attr('y', height + margin.bottom)
@@ -114,7 +120,7 @@ export default class Chart {
             .style("font-family", "Inter")
             .style('font-weight', 'bold')
             .text('Jahr');
-    
+
         svg.append('text')
             .attr('transform', 'rotate(-90)')
             .attr('x', -height / 2)
@@ -123,14 +129,14 @@ export default class Chart {
             .style("font-family", "Inter")
             .style('font-weight', 'bold')
             .text('Neue Wohnungen pro 1.000 Bürger');
-    
+
         // Create a tooltip div that is hidden by default
         const tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("position", "absolute")
             .style("pointer-events", "none")
             .style("opacity", 0);
-    
+
         // Add circles for past data points and interactions
         svg.selectAll("circle.past")
             .data(pastData)
@@ -152,7 +158,7 @@ export default class Chart {
                 d3.select(this).attr("r", 4).attr("fill", "#1B76FF");
                 tooltip.transition().duration(500).style("opacity", 0);
             });
-    
+
         // Add circles for future data points and interactions
         svg.selectAll("circle.future")
             .data(futureData)
@@ -174,5 +180,9 @@ export default class Chart {
                 d3.select(this).attr("r", 4).attr("fill", "#37C474");
                 tooltip.transition().duration(500).style("opacity", 0);
             });
-    }    
+    }
+
+    displayDisposableIncomeMean() { 
+        console.log("displayDisposableIncomeMean")
+    }
 }

@@ -120,68 +120,27 @@
 	</div>
 	<div class="container my-10">
 		<div class="row">
-			<div class="col-12 col-lg-6">
-				<p class="teaser">Simulation</p>
-				<h2 class="mb-5">Wie wird sich der <span class="text-highlight">Wohnungsmarkt</span> vorrausichtlich
-					entiwckeln?</h2>
-			</div>
-			<div class="col-6">
+			<div class="col-12 col-lg-12">
+				<h2 class="mb-5 text-center"><span class="text-highlight">Das HeimSucher Labor</span><br> Entdecke nützliche Informationen zu Wohnen in Deutschland</h2>
+				<p class="text-center">Das HeimSucher Team hat anhand verschiedener Datenwissenschafts Methoden interessante Fakten über den Wohnungsarkt in Deutschland heraus gefunden und diese in spannenden Grafiken dargestellt. Schau sie dir an! Vielleicht lernst du ja etwas neues dabei.</p>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-12 col-lg-6 mb-5 mb-lg-0">
-				<div id="prediction-housingmarket" class="chart"></div>
-			</div>
-			<div class="col-12 col-lg-5 offset-lg-1">
-				<p>Diese Simulation zeigt die <b>Anzahl der Wohnungen pro 1.000 Bürger in Deutschland für die nächsten
-						10 Jahre</b>. Historische Daten und vier Hauptfaktoren (Netto-Migration, neu gebaute Wohnungen,
-					Bevölkerungsdichte und Geburten-/Sterbeüberschuss) werden verwendet, um zukünftige Werte
-					vorherzusagen. Ein Zufallsfaktor sorgt für realistischere Ergebnisse.</p>
-				<p>Die Vorhersage zeigt einen <b>leichten Anstieg</b> der Wohnungen pro 1.000 Bürger. Dies deutet darauf
-					hin, dass in den nächsten 10 Jahren mehr Wohnungen gebaut werden und verfügbar sind.</p>
-			</div>
-		</div>
-	</div>
-	<div class="container my-10">
-		<div class="row">
-			<div class="col-12 col-lg-6">
-				<p class="teaser">Strukturanalyse</p>
-				<h2 class="mb-5">Einflussfaktoren auf den Mietpreis - <br>
-					Einblicke durch das <span class="text-highlight">Strukturgleichungsmodell</span></h2>
-			</div>
-			<div class="col-6">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-12 col-lg-6 mb-5 mb-lg-0">
-				<img src="/dist/images/Strukturgleichungsmodell-Mietpreise.svg" alt="Strukturgleichungsmodell Mietpreis">
-			</div>
-			<div class="col-12 col-lg-5 offset-lg-1">
-				<p>Das Strukturgleichungsmodell (SEM) zeigt, die Beziehungen der verschiedenen Faktoren im Zusammenhang mit Mietpreisen. Es umfasst sechs Hauptvariablen: Verfügbares Einkommen, Durchschnittsalter, Freizeitfläche, Bevölkerungsdichte und Mietpreis.</p>
-
-				<p>Das verfügbare Einkommen hat einen direkten positiven Einfluss auf den Mietpreis, während das Durchschnittsalter sowohl das verfügbare Einkommen als auch die Bevölkerungsdichte beeinflusst. Eine höhere Bevölkerungsdichte führt zu höheren Mietpreisen und wirkt sich negativ auf das Durchschnittsalter aus. Die Freizeitfläche hat einen positiven Einfluss auf das Durchschnittsalter.</p>
-				
-				<p>Dieses Modell zeigt, wie verschiedene sozioökonomische und demografische Faktoren zusammenwirken, um die Mietpreise zu beeinflussen. </p>
-			</div>
-		</div>
-	</div>
+	</div> 
 	<div class="container my-10">
 		<div class="row">
 			<div class="col-12 col-lg-6">
 				<p class="teaser">Statistik</p>
-				<h2 class="mb-5"><span class="text-highlight">Quiz:</span> Welches <span
-						class="text-highlight">verfügbare Einkommen</span> haben die Deutschen?</h2>
+				<h3 class="mb-5">Das exklusive <span class="text-highlight">HeimSucher Statistik-Quiz</span>
+					</h3>
 			</div>
 			<div class="col-6">
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-12 col-lg-6 mb-5 mb-lg-0">
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-					et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-					aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-					culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Du möchtest dein Wissen über den aktuellen Wohnungsmarkt in Deutschland testen? Dann nehme jetzt bei unserem HeimSucher Quiz teil!
+					Egal ob Immobilien-Profi oder Newbie auf Wohnungssuche – dieses Quiz bietet interessante Einblicke unterstützt mit spannenden Darstellungen!
+					</p>
 			</div>
 			<div class="col-12 col-lg-5 offset-lg-1">
 				<img class="rounded" src="/dist/images/Woman-sitting-in-chair.jpg" alt="Frau sitzt in Stuhl">
@@ -191,11 +150,16 @@
 	<div class="container my-10">
 		<div class="row">
 			<div class="col-12 col-lg-6 mb-5 mb-lg-0">
-				<div id="disposable-income-mean" class="chart"></div>
+				<div id="disposable-income-mean" class="chart hidden">
+					<div class="hidden-chart-text">
+						<p class="text-center"><b>Die Grafik ist versteckt.</b><br>
+							 Beantworte die Frage richtig um sie anzuzeigen.</p>
+					</div>
+				</div>
 			</div>
 			<div class="col-12 col-lg-5 offset-lg-1">
 				<div id="quiz-question-1">
-					<p>Bayern ist das Bundesland mit dem höchsten verfügbaren Einkommen pro Kopf. Doch was ist nun das durchschnittliche verfügbare Einkommen pro Kopf in Deutschland?</p>
+					<p>Mit 26.764€ ist Bayern das Bundesland mit dem höchsten verfügbaren Einkommen pro Kopf. Doch was ist das durchschnittliche verfügbare Einkommen pro Kopf in Deutschland?</p>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="quizQuestion1" id="quizQuestion1Answer1">
 						<label class="form-check-label" for="quizQuestion1Answer1">
@@ -219,6 +183,54 @@
 			</div>
 		</div>
 	</div>
+	<div class="container my-10">
+		<div class="row">
+			<div class="col-12 col-lg-6">
+				<p class="teaser">Simulation</p>
+				<h3 class="mb-5">Wie wird sich der <span class="text-highlight">Wohnungsmarkt</span> vorrausichtlich
+					entiwckeln?</h3>
+			</div>
+			<div class="col-6">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-lg-6 mb-5 mb-lg-0">
+				<div id="prediction-housingmarket" class="chart"></div>
+			</div>
+			<div class="col-12 col-lg-5 offset-lg-1">
+				<p>Diese Simulation zeigt die <b>Anzahl der Wohnungen pro 1.000 Bürger in Deutschland für die nächsten
+						10 Jahre</b>. Historische Daten und vier Hauptfaktoren (Netto-Migration, neu gebaute Wohnungen,
+					Bevölkerungsdichte und Geburten-/Sterbeüberschuss) werden verwendet, um zukünftige Werte
+					vorherzusagen. Ein Zufallsfaktor sorgt für realistischere Ergebnisse.</p>
+				<p>Die Vorhersage zeigt einen <b>leichten Anstieg</b> der Wohnungen pro 1.000 Bürger. Dies deutet darauf
+					hin, dass in den nächsten 10 Jahren mehr Wohnungen gebaut werden und verfügbar sind.</p>
+			</div>
+		</div>
+	</div>
+	<div class="container my-10">
+		<div class="row">
+			<div class="col-12 col-lg-6">
+				<p class="teaser">Strukturanalyse</p>
+				<h3 class="mb-5">Einflussfaktoren auf den Mietpreis - <br>
+					Einblicke durch das <span class="text-highlight">Strukturgleichungsmodell</span></h3>
+			</div>
+			<div class="col-6">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-lg-6 mb-5 mb-lg-0">
+				<img src="/dist/images/Strukturgleichungsmodell-Mietpreise.svg" alt="Strukturgleichungsmodell Mietpreis">
+			</div>
+			<div class="col-12 col-lg-5 offset-lg-1">
+				<p>Das Strukturgleichungsmodell (SEM) zeigt, die Beziehungen der verschiedenen Faktoren im Zusammenhang mit Mietpreisen. Es umfasst sechs Hauptvariablen: Verfügbares Einkommen, Durchschnittsalter, Freizeitfläche, Bevölkerungsdichte und Mietpreis.</p>
+
+				<p>Das verfügbare Einkommen hat einen direkten positiven Einfluss auf den Mietpreis, während das Durchschnittsalter sowohl das verfügbare Einkommen als auch die Bevölkerungsdichte beeinflusst. Eine höhere Bevölkerungsdichte führt zu höheren Mietpreisen und wirkt sich negativ auf das Durchschnittsalter aus. Die Freizeitfläche hat einen positiven Einfluss auf das Durchschnittsalter.</p>
+				
+				<p>Dieses Modell zeigt, wie verschiedene sozioökonomische und demografische Faktoren zusammenwirken, um die Mietpreise zu beeinflussen. </p>
+			</div>
+		</div>
+	</div>
+	
 	<div class="container py-5">
 		<div class="footer p-4">
 			<div class="row">
