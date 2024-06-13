@@ -42,8 +42,9 @@ app.use('/populationdensities', require('./routes/populationdensities'));
 app.use('/unemploymentrates', require('./routes/unemploymentrates'));
 app.use('/leasureperareas', require('./routes/leasureperareas'));
 app.use('/simulationhousingmarkets', require('./routes/simulationhousingmarkets'));
+app.use('/rentalpricesstates', require('./routes/rentalpricesstates'));
 
 //add the router 
 app.use('/', router);
 app.listen(process.env.port || 3000);
-console.log('Server Started'); 
+console.log('Server Started');

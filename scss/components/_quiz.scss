@@ -58,3 +58,37 @@
         transform: translateY(0)
     }
 }
+
+.quiz-chart {
+    position: relative;
+
+    &.hidden {
+        .hidden-chart-text {
+            display: flex;
+        }
+    }
+
+    .hidden-chart-text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+        background-color: $white-transparency;
+        backdrop-filter: blur(15px);
+        height: 100%;
+        width: 100%;
+        border-radius: $default-border-radius;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+
+        p {
+            width: max-content;
+            margin: auto;
+        }
+    }
+}
+
+.info-box {
+    border: 3px solid $primary;
+    color: $primary;
+    padding: 1rem;
+}
