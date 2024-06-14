@@ -185,7 +185,112 @@ export default class Chart {
     }
 
     displayDisposableIncomeMean() {
-        console.log("displayDisposableIncomeMean")
+        const data = this._data.map(d => ({
+            state: d.state,
+            income: +d.disposableincome
+        }));
+    
+        // Clear existing chart before redrawing
+        d3.select(this._chartElement).selectAll("*").remove();
+    
+        const margin = { top: 40, right: 30, bottom: 60, left: 200 }; // Adjusted bottom margin
+        const width = this._chartElement.clientWidth - margin.left - margin.right;
+        const height = this._chartElement.clientHeight - margin.top - margin.bottom;
+    
+        const svg = d3.select(this._chartElement)
+            .append('svg')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
+            .append('g')
+            .attr('transform', `translate(${margin.left},${margin.top})`);
+    
+        const x = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.income)])
+            .range([0, width])
+            .nice();
+    
+        const y = d3.scaleBand()
+            .domain(data.map(d => d.state))
+            .range([0, height])
+            .padding(0.1);
+    
+        svg.append('g')
+            .attr('transform', `translate(0,${height})`)
+            .call(d3.axisBottom(x).tickFormat(formatNumberWithThousandSeparator))
+            .selectAll("text")
+            .style("font-family", "Inter")
+            .attr('dy', '1em');
+    
+        svg.append('g')
+            .call(d3.axisLeft(y))
+            .selectAll("text")
+            .style("font-family", "Inter");
+    
+        svg.selectAll(".bar")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", 0)
+            .attr("y", d => y(d.state))
+            .attr("width", d => x(d.income))
+            .attr("height", y.bandwidth())
+            .attr("fill", "#1B76FF")
+            .on("mouseover", function(event, d) {
+                d3.select(this).attr("fill", "#F4D227");
+                tooltip.transition().duration(200).style("opacity", .9);
+                tooltip.html(`Bundesland: ${d.state}<br>Wert: ${formatNumberWithThousandSeparator(d.income)}`)
+                    .style("left", (event.pageX + 5) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mouseout", function(d) {
+                d3.select(this).attr("fill", "#1B76FF");
+                tooltip.transition().duration(500).style("opacity", 0);
+            });
+    
+        const mean = d3.mean(data, d => d.income);
+    
+        svg.append('line')
+            .attr('x1', x(mean))
+            .attr('x2', x(mean))
+            .attr('y1', 0)
+            .attr('y2', height)
+            .attr('stroke', 'red')
+            .attr('stroke-width', 2)
+            .attr('stroke-dasharray', '4,4');
+    
+        svg.append('text')
+            .attr('x', x(mean))
+            .attr('y', -10)
+            .attr('text-anchor', 'middle')
+            .style("font-family", "Inter")
+            .style('font-weight', 'bold')
+            .attr('fill', 'red')
+            .text(`Durschnitt: ${formatNumberWithThousandSeparator(mean.toFixed(0))}`);
+    
+        // Adjust position of x-axis label
+        svg.append('text')
+            .attr('x', width / 2)
+            .attr('y', height + margin.bottom - 10) // Adjusted position to prevent cut-off
+            .attr('text-anchor', 'middle')
+            .style("font-family", "Inter")
+            .style('font-weight', 'bold')
+            .text('Verfügbares Einkommen pro Kopf (€)');
+    
+        svg.append('text')
+            .attr('transform', 'rotate(-90)')
+            .attr('x', -height / 2)
+            .attr('y', -margin.left + 20)
+            .attr('text-anchor', 'middle')
+            .style("font-family", "Inter")
+            .style('font-weight', 'bold')
+            .text('Bundesland');
+    
+        // Create a tooltip div that is hidden by default
+        const tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("position", "absolute")
+            .style("pointer-events", "none")
+            .style("opacity", 0);
     }
 
     displayRentalPricesStatesMedian() {
@@ -296,4 +401,8 @@ export default class Chart {
             .style("pointer-events", "none")
             .style("opacity", 0);
     }    
+}
+
+function formatNumberWithThousandSeparator(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }

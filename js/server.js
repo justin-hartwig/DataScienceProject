@@ -43,6 +43,7 @@ app.use('/unemploymentrates', require('./routes/unemploymentrates'));
 app.use('/leasureperareas', require('./routes/leasureperareas'));
 app.use('/simulationhousingmarkets', require('./routes/simulationhousingmarkets'));
 app.use('/rentalpricesstates', require('./routes/rentalpricesstates'));
+app.use('/disposableincomesstates', require('./routes/disposableincomesstates'));
 
 //add the router 
 app.use('/', router);
