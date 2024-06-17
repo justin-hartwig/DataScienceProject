@@ -4,6 +4,7 @@ let predictionHousingmarketChart;
 export let disposableIncomeMean;
 export let rentalPricesStatesMedian;
 export let correlationAgeAveragePopulationDesity;
+export let bavariaIncomePrognoses;
 let countiesTop10Chart;
 
 export function initializeCharts() {
@@ -11,10 +12,12 @@ export function initializeCharts() {
     disposableIncomeMean = new Chart("disposable-income-mean", "/disposableincomesstates", "disposableIncomeMean");
     rentalPricesStatesMedian = new Chart("rental-prices-states-median", "/rentalpricesstates", "rentalPricesStatesMedian");
     correlationAgeAveragePopulationDesity = new Chart("correlation-ageaverage-populationdesity", "/ageaveragepopulationdesities", "correlationAgeAveragePopulationDesity");
+    bavariaIncomePrognoses = new Chart("bavaria-income-prognoses", "/bavariaincomeprognoses", "bavariaIncomePrognoses");
     countiesTop10Chart = new Chart("counties-top-10", "/countiestop10s", "countiesTop10Chart");
     predictionHousingmarketChart.initializeChart();
     disposableIncomeMean.initializeChart();
     rentalPricesStatesMedian.initializeChart();
     correlationAgeAveragePopulationDesity.initializeChart();
+    bavariaIncomePrognoses.initializeChart();
     countiesTop10Chart.initializeChart();
 }
