@@ -45,6 +45,7 @@ app.use('/simulationhousingmarkets', require('./routes/simulationhousingmarkets'
 app.use('/rentalpricesstates', require('./routes/rentalpricesstates'));
 app.use('/disposableincomesstates', require('./routes/disposableincomesstates'));
 app.use('/ageaveragepopulationdesities', require('./routes/ageaveragepopulationdesities'));
+app.use('/countiestop10s', require('./routes/countiestop10s'));
 
 //add the router 
 app.use('/', router);

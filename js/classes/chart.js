@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import { geoPath, geoMercator } from 'd3-geo';
 
 export default class Chart {
     constructor(chartId, dataSource, chartType) {
@@ -24,7 +25,7 @@ export default class Chart {
     async initializeChart() {
         await this.requestData();
         this._chartElement = document.getElementById(this._chartId);
-        this.displayChart();
+        await this.displayChart();
     }
 
     async requestData() {
@@ -36,7 +37,7 @@ export default class Chart {
         }
     }
 
-    displayChart() {
+    async displayChart() {
         if (this._chartType == "predictionHousingmarket") {
             this.displayPredictionHousingMarketChart();
         } else if (this._chartType == "disposableIncomeMean") {
@@ -45,6 +46,8 @@ export default class Chart {
             this.displayRentalPricesStatesMedian();
         } else if (this._chartType == "correlationAgeAveragePopulationDesity") {
             this.displayCorrelationAgeAveragePopulationDesity();
+        } else if (this._chartType == "countiesTop10Chart") {
+            await this.displayCountiesTop10Chart();
         }
     }
 
@@ -502,7 +505,7 @@ export default class Chart {
     
         svg.append('text')
             .attr('x', width / 2)
-            .attr('y', height + margin.bottom)
+            .attr('y', height + margin.bottom - 10)
             .attr('text-anchor', 'middle')
             .style("font-family", "Inter")
             .style('font-weight', 'bold')
@@ -524,6 +527,11 @@ export default class Chart {
             .style("pointer-events", "none")
             .style("opacity", 0);
     }    
+
+    async displayCountiesTop10Chart() {
+        console.log("displayCountiesTop10Chart")
+    }
+    
 }
 
 function formatNumberWithThousandSeparator(number) {
