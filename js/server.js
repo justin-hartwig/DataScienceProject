@@ -44,6 +44,7 @@ app.use('/leasureperareas', require('./routes/leasureperareas'));
 app.use('/simulationhousingmarkets', require('./routes/simulationhousingmarkets'));
 app.use('/rentalpricesstates', require('./routes/rentalpricesstates'));
 app.use('/disposableincomesstates', require('./routes/disposableincomesstates'));
+app.use('/ageaveragepopulationdesities', require('./routes/ageaveragepopulationdesities'));
 
 //add the router 
 app.use('/', router);
