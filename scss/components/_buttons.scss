@@ -4,6 +4,12 @@
         padding: 0.9rem 2.65rem;
         border-radius: $btn-border-radius;
         font-size: $default-font-size;
+
+        &.btn-small {
+            padding: 0.45rem 1.325rem;
+            border-radius: $border-radius-small;
+            font-size: $small-font-size;
+        }
     }
 }
 

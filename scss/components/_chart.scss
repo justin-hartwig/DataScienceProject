@@ -16,6 +16,8 @@
     height: 400px;
 }
 
-#counties-top-10 {
-    height: 700px;
+#counties-top-10,
+#county-rental-price-impact {
+    height: 600px;
+    background-color: $bg-color;
 }
