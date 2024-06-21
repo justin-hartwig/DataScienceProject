@@ -710,7 +710,7 @@ export default class Chart {
                 return {
                     color: "#F4F6F8",
                     weight: 0.5,
-                    fillColor: countyData ? "#37C474" : "#D9D9D9", // Highlight matched counties
+                    fillColor: countyData ? "#1B76FF" : "#D9D9D9", // Highlight matched counties
                     fillOpacity: 0.6
                 };
             },
@@ -870,7 +870,7 @@ export default class Chart {
                 if (countyImpactData) {
                     const popupContent =
                         `<strong>${countyName}</strong><br>
-                        Impact: ${countyImpactData.impact}`;
+                        Einfluss: ${countyImpactData.impact}`;
                     layer.bindPopup(popupContent);
     
                     layer.on('click', function () {
