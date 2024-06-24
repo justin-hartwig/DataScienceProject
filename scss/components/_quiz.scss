@@ -92,3 +92,74 @@
     color: $primary;
     padding: 1rem;
 }
+
+.quiz-answerd-correct {
+    color: $good-color;
+}
+
+.quiz-answerd-go-on {
+    color: $neutral-color;
+}
+
+.quiz-result-correct {
+    overflow: hidden;
+
+    h2, 
+    p {
+        z-index: 10;
+    }
+
+    #confettis {
+        overflow: hidden;
+        position: absolute;
+        height: calc(100% + 2rem);
+        width: 100%;
+        top: -2rem;
+    }
+    
+    .confetti {
+        left: 50%;
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        transform-origin: left top;
+        animation: confetti 5s ease-in-out -2s infinite;
+    }
+    
+    @keyframes confetti {
+        0% {
+            transform: rotateZ(15deg) rotateY(0deg) translate(0, 0);
+        }
+    
+        25% {
+            transform: rotateZ(5deg) rotateY(360deg) translate(-5vw, 20vh);
+        }
+    
+        50% {
+            transform: rotateZ(15deg) rotateY(720deg) translate(5vw, 60vh);
+        }
+    
+        75% {
+            transform: rotateZ(5deg) rotateY(1080deg) translate(-10vw, 80vh);
+        }
+    
+        100% {
+            transform: rotateZ(15deg) rotateY(1440deg) translate(10vw, 110vh);
+        }
+    }
+    
+    $colors: (
+        #fc0120, #8257e6, #ffbf4d, #E35252, #37C474,
+        #F4D227, #f769ce, #1B76FF, #63b4fc, #f9c4ea
+    );
+
+    @for $i from 1 through 40 {
+        $color: nth($colors, (($i - 1) % length($colors)) + 1);
+        $left: (($i * 2.5) % 100) * 1%;
+        .confetti:nth-child(#{$i}) {
+            left: $left;
+            animation-delay: #{-6 + (random() * 6)}s;
+            background-color: $color;
+        }
+    }
+}

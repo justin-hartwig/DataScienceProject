@@ -1,4 +1,5 @@
 import { revealChart } from './chart';
+import { updateQuizResult, questionAnsweredCorrectly } from '../quiz';
 
 export default class QuizQuestion {
     constructor(questionId, correctAnswer, answerText, chartId, chartObject) {
@@ -12,6 +13,7 @@ export default class QuizQuestion {
         this._chartElement;
         this._answerElement;
         this._wrongAnswerText = "Falsche Antwort! Versuch es noch einmal.";
+        this._asweredCorrectly = false;
     }
 
     get questionId() {
@@ -48,21 +50,26 @@ export default class QuizQuestion {
     }
 
     evaluateAnswer(selectedRadio) {
-        // Clear any existing answer text
-        this._answerElement.innerHTML = '';
+        if (!this._asweredCorrectly) {
+            // Clear any existing answer text
+            this._answerElement.innerHTML = '';
 
-        const spanElement = document.createElement('span');
+            const spanElement = document.createElement('span');
 
-        const selectedAnswerId = selectedRadio.id;
-        if (selectedAnswerId === this._correctAnswer) {
-            spanElement.className = 'quiz-right-answer';
-            spanElement.textContent = this._answerText;
-            this._chartObject.revealChart();
-        } else {
-            spanElement.className = 'quiz-wrong-answer';
-            spanElement.textContent = this._wrongAnswerText;
+            const selectedAnswerId = selectedRadio.id;
+            if (selectedAnswerId === this._correctAnswer) {
+                spanElement.className = 'quiz-right-answer';
+                spanElement.textContent = this._answerText;
+                this._chartObject.revealChart();
+                this._asweredCorrectly = true;
+                questionAnsweredCorrectly();
+            } else {
+                spanElement.className = 'quiz-wrong-answer';
+                spanElement.textContent = this._wrongAnswerText;
+            }
+
+            this._answerElement.appendChild(spanElement);
+            updateQuizResult();
         }
-
-        this._answerElement.appendChild(spanElement);
     }
 }
