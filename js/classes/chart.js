@@ -356,7 +356,7 @@ export default class Chart {
             .on("mouseover", function (event, d) {
                 d3.select(this).attr("fill", "#F4D227");
                 tooltip.transition().duration(200).style("opacity", .9);
-                tooltip.html(`Bundesland: ${d.state}<br>Wert: ${d.price}`)
+                tooltip.html(`Bundesland: ${d.state}<br>Wert: ${formatNumberWithThousandSeparator(d.price)}`)
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
             })
@@ -383,7 +383,7 @@ export default class Chart {
             .style("font-family", "Inter")
             .style('font-weight', 'bold')
             .attr('fill', 'red')
-            .text(`Median: ${median.toFixed(2)}`);
+            .text(`Median: ${formatNumberWithThousandSeparator(median.toFixed(2))}`);
 
         // Adjust position of x-axis label
         svg.append('text')
@@ -444,13 +444,13 @@ export default class Chart {
 
         svg.append('g')
             .attr('transform', `translate(0,${height})`)
-            .call(d3.axisBottom(x))
+            .call(d3.axisBottom(x).tickFormat(formatNumberWithThousandSeparator))
             .selectAll("text")
             .style("font-family", "Inter")
             .attr('dy', '1em');
 
         svg.append('g')
-            .call(d3.axisLeft(y))
+            .call(d3.axisLeft(y).tickFormat(formatNumberWithThousandSeparator))
             .selectAll("text")
             .style("font-family", "Inter");
 
@@ -465,7 +465,7 @@ export default class Chart {
             .on("mouseover", function (event, d) {
                 d3.select(this).attr("r", 6).attr("fill", "#F4D227");
                 tooltip.transition().duration(200).style("opacity", .9);
-                tooltip.html(`Bundesland: ${d.state}<br>Durschnittsalter: ${d.ageAverage}<br>Bevölkerungsdichte: ${d.populationDensity}`)
+                tooltip.html(`Bundesland: ${d.state}<br>Durschnittsalter: ${formatNumberWithThousandSeparator(d.ageAverage)}<br>Bevölkerungsdichte: ${formatNumberWithThousandSeparator(d.populationDensity)}`)
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
             })
@@ -563,13 +563,13 @@ export default class Chart {
 
         svg.append('g')
             .attr('transform', `translate(0,${height})`)
-            .call(d3.axisBottom(x).tickFormat(d3.format("d")))
+            .call(d3.axisBottom(x).tickFormat(d => d))
             .selectAll("text")
             .style("font-family", "Inter")
             .attr('dy', '1em');
 
         svg.append('g')
-            .call(d3.axisLeft(y).tickFormat(d3.format(",.0f")))
+            .call(d3.axisLeft(y).tickFormat(formatNumberWithThousandSeparator))
             .selectAll("text")
             .style("font-family", "Inter");
 
@@ -634,7 +634,7 @@ export default class Chart {
             .on("mouseover", function (event, d) {
                 d3.select(this).attr("r", 6).attr("fill", "#F4D227");
                 tooltip.transition().duration(200).style("opacity", .9);
-                tooltip.html(`Jahr: ${d.year}<br>Einkommen: €${d3.format(",.0f")(d.income)}`)
+                tooltip.html(`Jahr: ${d.year}<br>Einkommen: ${formatNumberWithThousandSeparator(d.income)} €`)
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
             })
@@ -656,7 +656,7 @@ export default class Chart {
             .on("mouseover", function (event, d) {
                 d3.select(this).attr("r", 6).attr("fill", "#F4D227");
                 tooltip.transition().duration(200).style("opacity", .9);
-                tooltip.html(`Jahr: ${d.year}<br>Einkommen: €${d3.format(",.0f")(d.income)}`)
+                tooltip.html(`Jahr: ${d.year}<br>Einkommen: ${formatNumberWithThousandSeparator(d.income)} €`)
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
             })
@@ -669,11 +669,11 @@ export default class Chart {
     async displayCountiesTop10Chart() {
         // Clear existing chart before redrawing
         this._chartElement.innerHTML = "";
-    
+
         // Initial center coordinates and zoom level
         const initialCenter = [53.0, 9.0];
         const initialZoom = 8;
-    
+
         // Create a new Leaflet map with a white background
         const map = L.map(this._chartElement, {
             center: initialCenter,
@@ -683,12 +683,12 @@ export default class Chart {
             minZoom: 0,
             maxZoom: 8
         });
-    
+
         // Add zoom control with options to the map
         L.control.zoom({
             position: 'topleft'
         }).addTo(map);
-    
+
         // Fetch the county data from the endpoint
         let countyData = [];
         try {
@@ -697,12 +697,15 @@ export default class Chart {
         } catch (error) {
             console.error('Error fetching county data:', error);
         }
-    
+
         // Function to get county data by name
         const getCountyData = (countyName) => {
             return countyData.find(county => county.county === countyName);
         };
-    
+
+        // Create a variable to store the first layer
+        let firstLayer = null;
+
         // Add GeoJSON layer to the map
         const geojsonLayer = L.geoJson(null, {
             style: function (feature) {
@@ -719,35 +722,56 @@ export default class Chart {
                 if (countyData) {
                     const popupContent =
                         `<strong>${feature.properties.gen}</strong><br>
-                        Mietpreis: ${countyData.pricepersquaremeters} € pro m²<br>
-                        Verfügbares Einkommen: ${formatNumberWithThousandSeparator(countyData.disposableincome)} €<br>
-                        Arbeitslosenquote: ${countyData.unemploymentrate} %<br>
-                        Freizeitaktivitäten: ${countyData.percentageleasureperarea} % pro km²`;
+                    Mietpreis: ${formatNumberWithThousandSeparator(countyData.pricepersquaremeters)} € pro m²<br>
+                    Verfügbares Einkommen: ${formatNumberWithThousandSeparator(countyData.disposableincome)} €<br>
+                    Arbeitslosenquote: ${formatNumberWithThousandSeparator(countyData.unemploymentrate)} %<br>
+                    Freizeitaktivitäten: ${formatNumberWithThousandSeparator(countyData.percentageleasureperarea)} % pro km²`;
                     layer.bindPopup(popupContent);
+
+                    // Store the first layer
+                    if (!firstLayer) {
+                        firstLayer = layer;
+                    }
                 }
             }
         }).addTo(map);
-    
+
         // Fetch the GeoJSON data and add it to the map
         try {
             const response = await fetch('/data/geodata/K-2023-AIG-24--AI2401--2024-05-09-EPSG-4326.geojson');
             const data = await response.json();
             geojsonLayer.addData(data);
-    
+
             // Fit the map to the bounds of the GeoJSON layer
             map.fitBounds(geojsonLayer.getBounds());
+
+            // Open the popup for the first layer
+            if (firstLayer) {
+                firstLayer.openPopup();
+            }
         } catch (error) {
             console.error('Error fetching GeoJSON data:', error);
         }
-    
+
         // Add reset button to the map
         const resetButton = L.control({ position: 'topright' });
         resetButton.onAdd = function (map) {
             const btn = L.DomUtil.create('button', 'reset-button btn btn-primary btn-small');
             btn.innerHTML = 'Karte zurücksetzen';
             btn.onclick = function () {
-                map.setZoom(initialZoom);
-                map.fitBounds(geojsonLayer.getBounds());
+                // Temporarily change the map view
+                map.setView([initialCenter[0] + 0.001, initialCenter[1] + 0.001], initialZoom - 1, { animate: false });
+
+                setTimeout(() => {
+                    // Reset to initial zoom and fit bounds
+                    map.setView(initialCenter, initialZoom, { animate: true });
+                    map.fitBounds(geojsonLayer.getBounds(), { animate: true });
+
+                    // Re-open the popup for the first layer
+                    if (firstLayer) {
+                        firstLayer.openPopup();
+                    }
+                }, 0);
             };
             return btn;
         };
@@ -757,11 +781,11 @@ export default class Chart {
     async displayCountyRentalPriceImpact() {
         // Clear existing chart before redrawing
         this._chartElement.innerHTML = "";
-    
+
         // Initial center coordinates and zoom level
         const initialCenter = [53.0, 9.0];
         const initialZoom = 8;
-    
+
         // Create a new Leaflet map with a white background
         const map = L.map(this._chartElement, {
             center: initialCenter,
@@ -771,12 +795,12 @@ export default class Chart {
             minZoom: 0,
             maxZoom: 8
         });
-    
+
         // Add zoom control with options to the map
         L.control.zoom({
             position: 'topleft'
         }).addTo(map);
-    
+
         // Fetch the rental price impact data from the endpoint
         let rentalImpactData = [];
         try {
@@ -785,7 +809,7 @@ export default class Chart {
         } catch (error) {
             console.error('Error fetching rental price impact data:', error);
         }
-    
+
         // Fetch the county data from the endpoint
         let countyData = [];
         try {
@@ -794,25 +818,25 @@ export default class Chart {
         } catch (error) {
             console.error('Error fetching county data:', error);
         }
-    
+
         // Create a dictionary to store county IDs by name
         const countyIdByName = {};
         countyData.forEach(county => {
             countyIdByName[county.name] = county.id;
         });
-    
+
         // Create a dictionary to store county names by ID
         const countyNameById = {};
         countyData.forEach(county => {
             countyNameById[county.id] = county.name;
         });
-    
+
         // Calculate the top 3 counties with the most impact on surrounding counties
         const top3Counties = rentalImpactData
             .map(d => ({ ...d, impact: Math.abs(parseFloat(d.impact)) }))
             .sort((a, b) => b.impact - a.impact)
             .slice(0, 3);
-    
+
         // Create a set to store the names of the top 3 counties and their adjacent counties
         const top3CountyNames = new Set(top3Counties.map(c => countyNameById[c.id]));
         const adjacentCountyNames = new Set();
@@ -821,12 +845,12 @@ export default class Chart {
                 adjacentCountyNames.add(countyNameById[id]);
             });
         });
-    
+
         let currentHighlighted = {
             topCounties: new Set(top3CountyNames),
             adjacentCounties: new Set(adjacentCountyNames)
         };
-    
+
         function highlightCounties(countyName, adjacentCounties) {
             currentHighlighted.topCounties.clear();
             currentHighlighted.adjacentCounties.clear();
@@ -834,7 +858,7 @@ export default class Chart {
             adjacentCounties.forEach(name => currentHighlighted.adjacentCounties.add(name));
             geojsonLayer.setStyle(styleFeature);
         }
-    
+
         function styleFeature(feature) {
             const countyName = feature.properties.gen;
             if (currentHighlighted.topCounties.has(countyName)) {
@@ -859,7 +883,10 @@ export default class Chart {
                 fillOpacity: 0.6
             };
         }
-    
+
+        // Store layers for the top 3 counties
+        const top3Layers = [];
+
         // Add GeoJSON layer to the map
         const geojsonLayer = L.geoJson(null, {
             style: styleFeature,
@@ -870,9 +897,14 @@ export default class Chart {
                 if (countyImpactData) {
                     const popupContent =
                         `<strong>${countyName}</strong><br>
-                        Einfluss: ${countyImpactData.impact}`;
+                        Einfluss: ${formatNumberWithThousandSeparator(countyImpactData.impact)}`;
                     layer.bindPopup(popupContent);
-    
+
+                    // Store layer if it is one of the top 3 counties
+                    if (top3CountyNames.has(countyName)) {
+                        top3Layers.push(layer);
+                    }
+
                     layer.on('click', function () {
                         const adjacentCounties = new Set(countyImpactData.adjacentcounties.split(',').map(id => countyNameById[id]));
                         highlightCounties(countyName, adjacentCounties);
@@ -880,16 +912,16 @@ export default class Chart {
                 }
             }
         }).addTo(map);
-    
+
         // Fetch the GeoJSON data and add it to the map
         try {
             const response = await fetch('/data/geodata/K-2023-AIG-24--AI2401--2024-05-09-EPSG-4326.geojson');
             const data = await response.json();
             geojsonLayer.addData(data);
-    
+
             // Fit the map to the bounds of the GeoJSON layer
             map.fitBounds(geojsonLayer.getBounds());
-    
+
             // Initially highlight the top 3 counties and their adjacent counties
             currentHighlighted.topCounties = new Set(top3Counties.map(c => countyNameById[c.id]));
             top3Counties.forEach(county => {
@@ -898,34 +930,58 @@ export default class Chart {
                 });
             });
             geojsonLayer.setStyle(styleFeature);
+
+            // Open the popups for the top 3 counties
+            top3Layers.forEach(layer => {
+                layer.openPopup();
+            });
         } catch (error) {
             console.error('Error fetching GeoJSON data:', error);
         }
-    
+
         // Add reset button to the map
         const resetButton = L.control({ position: 'topright' });
         resetButton.onAdd = function (map) {
             const btn = L.DomUtil.create('button', 'reset-button btn btn-primary btn-small');
             btn.innerHTML = 'Karte zurücksetzen';
             btn.onclick = function () {
-                map.setZoom(initialZoom);
-                map.fitBounds(geojsonLayer.getBounds());
-                // Reset highlighting to initial state
-                currentHighlighted.topCounties = new Set(top3Counties.map(c => countyNameById[c.id]));
-                currentHighlighted.adjacentCounties.clear();
-                top3Counties.forEach(county => {
-                    county.adjacentcounties.split(',').forEach(id => {
-                        currentHighlighted.adjacentCounties.add(countyNameById[id]);
+                // Temporarily change the map view
+                map.setView([initialCenter[0] + 0.001, initialCenter[1] + 0.001], initialZoom - 1, { animate: false });
+
+                setTimeout(() => {
+                    // Reset to initial zoom and fit bounds
+                    map.setView(initialCenter, initialZoom, { animate: true });
+                    map.fitBounds(geojsonLayer.getBounds(), { animate: true });
+
+                    // Reset highlighting to initial state
+                    currentHighlighted.topCounties = new Set(top3Counties.map(c => countyNameById[c.id]));
+                    currentHighlighted.adjacentCounties.clear();
+                    top3Counties.forEach(county => {
+                        county.adjacentcounties.split(',').forEach(id => {
+                            currentHighlighted.adjacentCounties.add(countyNameById[id]);
+                        });
                     });
-                });
-                geojsonLayer.setStyle(styleFeature);
+                    geojsonLayer.setStyle(styleFeature);
+
+                    // Re-open the popups for the top 3 counties
+                    top3Layers.forEach(layer => {
+                        layer.openPopup();
+                    });
+                }, 0);
             };
             return btn;
         };
         resetButton.addTo(map);
-    }        
+    }
 }
 
 function formatNumberWithThousandSeparator(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    // Split the number into integer and decimal parts
+    let parts = number.toString().split(".");
+
+    // Format the integer part with thousand separators
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    // Join the integer and decimal parts with a comma if there is a decimal part
+    return parts.join(",");
 }
