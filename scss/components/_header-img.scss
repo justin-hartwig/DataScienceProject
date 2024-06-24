@@ -1,12 +1,45 @@
-.header-img {
-    background-image: url("#{$img-path}/map-bg-img.jpg");
+.full-width-img {
     background-color: $white;
     background-size: cover;
+    background-position: center;
     border-radius: $default-border-radius;
     min-height: 18rem;
     padding: 1rem;
+    position: relative;
 
     p {
         margin-bottom: 2rem;
+    }
+}
+
+.header-img {
+    background-image: url("#{$img-path}/map-bg-img.jpg");
+}
+
+.laboratory-img {
+    background-image: url("#{$img-path}/laboratory-bg-img.svg");
+
+    &:before {
+        content: " ";
+        z-index: 10;
+        display: block;
+        position: absolute;
+        height: 100%;
+        border-radius: $default-border-radius;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.7);
+    }
+
+    h2,
+    p {
+        position: relative;
+        z-index: 20;
+    }
+
+    p  {
+        max-width: 70%;
+        margin: auto;
     }
 }

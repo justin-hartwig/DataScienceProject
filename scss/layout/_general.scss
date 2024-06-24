@@ -29,16 +29,3 @@ img.rounded {
     margin-top: $m-10;
     margin-bottom: $m-10;
 }
-
-@media (min-width: 1400px) {
-    body {
-        .container-xxl, 
-        .container-xl, 
-        .container-lg, 
-        .container-md, 
-        .container-sm, 
-        .container {
-            max-width: 1672px;
-        }
-    }
-}

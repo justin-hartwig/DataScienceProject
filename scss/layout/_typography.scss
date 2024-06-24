@@ -76,3 +76,13 @@ ul li {
 .text-highlight {
     color: $primary;
 }
+
+a {
+    color: $primary;
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: $primary-text;
+    }
+}

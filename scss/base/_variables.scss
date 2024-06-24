@@ -39,7 +39,17 @@ $img-path: "/dist/images";
 $font-path: "/dist/fonts";
 
 // margins
-$m-10: clamp(3rem, 0.9761rem + 8.6353vw, 10rem);
+$m-10: clamp(3rem, 0.7778rem + 7.1111vw, 7rem);
 
 // box-shadow
 $default-box-shadow: 3px 5px 5px 0px #d9d9d9;
+
+// bootstrap overrides
+$container-max-widths: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px
+);

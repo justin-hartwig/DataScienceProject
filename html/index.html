@@ -44,7 +44,7 @@
 	<div class="container-fluid mb-10">
 		<div class="row">
 			<div class="col-12">
-				<div class="header-img text-center py-5">
+				<div class="full-width-img header-img text-center py-5">
 					<h1>HeimSucher</h1>
 					<p>Du kennst uns schon? Dann wechsle direkt zur App.</p>
 					<a class="btn btn-primary" href="/app" role="button">Direkt zur App</a>
@@ -77,7 +77,7 @@
 						Deutschland.</li>
 				</ul>
 			</div>
-			<div class="col-12 col-lg-4 offset-xl-1">
+			<div class="col-12 col-lg-4 offset-xl-1 d-flex flex-column justify-content-center">
 				<img class="rounded" src="/dist/images/Woman-sitting-in-chair.jpg" alt="Frau sitzt in Stuhl">
 			</div>
 		</div>
@@ -121,52 +121,42 @@
 	<div class="container my-10">
 		<div class="row">
 			<div class="col-12 col-lg-12">
-				<h2 class="mb-5 text-center"><span class="text-highlight">Das HeimSucher Labor</span><br> Entdecke
-					nützliche Informationen zu Wohnen in Deutschland</h2>
-				<p class="text-center">Das HeimSucher Team hat anhand verschiedener Datenwissenschafts Methoden
-					interessante Fakten über den Wohnungsarkt in Deutschland heraus gefunden und diese in spannenden
-					Grafiken dargestellt. Schau sie dir an! Vielleicht lernst du ja etwas neues dabei.</p>
+				<div class="full-width-img laboratory-img text-center py-5">
+					<h2 class="mb-5"><span class="text-highlight">Das HeimSucher Labor</span><br> Entdecke
+						nützliche Informationen zu Wohnen in Deutschland</h2>
+					<p>Das HeimSucher Team hat anhand verschiedener Datenwissenschafts Methoden
+						interessante Fakten über den Wohnungsarkt in Deutschland heraus gefunden und diese in
+						spannenden
+						Grafiken dargestellt. Schau sie dir an! Vielleicht lernst du ja etwas neues dabei.</p>
+				</div>
 			</div>
 		</div>
 	</div>
 	<div class="container my-10">
 		<div class="row">
-			<div class="col-12 col-lg-6">
+			<div class="col-12 col-lg-6 d-flex flex-column justify-content-center">
 				<p class="teaser">Statistik</p>
-				<h3 class="mb-5">Das exklusive <span class="text-highlight">HeimSucher Statistik-Quiz</span>
+				<h3 class="mb-5">Los geht's mit dem exklusiven <span class="text-highlight"><br>HeimSucher
+						Statistik-Quiz</span>
 				</h3>
-			</div>
-			<div class="col-6">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-12 col-lg-6 mb-5 mb-lg-0">
 				<p>Du möchtest dein Wissen über den aktuellen Wohnungsmarkt in Deutschland testen? Dann nehme jetzt bei
 					unserem HeimSucher Quiz teil!
 					Egal ob Immobilien-Profi oder Newbie auf Wohnungssuche - dieses Quiz bietet interessante Einblicke
 					unterstützt mit spannenden Darstellungen!
 				</p>
 			</div>
-			<div class="col-12 col-lg-5 offset-lg-1">
-				<img class="rounded" src="/dist/images/Woman-sitting-in-chair.jpg" alt="Frau sitzt in Stuhl">
+			<div class="col-12 col-lg-5 offset-lg-1 d-flex justify-content-center align-items-center">
+				<img class="w-75" src="/dist/images/quiz-img.svg" alt="Mann mit Fragezeichen">
 			</div>
 		</div>
 	</div>
 	<div class="container my-10">
 		<div class="row">
-			<div class="col-12 col-lg-6 mb-5 mb-lg-0">
-				<div class="quiz-chart hidden">
-					<div id="disposable-income-mean" class="chart">
-					</div>
-					<div class="hidden-chart-text">
-						<p class="text-center"><b>Die Grafik ist versteckt.</b><br>
-							Beantworte die Frage richtig um sie anzuzeigen.</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-12 col-lg-5 offset-lg-1">
+			<div class="col-12 col-lg-5 d-flex flex-column justify-content-center">
 				<div id="quiz-question-1">
-					<p>Mit 26.764€ ist Bayern im Jahr 2021  das Bundesland mit dem höchsten verfügbaren Einkommen pro Kopf. Doch was ist das durchschnittliche verfügbare Einkommen pro Kopf in Deutschland im Jahr 2021?</p>
+					<p>Mit 26.764€ ist Bayern im Jahr 2021 das Bundesland mit dem höchsten verfügbaren Einkommen pro
+						Kopf. Doch was ist das durchschnittliche verfügbare Einkommen pro Kopf in Deutschland im Jahr
+						2021?</p>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="quizQuestion1" id="quizQuestion1Answer1">
 						<label class="form-check-label" for="quizQuestion1Answer1">
@@ -188,6 +178,17 @@
 					<p class="quiz-question-result"></p>
 				</div>
 			</div>
+			<div class="col-12 col-lg-6 offset-lg-1 mb-5 mb-lg-0">
+				<div class="quiz-chart hidden">
+					<div id="disposable-income-mean" class="chart">
+					</div>
+					<div class="hidden-chart-text">
+						<p class="text-center"><b>Die Grafik ist versteckt.</b><br>
+							Beantworte die Frage richtig um sie anzuzeigen.</p>
+					</div>
+				</div>
+			</div>
+
 		</div>
 	</div>
 	<div class="container my-10">
@@ -202,10 +203,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-12 col-lg-5 offset-lg-1">
+			<div class="col-12 col-lg-5 offset-lg-1 d-flex flex-column justify-content-center">
 				<div id="quiz-question-2">
 					<p>Was ist der Median der Mietpreise in Deutschland?</p>
-					<p class="info-box">Info: Der Median ist der Wert, der genau in der Mitte einer Datenreihe liegt, die nach der Größe geordnet ist.</p>
+					<p class="info-box">Info: Der Median ist der Wert, der genau in der Mitte einer Datenreihe liegt,
+						die nach der Größe geordnet ist.</p>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="quizQuestion2" id="quizQuestion2Answer1">
 						<label class="form-check-label" for="quizQuestion2Answer1">
@@ -231,7 +233,35 @@
 	</div>
 	<div class="container my-10">
 		<div class="row">
-			<div class="col-12 col-lg-6 mb-5 mb-lg-0">
+			<div class="col-12 col-lg-5 d-flex flex-column justify-content-center">
+				<div id="quiz-question-3">
+					<p>Was denkst du? Besteht zwischen dem Altersdurchschnitt und der Bevölkerungsdichte in Deutschland
+						ein Zusammenhang?</p>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="quizQuestion3" id="quizQuestion3Answer1">
+						<label class="form-check-label" for="quizQuestion3Answer1">
+							Ich vermute, dass mit zunehmendem Durchschnittsalter die Bevölkerungsdichte tendenziell
+							abnimmt
+						</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="quizQuestion3" id="quizQuestion3Answer2">
+						<label class="form-check-label" for="quizQuestion3Answer2">
+							Ich vermute, dass mit zunehmendem Durchschnittsalter die Bevölkerungsdichte tendenziell
+							zunimmt
+						</label>
+					</div>
+					<div class="form-check mb-3">
+						<input class="form-check-input" type="radio" name="quizQuestion3" id="quizQuestion3Answer3">
+						<label class="form-check-label" for="quizQuestion3Answer3">
+							Ich denke, es gibt keinen Zusammenhang zwischen dem Durchschnittsalter in Deutschland und
+							der Bevölkerungsdichte
+						</label>
+					</div>
+					<p class="quiz-question-result"></p>
+				</div>
+			</div>
+			<div class="col-12 col-lg-6 offset-lg-1 mb-5 mb-lg-0">
 				<div class="quiz-chart hidden">
 					<div id="correlation-ageaverage-populationdesity" class="chart">
 					</div>
@@ -241,30 +271,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-12 col-lg-5 offset-lg-1">
-				<div id="quiz-question-3">
-					<p>Was denkst du? Besteht zwischen dem Altersdurchschnitt und der Bevölkerungsdichte in Deutschland ein Zusammenhang?</p>
-					<div class="form-check">
-						<input class="form-check-input" type="radio" name="quizQuestion3" id="quizQuestion3Answer1">
-						<label class="form-check-label" for="quizQuestion3Answer1">
-							Ich vermute, dass mit zunehmendem Durchschnittsalter die Bevölkerungsdichte tendenziell abnimmt
-						</label>
-					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="radio" name="quizQuestion3" id="quizQuestion3Answer2">
-						<label class="form-check-label" for="quizQuestion3Answer2">
-							Ich vermute, dass mit zunehmendem Durchschnittsalter die Bevölkerungsdichte tendenziell zunimmt
-						</label>
-					</div>
-					<div class="form-check mb-3">
-						<input class="form-check-input" type="radio" name="quizQuestion3" id="quizQuestion3Answer3">
-						<label class="form-check-label" for="quizQuestion3Answer3">
-							Ich denke, es gibt keinen Zusammenhang zwischen dem Durchschnittsalter in Deutschland und der Bevölkerungsdichte
-						</label>
-					</div>
-					<p class="quiz-question-result"></p>
-				</div>
-			</div>
+
 		</div>
 	</div>
 	<div class="container my-10">
@@ -279,9 +286,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-12 col-lg-5 offset-lg-1">
+			<div class="col-12 col-lg-5 offset-lg-1 d-flex flex-column justify-content-center">
 				<div id="quiz-question-4">
-					<p>Wie bereits in Frage 1 dargestellt, ist Bayern im Jahr 2021 mit 26.764 € das Bundesland mit dem höchsten verfügbaren Einkommen pro Kopf. Wie lässt sich aber das verfügbare Pro-Kopf-Einkommen in Bayern für das Jahr 2024 prognostizieren?</p>
+					<p>Wie bereits in Frage 1 dargestellt, ist Bayern im Jahr 2021 mit 26.764 € das Bundesland mit dem
+						höchsten verfügbaren Einkommen pro Kopf. Wie lässt sich aber das verfügbare Pro-Kopf-Einkommen
+						in Bayern für das Jahr 2024 prognostizieren?</p>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="quizQuestion4" id="quizQuestion4Answer1">
 						<label class="form-check-label" for="quizQuestion4Answer1">
@@ -291,7 +300,7 @@
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="quizQuestion4" id="quizQuestion4Answer2">
 						<label class="form-check-label" for="quizQuestion4Answer2">
-							ca. 28.500€						
+							ca. 28.500€
 						</label>
 					</div>
 					<div class="form-check mb-3">
@@ -307,19 +316,38 @@
 	</div>
 	<div class="container my-10">
 		<div class="row">
+			<div class="col-12 col-lg-12">
+				<div class="quiz-result full-width-img text-center py-5 d-flex flex-column justify-content-center">
+					<h2 class="mb-5">Du hast <span class="text-highlight"><span id="quiz-result-answers">1</span> von
+							<span id="quiz-result-answers-total">3</span></span> Fragen richtig beantwortet.</h2>
+					<p class="mb-0" id="quiz-result-answers">Super du hast alle Fragen richtig beantwortet.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container my-10">
+		<div class="row">
+			<div class="col-12 col-lg-5 d-flex justify-content-center align-items-center">
+				<img src="/dist/images/magnifying-glass-house-img.svg" alt="Mann mit Fragezeichen">
+			</div>
+			<div class="col-12 col-lg-6 offset-lg-1 d-flex flex-column justify-content-center">
+				<h3 class="mb-5">Jetzt nehmen wir die <span class="text-highlight">Mietpreise</span><br> unter die Lupe
+				</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+					et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+					aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+					culpa qui officia deserunt mollit anim id est laborum.
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="container my-10">
+		<div class="row">
 			<div class="col-12 col-lg-6">
 				<p class="teaser">Simulation</p>
 				<h3 class="mb-5">Wie wird sich der <span class="text-highlight">Wohnungsmarkt</span> vorrausichtlich
 					entiwckeln?</h3>
-			</div>
-			<div class="col-6">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-12 col-lg-6 mb-5 mb-lg-0">
-				<div id="prediction-housingmarket" class="chart"></div>
-			</div>
-			<div class="col-12 col-lg-5 offset-lg-1">
 				<p>Diese Simulation zeigt die <b>Anzahl der Wohnungen pro 1.000 Bürger in Deutschland für die nächsten
 						10 Jahre</b>. Historische Daten und vier Hauptfaktoren (Netto-Migration, neu gebaute Wohnungen,
 					Bevölkerungsdichte und Geburten-/Sterbeüberschuss) werden verwendet, um zukünftige Werte
@@ -327,24 +355,21 @@
 				<p>Die Vorhersage zeigt einen <b>leichten Anstieg</b> der Wohnungen pro 1.000 Bürger. Dies deutet darauf
 					hin, dass in den nächsten 10 Jahren mehr Wohnungen gebaut werden und verfügbar sind.</p>
 			</div>
+			<div class="col-12 col-lg-5 offset-lg-1 mb-5 mb-lg-0 d-flex flex-column justify-content-center">
+				<div id="prediction-housingmarket" class="chart mt-lg-5 mt-0"></div>
+			</div>
 		</div>
 	</div>
 	<div class="container my-10">
 		<div class="row">
-			<div class="col-12 col-lg-6">
-				<p class="teaser">Strukturanalyse</p>
-				<h3 class="mb-5">Einflussfaktoren auf den Mietpreis - <br>
-					Einblicke durch das <span class="text-highlight">Strukturgleichungsmodell</span></h3>
-			</div>
-			<div class="col-6">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-12 col-lg-6 mb-5 mb-lg-0">
+			<div class="col-12 col-lg-5 mb-5 mb-lg-0 d-flex flex-column justify-content-center">
 				<img src="/dist/images/Strukturgleichungsmodell-Mietpreise.svg"
 					alt="Strukturgleichungsmodell Mietpreis">
 			</div>
-			<div class="col-12 col-lg-5 offset-lg-1">
+			<div class="col-12 col-lg-6 offset-lg-1">
+				<p class="teaser">Strukturanalyse</p>
+				<h3 class="mb-5">Einflussfaktoren auf den Mietpreis - <br>
+					Einblicke durch das <span class="text-highlight">Strukturgleichungsmodell</span></h3>
 				<p>Das Strukturgleichungsmodell (SEM) zeigt, die Beziehungen der verschiedenen Faktoren im Zusammenhang
 					mit Mietpreisen. Es umfasst sechs Hauptvariablen: Verfügbares Einkommen, Durchschnittsalter,
 					Freizeitfläche, Bevölkerungsdichte und Mietpreis.</p>
@@ -362,38 +387,50 @@
 	</div>
 	<div class="container my-10">
 		<div class="row">
-			<div class="col-12 col-lg-6">
+			<div class="col-12 col-lg-6 d-flex flex-column justify-content-center">
 				<p class="teaser">Wissenssuche in Datenbanken</p>
-				<h3 class="mb-5">Wie wirken sich <span class="text-highlight">hohe Mietpreise</span><br> auf <span class="text-highlight">umliegende Landkreise</span> aus?</h3>
+				<h3 class="mb-5">Wie wirken sich <span class="text-highlight">hohe Mietpreise</span><br> auf <span
+						class="text-highlight">umliegende Landkreise</span> aus?</h3>
+				<p>Hohe Mietpreise in städtischen Ballungsgebieten haben signifikante Auswirkungen auf umliegende
+					Landkreise. Da städtische Mieten steigen, suchen immer mehr Menschen nach erschwinglichem Wohnraum
+					in den angrenzenden ländlichen Gebieten. Dieser Trend führt zu einem Bevölkerungszuwachs in diesen
+					Regionen, was die lokale Infrastruktur, wie Schulen, Krankenhäuser und öffentliche Verkehrsmittel,
+					stark belastet. Mit der steigenden Nachfrage nach Wohnraum erhöhen sich auch die Immobilienpreise
+					und Mietkosten in den ländlichen Gebieten, was auch die Lebenshaltungskosten dort steigen lässt.
+					Zudem führt der Zuzug zu einem erhöhten Verkehrsaufkommen führt.</p>
 			</div>
-			<div class="col-6">
-			</div>
-		</div>
-		<div class="row">
 			<div class="col-12 col-lg-6 mb-5 mb-lg-0">
 				<div id="county-rental-price-impact" class="chart"></div>
-			</div>
-			<div class="col-12 col-lg-6 d-flex flex-column justify-content-center">
-				<p>Hohe Mietpreise in städtischen Ballungsgebieten haben signifikante Auswirkungen auf umliegende Landkreise. Da städtische Mieten steigen, suchen immer mehr Menschen nach erschwinglichem Wohnraum in den angrenzenden ländlichen Gebieten. Dieser Trend führt zu einem Bevölkerungszuwachs in diesen Regionen, was die lokale Infrastruktur, wie Schulen, Krankenhäuser und öffentliche Verkehrsmittel, stark belastet. Mit der steigenden Nachfrage nach Wohnraum erhöhen sich auch die Immobilienpreise und Mietkosten in den ländlichen Gebieten, was auch die Lebenshaltungskosten dort steigen lässt. Zudem führt der Zuzug zu einem erhöhten Verkehrsaufkommen führt.</p>
 			</div>
 		</div>
 	</div>
 	<div class="container my-10">
 		<div class="row">
-			<div class="col-12 col-lg-6">
-				<p class="teaser">KI-basierte Datenabfrage</p>
-				<h3 class="mb-5">Was sind die <span class="text-highlight">Top 10</span> Landkreise<br> für Mieter?</h3>
-			</div>
-			<div class="col-6">
-			</div>
-		</div>
-		<div class="row">
 			<div class="col-12 col-lg-6 mb-5 mb-lg-0">
 				<div id="counties-top-10" class="chart"></div>
 			</div>
 			<div class="col-12 col-lg-6 d-flex flex-column justify-content-center">
-				<p>Träumst du vom <b>atraktiven Wohnen</b> ohne dabei auf ein <b>bezahlbares Zuhause</b> und <b>attraktive Freizeitmöglichkeiten</b> verzichten zu müssen? Dann solltest du einen Blick auf unsere Top 10 Landkreise für Mieter werfen!</p>
-				<p>Mithilfe von KI haben wir die besten Wohnlagen Deutschlands für Mietinteressenten ermittelt. Klicke einfach auf einen der markierten Landkreise, um <b>mehr Informationen</b> anzuzeigen.</p>
+				<p class="teaser">KI-basierte Datenabfrage</p>
+				<h3 class="mb-5">Was sind die <span class="text-highlight">Top 10</span> Landkreise<br> für Mieter?</h3>
+				<p>Träumst du vom <b>atraktiven Wohnen</b> ohne dabei auf ein <b>bezahlbares Zuhause</b> und
+					<b>attraktive Freizeitmöglichkeiten</b> verzichten zu müssen? Dann solltest du einen Blick auf
+					unsere Top 10 Landkreise für Mieter werfen!
+				</p>
+				<p>Mithilfe von KI haben wir die besten Wohnlagen Deutschlands für Mietinteressenten ermittelt. Klicke
+					einfach auf einen der markierten Landkreise, um <b>mehr Informationen</b> anzuzeigen.</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="container mt-10">
+		<div class="row">
+			<div class="col-12 col-lg-12">
+				<div class="full-width-img text-center py-5 d-flex flex-column justify-content-center">
+					<h2 class="mb-5"><span class="text-highlight">Das war's!</h2>
+					<p>Wir hoffen du kontest zur Wohnungssuche in Deutschland dazuleren,<br> wenn du den Perfekten Wohnort
+						für dich finden möchtest schaue dir unsere Wohnungssuche an.</p>
+					<a class="btn btn-primary m-auto" href="/app" role="button">Zur Wohnungssuche</a>
+				</div>
 			</div>
 		</div>
 	</div>
