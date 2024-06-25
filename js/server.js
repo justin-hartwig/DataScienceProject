@@ -48,6 +48,7 @@ app.use('/ageaveragepopulationdesities', require('./routes/ageaveragepopulationd
 app.use('/countiestop10s', require('./routes/countiestop10s'));
 app.use('/bavariaincomeprognoses', require('./routes/bavariaincomeprognoses'));
 app.use('/countyrentalpriceimpacts', require('./routes/countyrentalpriceimpacts'));
+app.use('/anomaliescounties', require('./routes/anomaliescounties'));
 
 //add the router 
 app.use('/', router);

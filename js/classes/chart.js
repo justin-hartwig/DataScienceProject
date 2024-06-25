@@ -53,6 +53,8 @@ export default class Chart {
             await this.displayCountiesTop10Chart();
         } else if (this._chartType == "countyRentalPriceImpact") {
             await this.displayCountyRentalPriceImpact();
+        } else if (this._chartType == "displayAnomaliesCounties") {
+            await this.displayAnomaliesCounties();
         }
     }
 
@@ -974,4 +976,156 @@ export default class Chart {
         };
         resetButton.addTo(map);
     }
+
+    async displayAnomaliesCounties() {
+        const data = this._data.map(d => ({
+            id: d.id,
+            actual: +d.actual,
+            predicted: +d.predicted,
+            misclassified: d.misclassified,
+            errortype: d.errortype,
+            name: d.name,
+            federalstate: d.federalstate
+        }));
+    
+        // Clear existing chart before redrawing
+        d3.select(this._chartElement).selectAll("*").remove();
+    
+        const margin = { top: 20, right: 30, bottom: 80, left: 60 };
+        const width = this._chartElement.clientWidth - margin.left - margin.right;
+        const height = this._chartElement.clientHeight - margin.top - margin.bottom;
+    
+        const svg = d3.select(this._chartElement)
+            .append('svg')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
+            .append('g')
+            .attr('transform', `translate(${margin.left},${margin.top})`);
+    
+        const x = d3.scaleLinear()
+            .domain([d3.min(data, d => d.predicted), d3.max(data, d => d.predicted)])
+            .range([0, width])
+            .nice();
+    
+        const y = d3.scaleLinear()
+            .domain([d3.min(data, d => d.actual), d3.max(data, d => d.actual)])
+            .range([height, 0])
+            .nice();
+    
+        svg.append('g')
+            .attr('transform', `translate(0,${height})`)
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+            .style("font-family", "Inter")
+            .attr('dy', '1em');
+    
+        svg.append('g')
+            .call(d3.axisLeft(y))
+            .selectAll("text")
+            .style("font-family", "Inter");
+    
+        svg.append('text')
+            .attr('x', width / 2)
+            .attr('y', height + margin.bottom - 20)
+            .attr('text-anchor', 'middle')
+            .style("font-family", "Inter")
+            .style('font-weight', 'bold')
+            .text('Vorhersage des Mietpreis nach Attributen in € pro m²');
+    
+        svg.append('text')
+            .attr('transform', 'rotate(-90)')
+            .attr('x', -height / 2)
+            .attr('y', -margin.left + 20)
+            .attr('text-anchor', 'middle')
+            .style("font-family", "Inter")
+            .style('font-weight', 'bold')
+            .text('Eigentlicher Mietpreis in € pro m²');
+    
+        // Create a tooltip div that is hidden by default
+        const tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("position", "absolute")
+            .style("pointer-events", "none")
+            .style("opacity", 0);
+    
+        // Add circles for data points and interactions
+        const circles = svg.selectAll("circle")
+            .data(data)
+            .enter().append("circle")
+            .attr("cx", d => x(d.predicted))
+            .attr("cy", d => y(d.actual))
+            .attr("r", 4)
+            .attr("fill", d => {
+                if (d.errortype === "Price too high") return "#e35252";
+                if (d.errortype === "Price too low") return "#37c474";
+                return "#1b76ff";
+            })
+            .on("mouseover", function (event, d) {
+                d3.select(this).attr("r", 6).attr("fill", "#F4D227");
+                tooltip.transition().duration(200).style("opacity", .9);
+                tooltip.html(`Landkreis: ${d.name}<br>Bundesland: ${d.federalstate}<br>Eigentlicher Mietpreis: ${formatNumberWithThousandSeparator(d.actual)} € pro m²<br>Vorhersage des Mietpreis nach Attributen: ${formatNumberWithThousandSeparator(d.predicted.toFixed(2))} € pro m²`)
+                    .style("left", (event.pageX + 5) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mouseout", function (d) {
+                d3.select(this).attr("r", 4).attr("fill", d => {
+                    if (d.errortype === "Price too high") return "#e35252";
+                    if (d.errortype === "Price too low") return "#37c474";
+                    return "#1b76ff";
+                });
+                tooltip.transition().duration(500).style("opacity", 0);
+            });
+    
+        // Create a legend
+        const legendData = [
+            { label: "Preis zu hoch", color: "#e35252" },
+            { label: "Preis zutreffend", color: "#1b76ff" },
+            { label: "Preis zu niedrig", color: "#37c474" }
+        ];
+    
+        const legend = svg.append("g")
+            .attr("transform", `translate(${width - 150}, 20)`);
+    
+        legend.selectAll("g")
+            .data(legendData)
+            .enter().append("g")
+            .attr("class", "legend-item")
+            .attr("transform", (d, i) => `translate(0, ${i * 20})`)
+            .style("cursor", "pointer")
+            .on("click", function (event, d) {
+                const active = d.active ? false : true;
+                d.active = active;
+                const opacity = active ? 0.3 : 1;
+    
+                d3.select(this).select("rect").style("opacity", opacity);
+                d3.select(this).select("text").style("opacity", opacity);
+    
+                d3.selectAll("circle")
+                    .filter(circleD => {
+                        if (d.label === "Preis zu hoch") return circleD.errortype === "Price too high";
+                        if (d.label === "Preis zu niedrig") return circleD.errortype === "Price too low";
+                        return d.label === "Preis zutreffend" && circleD.errortype === "Correct";
+                    })
+                    .transition().duration(500)
+                    .style("opacity", active ? 0 : 1);
+            });
+    
+        legend.selectAll(".legend-item")
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", d => d.color);
+    
+        legend.selectAll(".legend-item")
+            .append("text")
+            .attr("x", 24)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("font-family", "Inter")
+            .style("font-size", "12px")
+            .text(d => d.label);
+    }
+    
 }
