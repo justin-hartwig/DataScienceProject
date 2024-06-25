@@ -33,7 +33,7 @@ export default class Checkbox {
     initializeCheckbox() {
         this._checkboxElement = document.getElementById(this._checkboxId);
         this._containerElement = document.querySelector("." + this._containerClass);
-        this._checkboxElement.addEventListener('change', (event) => {
+        this._checkboxElement.addEventListener('click', (event) => {
             this.toggleFilter();
         })
     }
@@ -54,12 +54,13 @@ export default class Checkbox {
 
     resetCheckbox() {
         this._containerElement.classList.add('disabled');
-        this._checkboxElement.attributes.checked = false;
+        this._checkboxElement.checked = false;
         filter[this._filterValue] = false;
     }
 
     activateCheckbox() {
         this._containerElement.classList.remove('disabled');
+        this._checkboxElement.checked = true;
         filter[this._filterValue] = true;
     }
 }

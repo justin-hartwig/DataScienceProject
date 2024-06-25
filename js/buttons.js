@@ -1,6 +1,8 @@
 import {resetAllSlider} from './noUiSlider';
 import {resetAllCheckboxes} from './checkboxes';
 import {resetAllButtonGroups} from './buttongroups';
+import {updateDisplayedCounties} from './countyDisplay';
+import {updateCounties} from './openStreetMapLeaflet';
 
 
 export function initializeButtons() {
@@ -13,7 +15,9 @@ function initializeResetAllFiltersButton() {
     resetButton.addEventListener("click", function(event) {
         event.preventDefault(); 
         resetAllSlider();
-        resetAllCheckboxes();
         resetAllButtonGroups();
+        resetAllCheckboxes();
+        updateDisplayedCounties();
+        updateCounties();
     });
 }

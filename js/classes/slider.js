@@ -84,7 +84,13 @@ export default class Slider {
     
     resetSlider() {
         this._sliderElement.noUiSlider.reset();
-        this.onSliderValueChange();
+
+        const sliderValues = this.getCurrentSliderValues();
+        if (sliderValues) {
+            this._rangeElement.innerHTML = `${this._fromText} ${this.addThousandSeparators(sliderValues.min)} ${this._toText} ${this.addThousandSeparators(sliderValues.max)} ${this._unitText}`;
+            filter["_max" + this._filterValue] = sliderValues.max;
+            filter["_min" + this._filterValue] = sliderValues.min;
+        }
     }
 
     addThousandSeparators(number) {
@@ -92,6 +98,6 @@ export default class Slider {
             throw new Error('Input must be a number');
         }
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    } 
+    }
 }
 

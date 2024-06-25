@@ -12,6 +12,10 @@
             border-radius: $border-radius-small;
             font-size: $small-font-size;
         }
+
+        &.w-100 {
+            max-width: 100%;
+        }
     }
 }
 
