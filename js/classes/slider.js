@@ -1,7 +1,7 @@
 import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
 import { filter, updateDisplayedCounties } from '../countyDisplay';
-import { drawCounties } from '../openStreetMapLeaflet';
+import { updateCounties } from '../openStreetMapLeaflet';
 
 
 export default class Slider {
@@ -78,7 +78,7 @@ export default class Slider {
             filter["_max" + this._filterValue] = sliderValues.max;
             filter["_min" + this._filterValue] = sliderValues.min;
             updateDisplayedCounties();
-            drawCounties();
+            updateCounties();
         }
     }
     

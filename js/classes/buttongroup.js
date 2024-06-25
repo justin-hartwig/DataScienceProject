@@ -1,5 +1,5 @@
 import { filter, updateDisplayedCounties } from '../countyDisplay';
-import { drawCounties } from '../openStreetMapLeaflet';
+import { updateCounties } from '../openStreetMapLeaflet';
 
 export default class ButtonGroup {
     constructor(buttonGroupId, filterValue, rangesSite, rangesDb) {
@@ -59,7 +59,7 @@ export default class ButtonGroup {
         }
         button.classList.toggle('active');
         updateDisplayedCounties();
-        drawCounties();
+        updateCounties();
     }
 
     resetButtonGroup() {

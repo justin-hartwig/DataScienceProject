@@ -63,6 +63,11 @@ export default class QuizQuestion {
                 this._chartObject.revealChart();
                 this._asweredCorrectly = true;
                 questionAnsweredCorrectly();
+
+                // Disable all radio buttons
+                this._radioButtons.forEach(radio => {
+                    radio.disabled = true;
+                });
             } else {
                 spanElement.className = 'quiz-wrong-answer';
                 spanElement.textContent = this._wrongAnswerText;

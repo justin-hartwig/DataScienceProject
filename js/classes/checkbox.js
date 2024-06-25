@@ -1,5 +1,5 @@
 import { filter, updateDisplayedCounties } from '../countyDisplay';
-import { drawCounties } from '../openStreetMapLeaflet';
+import { updateCounties } from '../openStreetMapLeaflet';
 
 export default class Checkbox {
     constructor(checkboxId, containerClass, filterValue) {
@@ -49,7 +49,7 @@ export default class Checkbox {
         }
         
         updateDisplayedCounties();
-        drawCounties();
+        updateCounties();
     }
 
     resetCheckbox() {
