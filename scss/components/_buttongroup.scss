@@ -10,3 +10,9 @@
         background-color: $primary;
     }
 }
+
+@media screen and (max-width: 576px) {
+    .filter .btn-group .btn {
+        border-radius: $btn-border-radius;
+    }   
+}

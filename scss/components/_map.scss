@@ -5,3 +5,13 @@
 .main-map {
     height: calc(100vh - 56px - 2.25rem);
 }
+
+.leaflet-control-attribution a {
+    font-size: 0.75rem;
+}
+
+@media screen and (max-width: 1200px) {
+    .main-map {
+        height: calc(60vh - 56px - 2.25rem);
+    }
+}
