@@ -52,5 +52,5 @@ app.use('/anomaliescounties', require('./routes/anomaliescounties'));
 
 //add the router 
 app.use('/', router);
-app.listen(process.env.port || 3000);
+app.listen(process.env.PORT || 5000);
 console.log('Server Started');
