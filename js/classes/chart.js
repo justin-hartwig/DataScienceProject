@@ -784,11 +784,11 @@ export default class Chart {
     async displayCountyRentalPriceImpact() {
         // Clear existing chart before redrawing
         this._chartElement.innerHTML = "";
-
+    
         // Initial center coordinates and zoom level
         const initialCenter = [53.0, 9.0];
         const initialZoom = 8;
-
+    
         // Create a new Leaflet map with a white background
         const map = L.map(this._chartElement, {
             center: initialCenter,
@@ -798,12 +798,12 @@ export default class Chart {
             minZoom: 0,
             maxZoom: 8
         });
-
+    
         // Add zoom control with options to the map
         L.control.zoom({
             position: 'topleft'
         }).addTo(map);
-
+    
         // Fetch the rental price impact data from the endpoint
         let rentalImpactData = [];
         try {
@@ -812,7 +812,7 @@ export default class Chart {
         } catch (error) {
             console.error('Error fetching rental price impact data:', error);
         }
-
+    
         // Fetch the county data from the endpoint
         let countyData = [];
         try {
@@ -821,39 +821,36 @@ export default class Chart {
         } catch (error) {
             console.error('Error fetching county data:', error);
         }
-
+    
         // Create a dictionary to store county IDs by name
         const countyIdByName = {};
         countyData.forEach(county => {
             countyIdByName[county.name] = county.id;
         });
-
+    
         // Create a dictionary to store county names by ID
         const countyNameById = {};
         countyData.forEach(county => {
             countyNameById[county.id] = county.name;
         });
-
-        // Calculate the top 3 counties with the most impact on surrounding counties
-        const top3Counties = rentalImpactData
+    
+        // Identify the county with the highest impact on surrounding counties
+        const topCounty = rentalImpactData
             .map(d => ({ ...d, impact: Math.abs(parseFloat(d.impact)) }))
-            .sort((a, b) => b.impact - a.impact)
-            .slice(0, 3);
-
-        // Create a set to store the names of the top 3 counties and their adjacent counties
-        const top3CountyNames = new Set(top3Counties.map(c => countyNameById[c.id]));
+            .sort((a, b) => b.impact - a.impact)[0];
+    
+        // Create a set to store the names of the top county and its adjacent counties
+        const topCountyName = countyNameById[topCounty.id];
         const adjacentCountyNames = new Set();
-        top3Counties.forEach(county => {
-            county.adjacentcounties.split(',').forEach(id => {
-                adjacentCountyNames.add(countyNameById[id]);
-            });
+        topCounty.adjacentcounties.split(',').forEach(id => {
+            adjacentCountyNames.add(countyNameById[id]);
         });
-
+    
         let currentHighlighted = {
-            topCounties: new Set(top3CountyNames),
+            topCounties: new Set([topCountyName]),
             adjacentCounties: new Set(adjacentCountyNames)
         };
-
+    
         function highlightCounties(countyName, adjacentCounties) {
             currentHighlighted.topCounties.clear();
             currentHighlighted.adjacentCounties.clear();
@@ -861,7 +858,7 @@ export default class Chart {
             adjacentCounties.forEach(name => currentHighlighted.adjacentCounties.add(name));
             geojsonLayer.setStyle(styleFeature);
         }
-
+    
         function styleFeature(feature) {
             const countyName = feature.properties.gen;
             if (currentHighlighted.topCounties.has(countyName)) {
@@ -886,10 +883,10 @@ export default class Chart {
                 fillOpacity: 0.6
             };
         }
-
-        // Store layers for the top 3 counties
-        const top3Layers = [];
-
+    
+        // Store layers for the top county
+        const topLayer = [];
+    
         // Add GeoJSON layer to the map
         const geojsonLayer = L.geoJson(null, {
             style: styleFeature,
@@ -902,12 +899,12 @@ export default class Chart {
                         `<strong>${countyName}</strong><br>
                         Einfluss: ${formatNumberWithThousandSeparator(countyImpactData.impact)}`;
                     layer.bindPopup(popupContent);
-
-                    // Store layer if it is one of the top 3 counties
-                    if (top3CountyNames.has(countyName)) {
-                        top3Layers.push(layer);
+    
+                    // Store layer if it is the top county
+                    if (countyName === topCountyName) {
+                        topLayer.push(layer);
                     }
-
+    
                     layer.on('click', function () {
                         const adjacentCounties = new Set(countyImpactData.adjacentcounties.split(',').map(id => countyNameById[id]));
                         highlightCounties(countyName, adjacentCounties);
@@ -915,33 +912,31 @@ export default class Chart {
                 }
             }
         }).addTo(map);
-
+    
         // Fetch the GeoJSON data and add it to the map
         try {
             const response = await fetch('/data/geodata/K-2023-AIG-24--AI2401--2024-05-09-EPSG-4326.geojson');
             const data = await response.json();
             geojsonLayer.addData(data);
-
+    
             // Fit the map to the bounds of the GeoJSON layer
             map.fitBounds(geojsonLayer.getBounds());
-
-            // Initially highlight the top 3 counties and their adjacent counties
-            currentHighlighted.topCounties = new Set(top3Counties.map(c => countyNameById[c.id]));
-            top3Counties.forEach(county => {
-                county.adjacentcounties.split(',').forEach(id => {
-                    currentHighlighted.adjacentCounties.add(countyNameById[id]);
-                });
+    
+            // Initially highlight the top county and its adjacent counties
+            currentHighlighted.topCounties = new Set([topCountyName]);
+            topCounty.adjacentcounties.split(',').forEach(id => {
+                currentHighlighted.adjacentCounties.add(countyNameById[id]);
             });
             geojsonLayer.setStyle(styleFeature);
-
-            // Open the popups for the top 3 counties
-            top3Layers.forEach(layer => {
+    
+            // Open the popup for the top county
+            topLayer.forEach(layer => {
                 layer.openPopup();
             });
         } catch (error) {
             console.error('Error fetching GeoJSON data:', error);
         }
-
+    
         // Add reset button to the map
         const resetButton = L.control({ position: 'topright' });
         resetButton.onAdd = function (map) {
@@ -950,24 +945,22 @@ export default class Chart {
             btn.onclick = function () {
                 // Temporarily change the map view
                 map.setView([initialCenter[0] + 0.001, initialCenter[1] + 0.001], initialZoom - 1, { animate: false });
-
+    
                 setTimeout(() => {
                     // Reset to initial zoom and fit bounds
                     map.setView(initialCenter, initialZoom, { animate: true });
                     map.fitBounds(geojsonLayer.getBounds(), { animate: true });
-
+    
                     // Reset highlighting to initial state
-                    currentHighlighted.topCounties = new Set(top3Counties.map(c => countyNameById[c.id]));
+                    currentHighlighted.topCounties = new Set([topCountyName]);
                     currentHighlighted.adjacentCounties.clear();
-                    top3Counties.forEach(county => {
-                        county.adjacentcounties.split(',').forEach(id => {
-                            currentHighlighted.adjacentCounties.add(countyNameById[id]);
-                        });
+                    topCounty.adjacentcounties.split(',').forEach(id => {
+                        currentHighlighted.adjacentCounties.add(countyNameById[id]);
                     });
                     geojsonLayer.setStyle(styleFeature);
-
-                    // Re-open the popups for the top 3 counties
-                    top3Layers.forEach(layer => {
+    
+                    // Re-open the popup for the top county
+                    topLayer.forEach(layer => {
                         layer.openPopup();
                     });
                 }, 0);
@@ -975,7 +968,7 @@ export default class Chart {
             return btn;
         };
         resetButton.addTo(map);
-    }
+    }        
 
     async displayAnomaliesCounties() {
         const data = this._data.map(d => ({
