@@ -75,6 +75,7 @@
         display: none;
         background-color: $white-transparency;
         backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
         height: 100%;
         width: 100%;
         border-radius: $default-border-radius;
