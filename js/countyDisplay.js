@@ -35,14 +35,19 @@ export async function requestCountyData() {
         const leasurePerAreaResponse = await fetch('/leasureperareas');
         const leasurePerAreaData = await leasurePerAreaResponse.json();
 
+        // Fetch unemployment rate
+        const anomalieCountiesResponse = await fetch('/anomaliescounties');
+        const anomalieCountiesAreaData = await anomalieCountiesResponse.json();
+
         // Combine data based on id
         const combinedData = countyData.map(county => {
             const rentalInfo = rentalData.find(rental => rental.id === county.id) || {};
             const landInfo = landData.find(land => land.id === county.id) || {};
             const incomeInfo = incomeData.find(income => income.id === county.id) || {};
-            const populationDensityInfo = populationDensityData.find(income => income.id === county.id) || {};
-            const unemploymentRateInfo = unemploymentRateData.find(income => income.id === county.id) || {};
-            const leasurePerAreaInfo = leasurePerAreaData.find(income => income.id === county.id) || {};
+            const populationDensityInfo = populationDensityData.find(populationDensity => populationDensity.id === county.id) || {};
+            const unemploymentRateInfo = unemploymentRateData.find(unemploymentRate => unemploymentRate.id === county.id) || {};
+            const leasurePerAreaInfo = leasurePerAreaData.find(leasurePerArea => leasurePerArea.id === county.id) || {};
+            const anomalieCountiesInfo = anomalieCountiesAreaData.find(anomalieCounties => anomalieCounties.id === county.id) || {};
             return {
                 ...county,
                 rentalPriceNumberOfOffersAnalysed: rentalInfo.numberofoffersanalysed || 0,
@@ -51,7 +56,8 @@ export async function requestCountyData() {
                 disposableIncome: incomeInfo.disposableincome || 0,
                 populationDensity: populationDensityInfo.populationdensitypersquarekilometer || 0,
                 unemploymentRate: unemploymentRateInfo.unemploymentrate || 0,
-                leasurePerArea: leasurePerAreaInfo.percentageleasureperarea || 0
+                leasurePerArea: leasurePerAreaInfo.percentageleasureperarea || 0,
+                anomalieErrorType: anomalieCountiesInfo.errortype || 0
             };
         });
 
@@ -66,7 +72,8 @@ export async function requestCountyData() {
             item.disposableIncome,
             item.populationDensity,
             item.unemploymentRate,
-            item.leasurePerArea
+            item.leasurePerArea,
+            item.anomalieErrorType
         ));
         setAllColors(allCounties);
         displayedCounties = allCounties;

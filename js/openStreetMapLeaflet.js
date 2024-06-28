@@ -82,7 +82,19 @@ function onEachFeature(feature, layer) {
         let popupContent = `<strong>${county.name}</strong><br>Bundesland: ${county.federalState}<br>`;
 
         if (filter.rentalPriceFiltered) {
-            popupContent += `Mietpreis: ${formatNumberWithThousandSeparator(county.rentalPricePerSquareMeter)} € pro m²<br>`;
+            let priceRating = "";
+            let infoIcon = "";
+            if(county.anomalieErrorType) {
+                infoIcon = `<a href="/#anomalies" title="Wie kommen wir auf diese Einschätzung?"><i class="fa-solid fa-circle-info"></i></a>`;
+            }
+            if(county.anomalieErrorType == "Correct") {
+                priceRating = `<span class="text-highlight">(Fairer Preis)</span>`;
+            } else if(county.anomalieErrorType == "Price too high") {
+                priceRating = `<span class="text-highlight-red">(Preis zu teuer)</span>`;
+            } else if(county.anomalieErrorType == "Price too low") {
+                priceRating = `<span class="text-highlight-green">(Günstiger Preis)</span>`;
+            }
+            popupContent += `Mietpreis: ${formatNumberWithThousandSeparator(county.rentalPricePerSquareMeter)} € pro m² ${priceRating} ${infoIcon}<br>`;
         }
 
         if (filter.landPriceFiltered) {

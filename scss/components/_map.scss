@@ -15,3 +15,18 @@
         height: calc(60vh - 56px - 2.25rem);
     }
 }
+
+.leaflet-popup-content-wrapper {
+    color: $primary-text;
+
+    i {
+        color: $primary-text;
+        font-size: .9rem;
+
+        &:hover,
+        &:focus,
+        &:active {
+            color: $primary;
+        }
+    }
+}
