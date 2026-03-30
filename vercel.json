@@ -1,20 +1,13 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "js/server.js",
-      "use": "@vercel/node"
+      "source": "/(css|js|assets|images|dist|html)/(.*)",
+      "destination": "/$1/$2"
     },
     {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "js/server.js"
+      "source": "/(.*)",
+      "destination": "/js/server.js"
     }
   ]
 }
