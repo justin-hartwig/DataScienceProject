@@ -24,8 +24,12 @@ export default class Chart {
     }
 
     async initializeChart() {
-        await this.requestData();
         this._chartElement = document.getElementById(this._chartId);
+        if (!this._chartElement) {
+            console.warn(`Chart element ${this._chartId} not found.`);
+            return;
+        }
+        await this.requestData();
         await this.displayChart();
     }
 

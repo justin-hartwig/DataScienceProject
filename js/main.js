@@ -1,3 +1,7 @@
+// Packages
+import * as d3 from 'd3';
+import 'bootstrap'
+
 // Imports SCSS
 import '../scss/main.scss';
 

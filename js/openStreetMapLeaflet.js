@@ -11,6 +11,12 @@ const initialCenter = [50.9787, 11.0328];
 const initialZoom = 5.5;
 
 export async function drawMainMap() {
+    const mapContainer = document.getElementById('main-map');
+    if (!mapContainer) {
+        console.warn("Map container not found, skipping map initialization.");
+        return; 
+    }
+
     mainMap = L.map('main-map', {
         zoomSnap: 0.5,
         zoomDelta: 0.5

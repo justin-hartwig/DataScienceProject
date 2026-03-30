@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
+const router = express.Router(); 
 
 // Datenbank verbinden
-const db = require('./config/database');
+const db = require('../backend/config/database');
 async function authenticate() {
     try {
         await db.authenticate();
@@ -29,5 +30,8 @@ app.use('/api/countiestop10s', require('../backend/routes/countiestop10s'));
 app.use('/api/bavariaincomeprognoses', require('../backend/routes/bavariaincomeprognoses'));
 app.use('/api/countyrentalpriceimpacts', require('../backend/routes/countyrentalpriceimpacts'));
 app.use('/api/anomaliescounties', require('../backend/routes/anomaliescounties'));
+
+app.use('/api', router); 
+app.use('/', router);
 
 module.exports = app;
