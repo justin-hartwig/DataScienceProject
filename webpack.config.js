@@ -75,5 +75,5 @@ module.exports = {
       "tls": false
     }
   },
-  mode: 'development'
+  mode: 'production'
 };
