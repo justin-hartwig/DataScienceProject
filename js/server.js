@@ -54,3 +54,4 @@ app.use('/anomaliescounties', require('./routes/anomaliescounties'));
 app.use('/', router);
 app.listen(process.env.PORT || 5000);
 console.log('Server Started');
+module.exports = app;
