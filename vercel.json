@@ -1,26 +1,9 @@
 {
-  "version": 2,
-  "functions": {
-    "js/server.js": {
-      "includeFiles": "html/**"
+  "rewrites":[
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
     }
-  },
-  "rewrites": [
-    {
-      "source": "/css/(.*)",
-      "destination": "/css/$1"
-    },
-    {
-      "source": "/dist/(.*)",
-      "destination": "/dist/$1"
-    },
-    {
-      "source": "/assets/(.*)",
-      "destination": "/assets/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/js/server.js"
-    }
-  ]
+  ],
+  "cleanUrls": true
 }

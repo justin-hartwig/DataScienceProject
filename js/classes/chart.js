@@ -693,9 +693,9 @@ export default class Chart {
         }).addTo(map);
 
         // Fetch the county data from the endpoint
-        let countyData = [];
+        let countyData =[];
         try {
-            const response = await fetch('/countiestop10s');
+            const response = await fetch('/api/countiestop10s');
             countyData = await response.json();
         } catch (error) {
             console.error('Error fetching county data:', error);
@@ -805,18 +805,18 @@ export default class Chart {
         }).addTo(map);
     
         // Fetch the rental price impact data from the endpoint
-        let rentalImpactData = [];
+        let rentalImpactData =[];
         try {
-            const response = await fetch('/countyrentalpriceimpacts');
+            const response = await fetch('/api/countyrentalpriceimpacts');
             rentalImpactData = await response.json();
         } catch (error) {
             console.error('Error fetching rental price impact data:', error);
         }
     
         // Fetch the county data from the endpoint
-        let countyData = [];
+        let countyData =[];
         try {
-            const response = await fetch('/counties');
+            const response = await fetch('/api/counties');
             countyData = await response.json();
         } catch (error) {
             console.error('Error fetching county data:', error);

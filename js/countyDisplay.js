@@ -8,35 +8,35 @@ export let filter = new Filter(true, false, false, false, false, false);
 export async function requestCountyData() {
     try {
         // Fetch county data
-        const countyResponse = await fetch('/counties');
+        const countyResponse = await fetch('/api/counties');
         const countyData = await countyResponse.json();
 
         // Fetch rental prices data
-        const rentalResponse = await fetch('/rentalprices');
+        const rentalResponse = await fetch('/api/rentalprices');
         const rentalData = await rentalResponse.json();
 
         // Fetch land prices data
-        const landResponse = await fetch('/landprices');
+        const landResponse = await fetch('/api/landprices');
         const landData = await landResponse.json();
 
         // Fetch disposable income data
-        const incomeResponse = await fetch('/disposableincomes');
+        const incomeResponse = await fetch('/api/disposableincomes');
         const incomeData = await incomeResponse.json();
 
         // Fetch disposable population denstity
-        const populationDensityResponse = await fetch('/populationdensities');
+        const populationDensityResponse = await fetch('/api/populationdensities');
         const populationDensityData = await populationDensityResponse.json();
 
         // Fetch unemployment rate
-        const unemploymentRateResponse = await fetch('/unemploymentrates');
+        const unemploymentRateResponse = await fetch('/api/unemploymentrates');
         const unemploymentRateData = await unemploymentRateResponse.json();
 
-        // Fetch unemployment rate
-        const leasurePerAreaResponse = await fetch('/leasureperareas');
+        // Fetch leasure per area
+        const leasurePerAreaResponse = await fetch('/api/leasureperareas');
         const leasurePerAreaData = await leasurePerAreaResponse.json();
 
-        // Fetch unemployment rate
-        const anomalieCountiesResponse = await fetch('/anomaliescounties');
+        // Fetch anomalies
+        const anomalieCountiesResponse = await fetch('/api/anomaliescounties');
         const anomalieCountiesAreaData = await anomalieCountiesResponse.json();
 
         // Combine data based on id

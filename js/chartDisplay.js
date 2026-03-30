@@ -10,14 +10,14 @@ let countiesTop10Chart;
 let anomaliesCountiesChart;
 
 export function initializeCharts() {
-    predictionHousingmarketChart = new Chart("prediction-housingmarket", "/simulationhousingmarkets", "predictionHousingmarket");
-    disposableIncomeMean = new Chart("disposable-income-mean", "/disposableincomesstates", "disposableIncomeMean");
-    rentalPricesStatesMedian = new Chart("rental-prices-states-median", "/rentalpricesstates", "rentalPricesStatesMedian");
-    correlationAgeAveragePopulationDesity = new Chart("correlation-ageaverage-populationdesity", "/ageaveragepopulationdesities", "correlationAgeAveragePopulationDesity");
-    bavariaIncomePrognoses = new Chart("bavaria-income-prognoses", "/bavariaincomeprognoses", "bavariaIncomePrognoses");
-    countyRentalPriceImpact = new Chart("county-rental-price-impact", "/countyrentalpriceimpacts", "countyRentalPriceImpact");
-    countiesTop10Chart = new Chart("counties-top-10", "/countiestop10s", "countiesTop10Chart");
-    anomaliesCountiesChart = new Chart("anomalies-counties", "/anomaliescounties", "displayAnomaliesCounties");
+    predictionHousingmarketChart = new Chart("prediction-housingmarket", "/api/simulationhousingmarkets", "predictionHousingmarket");
+    disposableIncomeMean = new Chart("disposable-income-mean", "/api/disposableincomesstates", "disposableIncomeMean");
+    rentalPricesStatesMedian = new Chart("rental-prices-states-median", "/api/rentalpricesstates", "rentalPricesStatesMedian");
+    correlationAgeAveragePopulationDesity = new Chart("correlation-ageaverage-populationdesity", "/api/ageaveragepopulationdesities", "correlationAgeAveragePopulationDesity");
+    bavariaIncomePrognoses = new Chart("bavaria-income-prognoses", "/api/bavariaincomeprognoses", "bavariaIncomePrognoses");
+    countyRentalPriceImpact = new Chart("county-rental-price-impact", "/api/countyrentalpriceimpacts", "countyRentalPriceImpact");
+    countiesTop10Chart = new Chart("counties-top-10", "/api/countiestop10s", "countiesTop10Chart");
+    anomaliesCountiesChart = new Chart("anomalies-counties", "/api/anomaliescounties", "displayAnomaliesCounties");
     predictionHousingmarketChart.initializeChart();
     disposableIncomeMean.initializeChart();
     rentalPricesStatesMedian.initializeChart();

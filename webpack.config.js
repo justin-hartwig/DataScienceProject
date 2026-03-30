@@ -8,8 +8,8 @@ module.exports = {
   entry: './js/main.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/dist/', // This will ensure the images are referenced correctly in the CSS
+    path: path.resolve(__dirname, 'public'),
+    publicPath: '/',
     library: "my-library",
     libraryTarget: "umd"
   },
@@ -57,7 +57,9 @@ module.exports = {
       patterns: [
         { from: 'node_modules/leaflet/dist/images', to: 'images' },
         { from: 'assets/images', to: 'images' },
-        { from: 'assets/fonts', to: 'fonts'}
+        { from: 'assets/fonts', to: 'fonts'},
+        { from: 'html', to: '' },
+        { from: 'data', to: 'data', noErrorOnMissing: true }
       ],
     }),
     new webpack.DefinePlugin({
