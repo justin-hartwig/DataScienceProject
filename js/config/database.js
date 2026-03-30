@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
-require('dotenv').config({ path: './.env' })
+const pg = require('pg');
+require('dotenv').config({ path: './.env' });
 
 module.exports = new Sequelize(
     process.env.DB_NAME,
@@ -7,8 +8,9 @@ module.exports = new Sequelize(
     process.env.DB_PASSWORD,
     {
         host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        dialect: process.env.DB_DIALECT,
+        port: process.env.DB_PORT || 5432,
+        dialect: 'postgres',
+        dialectModule: pg,
         logging: false,
         dialectOptions: {
             ssl: {
@@ -25,7 +27,7 @@ module.exports = new Sequelize(
         },
 
         define: { 
-            timestamps: false 
+            timestamps: false
         }
     }
-)
+);
