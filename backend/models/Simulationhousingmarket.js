@@ -8,6 +8,10 @@ const Simulationhousingmarket = db.define('simulationhousingmarket', {
     newappartmentsper1000citizens: {
         type: Sequelize.FLOAT
     }
+}, {
+    tableName: 'Simulationhousingmarkets',
+    freezeTableName: true,
+    timestamps: false
 });
 
 module.exports = Simulationhousingmarket;

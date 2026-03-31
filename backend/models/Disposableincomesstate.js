@@ -8,6 +8,10 @@ const Disposableincomesstate = db.define('disposableincomesstate', {
     disposableincome: {
         type: Sequelize.INTEGER
     }
+}, {
+    tableName: 'Disposableincomesstates',
+    freezeTableName: true,
+    timestamps: false
 });
 
 module.exports = Disposableincomesstate;

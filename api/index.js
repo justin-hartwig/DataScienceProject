@@ -1,20 +1,21 @@
 const express = require('express');
+const path = require('path');
 const app = express();
-const router = express.Router(); 
+require('dotenv').config();
 
-// Datenbank verbinden
+app.use(express.static(path.join(__dirname, '../public'), {
+    extensions: ['html']
+}));
+
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'Server is running', env: process.env.VERCEL ? 'production' : 'local' });
+});
+
 const db = require('../backend/config/database');
-async function authenticate() {
-    try {
-        await db.authenticate();
-        console.log('Connection has been established successfully.');
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
-}
-authenticate();
+db.authenticate()
+    .then(() => console.log('✅ Datenbank-Verbindung steht!'))
+    .catch(err => console.error('❌ Datenbank-Fehler:', err.message));
 
-// Database Routes
 app.use('/api/counties', require('../backend/routes/counties'));
 app.use('/api/rentalprices', require('../backend/routes/rentalprices'));
 app.use('/api/landprices', require('../backend/routes/landprices'));
@@ -31,7 +32,12 @@ app.use('/api/bavariaincomeprognoses', require('../backend/routes/bavariaincomep
 app.use('/api/countyrentalpriceimpacts', require('../backend/routes/countyrentalpriceimpacts'));
 app.use('/api/anomaliescounties', require('../backend/routes/anomaliescounties'));
 
-app.use('/api', router); 
-app.use('/', router);
+if (!process.env.VERCEL) {
+    const PORT = 3000;
+    app.listen(PORT, () => {
+        console.log(`\n🚀 SERVER GESTARTET!`);
+        console.log(`👉 Öffne: http://localhost:${PORT}\n`);
+    });
+}
 
 module.exports = app;

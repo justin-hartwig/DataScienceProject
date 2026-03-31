@@ -8,6 +8,10 @@ const Countyrentalpriceimpact = db.define('countyrentalpriceimpact', {
     adjacentcounties: {
         type: Sequelize.STRING
     }
+}, {
+    tableName: 'Countyrentalpriceimpacts',
+    freezeTableName: true,
+    timestamps: false
 });
 
 module.exports = Countyrentalpriceimpact;

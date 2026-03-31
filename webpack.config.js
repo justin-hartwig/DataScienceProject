@@ -57,8 +57,15 @@ module.exports = {
       patterns: [
         { from: 'node_modules/leaflet/dist/images', to: 'images' },
         { from: 'assets/images', to: 'images' },
-        { from: 'assets/fonts', to: 'fonts'},
-        { from: 'html', to: '' },
+        {
+          from: 'assets/fonts',
+          to: 'fonts',
+          globOptions: {
+            // Wir ignorieren die tausenden Einzel-SVGs, die den Fehler verursachen
+            ignore: ["**/fontawesome-pro-6.5.2-web/svgs/**", "**/fontawesome-pro-6.5.2-web/js/**"]
+          }
+        },
+        { from: 'html', to: '.' },
         { from: 'data', to: 'data', noErrorOnMissing: true }
       ],
     }),

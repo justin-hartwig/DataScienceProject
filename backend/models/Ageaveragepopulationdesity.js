@@ -11,6 +11,10 @@ const Ageaveragepopulationdesity = db.define('ageaveragepopulationdesity', {
     populationdesity: {
         type: Sequelize.FLOAT
     }
+}, {
+    tableName: 'Ageaveragepopulationdesities',
+    freezeTableName: true,
+    timestamps: false
 });
 
 module.exports = Ageaveragepopulationdesity;

@@ -20,6 +20,10 @@ const Anomaliescounties = db.define('anomaliescounties', {
     federalstate: {
         type: Sequelize.STRING
     },
+}, {
+    tableName: 'Anomaliescounties',
+    freezeTableName: true,
+    timestamps: false
 });
 
 module.exports = Anomaliescounties;

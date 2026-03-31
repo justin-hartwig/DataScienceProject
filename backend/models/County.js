@@ -8,6 +8,10 @@ const County = db.define('county', {
     federalstate: {
         type: Sequelize.STRING
     }
+}, {
+    tableName: 'Counties',
+    freezeTableName: true,
+    timestamps: false
 });
 
 module.exports = County;

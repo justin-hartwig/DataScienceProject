@@ -8,6 +8,11 @@ const Bavariaincomeprognoses = db.define('bavariaincomeprognoses', {
     income: {
         type: Sequelize.INTEGER
     }
+}, {
+    tableName: 'Bavariaincomeprognoses',
+    freezeTableName: true,
+    timestamps: false
 });
+
 
 module.exports = Bavariaincomeprognoses;

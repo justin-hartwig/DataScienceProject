@@ -17,6 +17,10 @@ const Countiestop10 = db.define('countiestop10', {
     unemploymentrate: {
         type: Sequelize.FLOAT
     }
+}, {
+    tableName: 'Countiestop10s',
+    freezeTableName: true,
+    timestamps: false
 });
 
 module.exports = Countiestop10;

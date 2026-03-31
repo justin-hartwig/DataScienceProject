@@ -35,13 +35,24 @@ function initializeStory() {
 }
 
 function handleRoutesForJS() {
+    const path = window.location.pathname;
     const url = window.location.href;
-    if (url.includes("app")) {
+
+    if (path.includes("app") || url.includes("app")) {
         initializeApp();
-    } else if (url.endsWith('/') || url === window.location.origin) {
+    } 
+
+    else if (path === "/" || path.endsWith("index.html") || path === "") {
         initializeStory();
+    
+        if (window.location.hash) {
+            const hash = window.location.hash;
+            setTimeout(() => {
+                const element = document.querySelector(hash);
+                if (element) element.scrollIntoView();
+            }, 500);
+        }
     }
 }
 
-// Execute the function
 handleRoutesForJS();

@@ -8,6 +8,10 @@ const Rentalprice = db.define('rentalprice', {
     pricepersquaremeters: {
         type: Sequelize.FLOAT
     }
+}, {
+    tableName: 'Rentalprices',
+    freezeTableName: true,
+    timestamps: false
 });
 
 module.exports = Rentalprice;

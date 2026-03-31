@@ -40,7 +40,9 @@
     "tls": false
   },
   "scripts": {
-    "build": "webpack --config webpack.config.js --mode production",
-    "dev": "webpack --watch --mode development"
-  }
+    "build": "npx webpack --config webpack.config.js --mode production",
+    "dev-frontend": "npx webpack --watch --mode development",
+    "dev-backend": "node api/index.js",
+    "dev": "npx concurrently \"npm run dev-frontend\" \"npm run dev-backend\""
+}
 }
