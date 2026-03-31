@@ -48,16 +48,17 @@ export async function requestCountyData() {
             const unemploymentRateInfo = unemploymentRateData.find(unemploymentRate => unemploymentRate.id === county.id) || {};
             const leasurePerAreaInfo = leasurePerAreaData.find(leasurePerArea => leasurePerArea.id === county.id) || {};
             const anomalieCountiesInfo = anomalieCountiesAreaData.find(anomalieCounties => anomalieCounties.id === county.id) || {};
+            
             return {
                 ...county,
-                rentalPriceNumberOfOffersAnalysed: rentalInfo.numberofoffersanalysed || 0,
-                rentalPricePerSquareMeter: rentalInfo.pricepersquaremeters || 0,
-                landPricePerSquareMeter: landInfo.pricepersquaremeters || 0,
-                disposableIncome: incomeInfo.disposableincome || 0,
-                populationDensity: populationDensityInfo.populationdensitypersquarekilometer || 0,
-                unemploymentRate: unemploymentRateInfo.unemploymentrate || 0,
-                leasurePerArea: leasurePerAreaInfo.percentageleasureperarea || 0,
-                anomalieErrorType: anomalieCountiesInfo.errortype || 0
+                rentalPriceNumberOfOffersAnalysed: Number(rentalInfo.numberofoffersanalysed) || 0,
+                rentalPricePerSquareMeter: Number(rentalInfo.pricepersquaremeters) || 0,
+                landPricePerSquareMeter: landInfo.pricepersquaremeters || "unbekannt", // BLEIBT STRING für convertLandPriceToNumber()
+                disposableIncome: Number(incomeInfo.disposableincome) || 0,
+                populationDensity: Number(populationDensityInfo.populationdensitypersquarekilometer) || 0,
+                unemploymentRate: Number(unemploymentRateInfo.unemploymentrate) || 0,
+                leasurePerArea: Number(leasurePerAreaInfo.percentageleasureperarea) || 0,
+                anomalieErrorType: anomalieCountiesInfo.errortype || ""
             };
         });
 
@@ -88,7 +89,7 @@ export function getMaxValue(value) {
         return null;
     }
 
-    const maxPrice = Math.max(...allCounties.map(county => parseFloat(county[value])));
+    const maxPrice = Math.max(...allCounties.map(county => parseFloat(county[value]) || 0));
     return Math.ceil(maxPrice);
 }
 
@@ -97,7 +98,7 @@ export function getMinValue(value) {
         return null;
     }
 
-    const minPrice = Math.min(...allCounties.map(county => parseFloat(county[value])));
+    const minPrice = Math.min(...allCounties.map(county => parseFloat(county[value]) || 0));
     return Math.floor(minPrice);
 }
 
@@ -229,7 +230,7 @@ function colorByCounty(county, counties) {
     const combinedNormalizedPrice = (rentalNormalizedPrice + landNormalizedPrice + disposableIncomeNormalizedPrice + populationDensityNormalized + unemploymentRateNormalized + leasurePerAreaNormalized) / filterNumber;
 
     // RGB values for the color scale
-    const lowColor = [55, 196, 116]; // RGB for #37C474
+    const lowColor =[55, 196, 116]; // RGB for #37C474
     const mediumColor = [244, 210, 39]; // RGB for #F4D227
     const highColor = [227, 82, 82]; // RGB for #E35252
 
