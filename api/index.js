@@ -3,41 +3,46 @@ const path = require('path');
 const app = express();
 require('dotenv').config();
 
-app.use(express.static(path.join(__dirname, '../public'), {
-    extensions: ['html']
-}));
-
-app.get('/api/health', (req, res) => {
-    res.json({ status: 'Server is running', env: process.env.VERCEL ? 'production' : 'local' });
+app.use((req, res, next) => {
+    console.log(`Eingehender Request: ${req.method} ${req.url}`);
+    next();
 });
 
-const db = require('../backend/config/database');
-db.authenticate()
-    .then(() => console.log('✅ Datenbank-Verbindung steht!'))
-    .catch(err => console.error('❌ Datenbank-Fehler:', err.message));
+const apiRouter = express.Router();
 
-app.use('/api/counties', require('../backend/routes/counties'));
-app.use('/api/rentalprices', require('../backend/routes/rentalprices'));
-app.use('/api/landprices', require('../backend/routes/landprices'));
-app.use('/api/disposableincomes', require('../backend/routes/disposableincomes'));
-app.use('/api/populationdensities', require('../backend/routes/populationdensities'));
-app.use('/api/unemploymentrates', require('../backend/routes/unemploymentrates'));
-app.use('/api/leasureperareas', require('../backend/routes/leasureperareas'));
-app.use('/api/simulationhousingmarkets', require('../backend/routes/simulationhousingmarkets'));
-app.use('/api/rentalpricesstates', require('../backend/routes/rentalpricesstates'));
-app.use('/api/disposableincomesstates', require('../backend/routes/disposableincomesstates'));
-app.use('/api/ageaveragepopulationdesities', require('../backend/routes/ageaveragepopulationdesities'));
-app.use('/api/countiestop10s', require('../backend/routes/countiestop10s'));
-app.use('/api/bavariaincomeprognoses', require('../backend/routes/bavariaincomeprognoses'));
-app.use('/api/countyrentalpriceimpacts', require('../backend/routes/countyrentalpriceimpacts'));
-app.use('/api/anomaliescounties', require('../backend/routes/anomaliescounties'));
+apiRouter.get('/health', (req, res) => {
+    res.json({ 
+        status: 'Server is running', 
+        receivedUrl: req.url,
+        env: process.env.VERCEL ? 'production' : 'local' 
+    });
+});
+
+// Deine Routen an den apiRouter hängen (OHNE /api davor!)
+apiRouter.use('/counties', require('./_backend/routes/counties'));
+apiRouter.use('/rentalprices', require('./_backend/routes/rentalprices'));
+apiRouter.use('/landprices', require('./_backend/routes/landprices'));
+apiRouter.use('/disposableincomes', require('./_backend/routes/disposableincomes'));
+apiRouter.use('/populationdensities', require('./_backend/routes/populationdensities'));
+apiRouter.use('/unemploymentrates', require('./_backend/routes/unemploymentrates'));
+apiRouter.use('/leasureperareas', require('./_backend/routes/leasureperareas'));
+apiRouter.use('/simulationhousingmarkets', require('./_backend/routes/simulationhousingmarkets'));
+apiRouter.use('/rentalpricesstates', require('./_backend/routes/rentalpricesstates'));
+apiRouter.use('/disposableincomesstates', require('./_backend/routes/disposableincomesstates'));
+apiRouter.use('/ageaveragepopulationdesities', require('./_backend/routes/ageaveragepopulationdesities'));
+apiRouter.use('/countiestop10s', require('./_backend/routes/countiestop10s'));
+apiRouter.use('/bavariaincomeprognoses', require('./_backend/routes/bavariaincomeprognoses'));
+apiRouter.use('/countyrentalpriceimpacts', require('./_backend/routes/countyrentalpriceimpacts'));
+apiRouter.use('/anomaliescounties', require('./_backend/routes/anomaliescounties'));
+
+app.use('/api', apiRouter);
+app.use('/', apiRouter);
+
+app.use(express.static(path.join(__dirname, '../public'), { extensions: ['html'] }));
 
 if (!process.env.VERCEL) {
     const PORT = 3000;
-    app.listen(PORT, () => {
-        console.log(`\n🚀 SERVER GESTARTET!`);
-        console.log(`👉 Öffne: http://localhost:${PORT}\n`);
-    });
+    app.listen(PORT, () => console.log(`Server läuft auf Port ${PORT}`));
 }
 
 module.exports = app;
