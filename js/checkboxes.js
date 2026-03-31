@@ -8,6 +8,9 @@ let unemploymentRateRangesCheckbox;
 let leasurePerAreaCheckbox;
 
 export function initializeCheckboxes() {
+    if (!document.getElementById("rentalPriceSliderCheckbox")) {
+        return;
+    }
     rentalPriceSliderCheckbox = new Checkbox("rentalPriceSliderCheckbox", "rentalPriceSliderContainer", "_rentalPriceFiltered");
     landPriceRangesCheckbox = new Checkbox("landPriceRangesCheckbox", "landPriceRangesContainer", "_landPriceFiltered");
     disposableIncomeSliderCheckbox = new Checkbox("disposableIncomeSliderCheckbox", "disposableIncomeSliderContainer", "_disposableIncomeFiltered");
@@ -23,10 +26,10 @@ export function initializeCheckboxes() {
 }
 
 export function resetAllCheckboxes() {
-    rentalPriceSliderCheckbox.activateCheckbox();
-    landPriceRangesCheckbox.resetCheckbox();
-    disposableIncomeSliderCheckbox.resetCheckbox();
-    populationDensityRangesCheckbox.resetCheckbox();
-    unemploymentRateRangesCheckbox.resetCheckbox();
-    leasurePerAreaCheckbox.resetCheckbox();
+    if (rentalPriceSliderCheckbox) rentalPriceSliderCheckbox.activateCheckbox();
+    if (landPriceRangesCheckbox) landPriceRangesCheckbox.resetCheckbox();
+    if (disposableIncomeSliderCheckbox) disposableIncomeSliderCheckbox.resetCheckbox();
+    if (populationDensityRangesCheckbox) populationDensityRangesCheckbox.resetCheckbox();
+    if (unemploymentRateRangesCheckbox) unemploymentRateRangesCheckbox.resetCheckbox();
+    if (leasurePerAreaCheckbox) leasurePerAreaCheckbox.resetCheckbox();
 }
