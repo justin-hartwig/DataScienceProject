@@ -18,7 +18,23 @@ apiRouter.get('/health', (req, res) => {
     });
 });
 
-// Deine Routen an den apiRouter hängen (OHNE /api davor!)
+apiRouter.get('/db-test', async (req, res) => {
+    try {
+        await db.authenticate();
+        // Wir prüfen kurz, ob wir eine Tabelle zählen können
+        res.json({ 
+            status: 'Database connection SUCCESS',
+            message: 'Sequelize konnte sich erfolgreich verbinden.'
+        });
+    } catch (error) {
+        console.error('DB-Test Error:', error);
+        res.status(500).json({ 
+            status: 'Database connection FAILED', 
+            error: error.message 
+        });
+    }
+});
+
 apiRouter.use('/counties', require('./_backend/routes/counties'));
 apiRouter.use('/rentalprices', require('./_backend/routes/rentalprices'));
 apiRouter.use('/landprices', require('./_backend/routes/landprices'));
