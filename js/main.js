@@ -36,13 +36,11 @@ function initializeStory() {
 
 function handleRoutesForJS() {
     const path = window.location.pathname;
-    const url = window.location.href;
 
-    if (path.includes("app") || url.includes("app")) {
+    if (path === "/app" || path === "/app.html" || path.endsWith("/app")) {
         initializeApp();
     } 
-
-    else if (path === "/" || path.endsWith("index.html") || path === "") {
+    else if (path === "/" || path === "/index.html" || path === "") {
         initializeStory();
     
         if (window.location.hash) {
@@ -52,6 +50,9 @@ function handleRoutesForJS() {
                 if (element) element.scrollIntoView();
             }, 500);
         }
+    }
+    else {
+        console.log("Kein spezifisches JS für diese Route geladen.");
     }
 }
 
